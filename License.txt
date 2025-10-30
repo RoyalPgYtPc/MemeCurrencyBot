@@ -1,0 +1,16 @@
+Website Proprietary License
+
+Copyright © 2025 r/MemeExchangeCommunism Moderation and Development Team. All rights reserved.
+
+This website and all associated source code, design, text, images, and other materials (collectively, the “Website”) are the intellectual property of the r/MemeExchangeCommunism Moderation and Development Team.
+
+You are permitted to access and view the Website through its publicly available interface (e.g., via a standard web browser).
+
+Except as expressly allowed above, no part of the Website, including its source code or content, may be copied, modified, reproduced, redistributed, hosted, or used for any commercial or non-commercial purpose without the prior written consent of the r/MemeExchangeCommunism moderation team.
+
+All rights not expressly granted are reserved.
+
+This project is community-operated and not affiliated with Reddit, Inc.
+
+For inquiries or permissions, please contact the moderators through the official subreddit:
+👉 https://www.reddit.com/r/memeexchangecommunism/
