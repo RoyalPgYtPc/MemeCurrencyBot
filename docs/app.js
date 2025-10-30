@@ -1,55 +1,60 @@
-// v2 contdown
-function updateCountdown() {
-    const eventDate = new Date("2025-11-05T00:00:00+00:00"); // 5 Nov UK time
-    const now = new Date();
-    const diff = eventDate - now;
+// v2 countdown (guarded)
+const countdownEl = document.getElementById('countdown');
+if (countdownEl) {
+    function updateCountdown() {
+        const eventDate = new Date("2025-11-05T00:00:00+00:00"); // 5 Nov UK time
+        const now = new Date();
+        const diff = eventDate - now;
 
-    if (diff <= 0) {
-        document.getElementById("countdown").textContent = "V2 Released!";
-        return;
+        if (diff <= 0) {
+            countdownEl.textContent = "V2 Released!";
+            return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const mins = Math.floor((diff / (1000 * 60)) % 60);
+        const secs = Math.floor((diff / 1000) % 60);
+
+        countdownEl.textContent = `V2 Launching in ${days}d ${hours}h ${mins}m ${secs}s`;
     }
 
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const mins = Math.floor((diff / (1000 * 60)) % 60);
-    const secs = Math.floor((diff / 1000) % 60);
-
-    document.getElementById("countdown").textContent =
-        `V2 Launching in ${days}d ${hours}h ${mins}m ${secs}s`;
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
 }
 
-updateCountdown();
-setInterval(updateCountdown, 1000);
-//v2 countdown
-window.addEventListener('scroll', () => {
-    const navbar = document.getElementById('navbar');
-    if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
-});
+// Navbar scroll class (only if navbar exists)
+const navbar = document.getElementById('navbar');
+if (navbar) {
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+}
 
-// Custom cursor glow
+// Custom cursor glow (guarded)
 const cursorGlow = document.getElementById('cursorGlow');
-document.addEventListener('mousemove', (e) => {
-    cursorGlow.style.left = e.clientX + 'px';
-    cursorGlow.style.top = e.clientY + 'px';
-});
+if (cursorGlow) {
+    document.addEventListener('mousemove', (e) => {
+        cursorGlow.style.left = e.clientX + 'px';
+        cursorGlow.style.top = e.clientY + 'px';
+    });
+}
 
-// Counter animation
-const observerOptions = {
-    threshold: 0.5
-};
+// Counter animation (guarded)
+const observerOptions = { threshold: 0.5 };
 
-const observer = new IntersectionObserver((entries) => {
+const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             const counters = entry.target.querySelectorAll('.stat-number');
             counters.forEach(counter => {
-                const target = parseInt(counter.getAttribute('data-target'));
+                const target = parseInt(counter.getAttribute('data-target')) || 0;
                 let current = 0;
-                const increment = target / 50;
+                const increment = target / 50 || 1;
                 const timer = setInterval(() => {
                     current += increment;
                     if (current >= target) {
@@ -60,53 +65,57 @@ const observer = new IntersectionObserver((entries) => {
                     }
                 }, 30);
             });
-            observer.unobserve(entry.target);
+            obs.unobserve(entry.target);
         }
     });
 }, observerOptions);
 
 const statsSection = document.querySelector('.stats');
-observer.observe(statsSection);
+if (statsSection) {
+    observer.observe(statsSection);
+}
 
-// Smooth scroll
+// Smooth scroll (safe even if no anchors)
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
+        // If href is just '#' ignore
+        const href = this.getAttribute('href');
+        if (!href || href === '#') return;
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
+        const target = document.querySelector(href);
         if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     });
 });
 
-// Feature cards entrance animation on scroll
-const featureObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-        }
-    });
-}, { threshold: 0.1 });
+// Feature cards entrance animation on scroll (only observe if cards exist)
+const featureCards = document.querySelectorAll('.feature-card');
+if (featureCards.length > 0) {
+    const featureObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { threshold: 0.1 });
 
-document.querySelectorAll('.feature-card').forEach(card => {
-    featureObserver.observe(card);
-});
+    featureCards.forEach(card => featureObserver.observe(card));
+}
 
-// Parallax effect for floating shapes
+// Parallax effect for floating shapes (safe: no-op if none)
 window.addEventListener('scroll', () => {
     const shapes = document.querySelectorAll('.shape');
     const scrolled = window.pageYOffset;
+    if (!shapes || shapes.length === 0) return;
     shapes.forEach((shape, index) => {
         const speed = 0.5 + (index * 0.2);
         shape.style.transform = `translateY(${scrolled * speed}px)`;
     });
 });
 
-// Button ripple effect
+// Button ripple effect (safe: no-op if no .btn)
 document.querySelectorAll('.btn').forEach(button => {
     button.addEventListener('click', function (e) {
         const ripple = document.createElement('span');
