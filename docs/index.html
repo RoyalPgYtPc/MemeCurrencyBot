@@ -4,7 +4,515 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MemeCoin Dashboard - r/MemeExchangeCommunism</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FF6B00;
+            --secondary: #890BFF;
+            --accent: #FFD700;
+            --dark: #0a0a0a;
+            --light: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+        }
+
+        .background {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 50%, rgba(255, 107, 0, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(137, 11, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(255, 215, 0, 0.08) 0%, transparent 50%);
+        }
+
+        .floating-shapes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: float 25s infinite ease-in-out;
+        }
+
+        .shape:nth-child(1) {
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 107, 0, 0.25);
+            top: 10%;
+            left: 10%;
+        }
+
+        .shape:nth-child(2) {
+            width: 350px;
+            height: 350px;
+            background: rgba(137, 11, 255, 0.25);
+            top: 60%;
+            right: 10%;
+            animation-delay: 8s;
+        }
+
+        .shape:nth-child(3) {
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 215, 0, 0.15);
+            bottom: 10%;
+            left: 50%;
+            animation-delay: 16s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            33% { transform: translate(100px, -80px) scale(1.2) rotate(120deg); }
+            66% { transform: translate(-80px, 60px) scale(0.8) rotate(240deg); }
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            background: rgba(10, 10, 10, 0.85);
+            border-bottom: 1px solid rgba(255, 107, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 15px 50px;
+            box-shadow: 0 5px 40px rgba(255, 107, 0, 0.4);
+            background: rgba(10, 10, 10, 0.95);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FF6B00 0%, #FF0844 50%, #FFD700 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 4s infinite;
+            cursor: pointer;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { filter: brightness(1) hue-rotate(0deg); }
+            50% { filter: brightness(1.4) hue-rotate(10deg); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .nav-links a:hover::before {
+            width: 100%;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 50px;
+            position: relative;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 1100px;
+            animation: fadeInUp 1.2s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1 {
+            font-size: 80px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #FF6B00 0%, #FF0844 50%, #FFD700 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideIn 1.2s ease;
+            text-shadow: 0 0 80px rgba(255, 107, 0, 0.5);
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-60px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .hero h2 {
+            font-size: 32px;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 30px;
+            animation: fadeInUp 1.2s ease 0.3s backwards;
+        }
+
+        .hero p {
+            font-size: 19px;
+            color: rgba(255, 255, 255, 0.65);
+            margin-top: 25px;
+            line-height: 1.6;
+            animation: fadeInUp 1.2s ease 0.5s backwards;
+        }
+
+        .version-badge {
+            display: inline-block;
+            padding: 10px 28px;
+            background: linear-gradient(135deg, #890BFF 0%, #00C9FF 100%);
+            border-radius: 50px;
+            font-weight: bold;
+            margin-bottom: 35px;
+            animation: pulse 3s infinite;
+            box-shadow: 0 0 30px rgba(137, 11, 255, 0.5);
+            font-size: 16px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(137, 11, 255, 0.5); }
+            50% { transform: scale(1.08); box-shadow: 0 0 50px rgba(137, 11, 255, 0.8); }
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            margin-top: 45px;
+            animation: fadeInUp 1.2s ease 0.7s backwards;
+        }
+
+        .btn {
+            padding: 16px 45px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FF6B00 0%, #FF0844 100%);
+            color: white;
+            border: none;
+            box-shadow: 0 10px 30px rgba(255, 107, 0, 0.4);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: translate(-50%, -50%);
+            transition: width 0.8s, height 0.8s;
+        }
+
+        .btn-primary:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(255, 107, 0, 0.7);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--light);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(255, 107, 0, 0.5);
+        }
+
+        .features {
+            padding: 120px 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 56px;
+            margin-bottom: 70px;
+            background: linear-gradient(135deg, #890BFF 0%, #00C9FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.06);
+            padding: 45px;
+            border-radius: 25px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 107, 0, 0.25);
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .feature-card:nth-child(1) { animation-delay: 0.1s; }
+        .feature-card:nth-child(2) { animation-delay: 0.2s; }
+        .feature-card:nth-child(3) { animation-delay: 0.3s; }
+        .feature-card:nth-child(4) { animation-delay: 0.4s; }
+        .feature-card:nth-child(5) { animation-delay: 0.5s; }
+        .feature-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .feature-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: 0 25px 60px rgba(255, 107, 0, 0.4);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 56px;
+            margin-bottom: 25px;
+            display: block;
+            animation: bounce 3s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .feature-card:hover .feature-icon {
+            animation: spin 0.6s ease;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg) scale(1); }
+            to { transform: rotate(360deg) scale(1.2); }
+        }
+
+        .feature-card h3 {
+            font-size: 26px;
+            margin-bottom: 18px;
+            color: var(--primary);
+        }
+
+        .feature-card p {
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        .stats {
+            padding: 120px 50px;
+            background: rgba(255, 107, 0, 0.06);
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 60px;
+            max-width: 1200px;
+            margin: 70px auto 0;
+        }
+
+        .stat-item {
+            opacity: 0;
+            transform: scale(0.7);
+            animation: popIn 0.6s ease forwards;
+        }
+
+        .stat-item:nth-child(1) { animation-delay: 0.1s; }
+        .stat-item:nth-child(2) { animation-delay: 0.2s; }
+        .stat-item:nth-child(3) { animation-delay: 0.3s; }
+        .stat-item:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes popIn {
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .stat-number {
+            font-size: 72px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FF6B00 0%, #FF0844 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 19px;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .comparison {
+            padding: 120px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .comparison-table {
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 25px;
+            overflow: hidden;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 107, 0, 0.25);
+        }
+
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            padding: 25px 35px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .comparison-row:hover {
+            background: rgba(255, 107, 0, 0.12);
+        }
+
+        .comparison-row.header {
+            background: linear-gradient(135deg, #FF6B00 0%, #FF0844 100%);
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .comparison-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 17px;
+        }
+
+        footer {
+            padding: 60px 50px;
+            text-align: center;
+            background: rgba(10, 10, 10, 0.95);
+            border-top: 1px solid rgba(255, 107, 0, 0.3);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 35px 0;
+        }
+
+        .social-links a {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FF6B00 0%, #FF0844 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 28px;
+            transition: all 0.4s ease;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-8px) rotate(360deg);
+            box-shadow: 0 15px 40px rgba(255, 107, 0, 0.6);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: scrollBounce 2.5s infinite;
+            font-size: 36px;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        @keyframes scrollBounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(15px); }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 48px; }
+            .hero h2 { font-size: 22px; }
+            .cta-buttons { flex-direction: column; }
+            .nav-links { display: none; }
+            nav { padding: 15px 20px; }
+            .features, .stats, .comparison { padding: 60px 20px; }
+            .comparison-row { grid-template-columns: 1fr; gap: 12px; }
+        }
+    </style>
 </head>
 <body>
     <div class="background"></div>
@@ -13,7 +521,6 @@
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <div class="cursor-glow" id="cursorGlow"></div>
 
     <nav id="navbar">
         <div class="logo">💰 MemeCoin</div>
@@ -22,25 +529,25 @@
             <li><a href="#features">Features</a></li>
             <li><a href="#stats">Stats</a></li>
             <li><a href="#comparison">Comparison</a></li>
-            <li><a href="news.html">News and Updates</a></li>
         </ul>
     </nav>
 
     <section class="hero" id="home">
         <div class="hero-content">
-            <div class="version-badge" id="countdown"></div>
+            <div class="version-badge" id="countdown">V2 Launching Soon!</div>
             <h1>MemeCoin Dashboard</h1>
             <h2>The Ultimate Economy System for r/MemeExchangeCommunism</h2>
-            <p style="font-size: 18px; color: rgba(255,255,255,0.6); margin-top: 20px;">
+            <p>
                 Earn rewards, purchase exclusive flairs, and dominate the leaderboard. 
                 The revolution will be gamified! 🚩
             </p>
             <div class="cta-buttons">
                 <a href="https://reddit.com/r/MemeExchangeCommunism" class="btn btn-primary">Visit Subreddit</a>
                 <a href="#features" class="btn btn-secondary">Learn More</a>
+                <a href="news.html" class="btn btn-tertiary">Check News and Updates</a>
             </div>
         </div>
-        <div class="scroll-indicator"></div>
+        <div class="scroll-indicator">↓</div>
     </section>
 
     <section class="stats" id="stats">
@@ -143,8 +650,8 @@
     </section>
 
     <footer>
-        <div class="logo" style="font-size: 32px; margin-bottom: 20px;">💰 MemeCoin Dashboard</div>
-        <p style="color: rgba(255,255,255,0.6); margin-bottom: 20px;">
+        <div class="logo" style="font-size: 36px; margin-bottom: 25px;">💰 MemeCoin Dashboard</div>
+        <p style="color: rgba(255,255,255,0.65); margin-bottom: 25px; font-size: 17px;">
             Built exclusively for r/MemeExchangeCommunism
         </p>
         <div class="social-links">
@@ -152,11 +659,84 @@
             <a href="#">💬</a>
             <a href="#">📊</a>
         </div>
-        <p style="color: rgba(255,255,255,0.4); font-size: 14px;">
-            © 2024 MemeCoin Dashboard V2.0 | The revolution will be gamified!
+        <p style="color: rgba(255,255,255,0.45); font-size: 15px;">
+            © 2025 MemeCoin Dashboard V2.0 | The revolution will be gamified!
         </p>
     </footer>
 
-    <script src="app.js"></script>
+    <script>
+        // Countdown timer
+        const countdownEl = document.getElementById('countdown');
+        function updateCountdown() {
+            const eventDate = new Date("2025-11-05T00:00:00+00:00");
+            const now = new Date();
+            const diff = eventDate - now;
+
+            if (diff <= 0) {
+                countdownEl.textContent = "🎉 V2 Released!";
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const mins = Math.floor((diff / (1000 * 60)) % 60);
+            const secs = Math.floor((diff / 1000) % 60);
+
+            countdownEl.textContent = `V2 in ${days}d ${hours}h ${mins}m ${secs}s`;
+        }
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Counter animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counters = entry.target.querySelectorAll('.stat-number');
+                    counters.forEach(counter => {
+                        const target = parseInt(counter.getAttribute('data-target'));
+                        let current = 0;
+                        const increment = target / 50;
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                counter.textContent = target + '+';
+                                clearInterval(timer);
+                            } else {
+                                counter.textContent = Math.floor(current);
+                            }
+                        }, 30);
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const statsSection = document.querySelector('.stats');
+        if (statsSection) observer.observe(statsSection);
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (!href || href === '#') return;
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Scroll indicator
+        document.querySelector('.scroll-indicator').addEventListener('click', () => {
+            document.querySelector('#stats').scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
 </body>
 </html>
