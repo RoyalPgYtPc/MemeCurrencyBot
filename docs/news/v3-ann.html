@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Title | MemeCoin News</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FF6B00;
+            --secondary: #890BFF;
+            --accent: #FFD700;
+            --dark: #0a0a0a;
+            --light: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .background {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 50%, rgba(255, 107, 0, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(137, 11, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(255, 215, 0, 0.08) 0%, transparent 50%);
+        }
+
+        .floating-shapes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: float 25s infinite ease-in-out;
+        }
+
+        .shape:nth-child(1) {
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 107, 0, 0.25);
+            top: 10%;
+            left: 10%;
+        }
+
+        .shape:nth-child(2) {
+            width: 350px;
+            height: 350px;
+            background: rgba(137, 11, 255, 0.25);
+            top: 60%;
+            right: 10%;
+            animation-delay: 8s;
+        }
+
+        .shape:nth-child(3) {
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 215, 0, 0.15);
+            bottom: 10%;
+            left: 50%;
+            animation-delay: 16s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            33% { transform: translate(100px, -80px) scale(1.2) rotate(120deg); }
+            66% { transform: translate(-80px, 60px) scale(0.8) rotate(240deg); }
+        }
+
+        .news-header {
+            padding: 24px 50px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 107, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .back {
+            color: var(--light);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 107, 0, 0.3);
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: translateX(-5px);
+            box-shadow: 0 5px 20px rgba(255, 107, 0, 0.4);
+        }
+
+        .version-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: linear-gradient(135deg, #890BFF 0%, #00C9FF 100%);
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 0 20px rgba(137, 11, 255, 0.3);
+        }
+
+        .article-container {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 0 50px 120px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .article-banner {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: cover;
+            border-radius: 25px;
+            margin-bottom: 40px;
+            border: 2px solid rgba(255, 107, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .article-category {
+            display: inline-block;
+            padding: 8px 20px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+        }
+
+        .article-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #FF6B00 0%, #FF0844 50%, #FFD700 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 30px;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(255, 107, 0, 0.2);
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .article-content {
+            color: rgba(255, 255, 255, 0.88);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .article-content p {
+            margin-bottom: 25px;
+        }
+
+        .article-content h2 {
+            margin-top: 50px;
+            margin-bottom: 25px;
+            color: var(--primary);
+            font-size: 2rem;
+            padding-left: 20px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .article-content h3 {
+            margin-top: 35px;
+            margin-bottom: 20px;
+            color: var(--accent);
+            font-size: 1.5rem;
+        }
+
+        .article-content ul, .article-content ol {
+            margin: 25px 0 25px 40px;
+        }
+
+        .article-content li {
+            margin-bottom: 15px;
+            padding-left: 10px;
+        }
+
+        .article-content ul li::marker {
+            color: var(--primary);
+        }
+
+        .article-content blockquote {
+            margin: 30px 0;
+            padding: 25px 30px;
+            background: rgba(255, 107, 0, 0.1);
+            border-left: 4px solid var(--primary);
+            border-radius: 10px;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .article-content code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            color: var(--accent);
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(255, 107, 0, 0.1), rgba(137, 11, 255, 0.1));
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 107, 0, 0.3);
+            margin: 35px 0;
+        }
+
+        .highlight-box h3 {
+            color: var(--primary);
+            margin-top: 0;
+        }
+
+        .article-footer {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 107, 0, 0.2);
+        }
+
+        .share-section {
+            text-align: center;
+        }
+
+        .share-section h3 {
+            color: var(--light);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .share-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .share-links a {
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 107, 0, 0.3);
+            color: var(--light);
+            transition: all 0.3s ease;
+        }
+
+        .share-links a:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 0, 0.4);
+        }
+
+        .related-articles {
+            margin-top: 80px;
+        }
+
+        .related-articles h3 {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .related-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 107, 0, 0.2);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--light);
+            display: block;
+        }
+
+        .related-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 40px rgba(255, 107, 0, 0.3);
+        }
+
+        .related-card h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .related-card p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .article-container {
+                padding: 0 20px 80px;
+                margin: 40px auto;
+            }
+            
+            .article-title {
+                font-size: 2rem;
+            }
+            
+            .news-header {
+                padding: 20px;
+            }
+            
+            .article-content {
+                font-size: 1rem;
+            }
+            
+            .article-content h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <header class="news-header">
+        <a href="./news.html" class="back">← Back to News</a>
+        <div class="version-badge" id="countdown">V2 Launching Soon!</div>
+    </header>
+
+<main class="article-container">
+        
+    <!-- Article Banner Image (Optional) -->
+    <img class="article-banner" src="../images/memecoin-v3-banner.png" alt="MemeCoin V3 Banner">
+
+    <!-- Category Badge -->
+    <span class="article-category">📢 Product Update</span>
+
+    <!-- Article Title -->
+    <h1 class="article-title">MemeCoin V3 — Feature Preview & Roadmap</h1>
+
+    <!-- Article Meta Information -->
+    <div class="article-meta">
+        <span class="meta-item">📅 October 2025</span>
+        <span class="meta-item">✍️ MemeCoin Development Team</span>
+        <span class="meta-item">⏱️ 3 min read</span>
+    </div>
+
+    <!-- Article Content -->
+    <article class="article-content">
+        
+        <p>
+            Today we present an early preview of <strong>MemeCoin V3</strong>. This release is focused on long-term engagement, transparency, and personal progression — expanding the ways users earn, track, and celebrate activity within the ecosystem.
+        </p>
+
+        <h2>Planned V3 Features</h2>
+        <p>
+            V3 is intentionally scoped to deliver high-impact quality-of-life and engagement systems that build on the stability delivered by V2 and the protection provided by Project Obsidian.
+        </p>
+
+        <div class="highlight-box">
+            <h3>💡 Primary Objectives</h3>
+            <p>
+                Introduce persistent progression, improve auditability, and provide richer reward pathways while preserving fairness and low-friction participation.
+            </p>
+        </div>
+
+        <h2>Feature Overview</h2>
+        <ul>
+            <li><strong>Achievement System (Phase 1):</strong> A lightweight badge system awarding milestones for participation, streaks, and positive community behaviour.</li>
+            <li><strong>Transfer History:</strong> A user-facing ledger displaying recent transfers and activity for improved transparency and dispute resolution.</li>
+            <li><strong>Quest System (Daily / Weekly):</strong> Basic task loops to encourage recurring engagement and provide predictable reward opportunities.</li>
+            <li><strong>Enhanced Shop:</strong> Expanded catalog of items and flairs, along with new purchase paths and seasonal releases.</li>
+            <li><strong>User Profiles (Basic):</strong> Public summary pages showing stats, achievements, and non-sensitive metadata to foster identity and reputation systems.</li>
+            <li><strong>Notification System:</strong> In-app notifications for earnings, penalties, achievements, and shop events to keep users informed in real time.</li>
+        </ul>
+
+        <h2>How V3 Will Be Delivered</h2>
+        <p>
+            The V3 roadmap will follow a phased rollout to maintain system reliability:
+        </p>
+
+        <ol>
+            <li>Internal design & specification sign-off</li>
+            <li>Development sprints delivering Achievement System & Transfer History</li>
+            <li>Quest System and Shop expansion deployment</li>
+            <li>Profiles and Notification System integration</li>
+            <li>Post-release monitoring and iterative improvements (driven by community feedback)</li>
+        </ol>
+
+        <blockquote>
+            "V3 aims to make participation meaningful and visible — progression you can trust, and history you can verify."
+        </blockquote>
+
+        <h2>Community Participation & Testing</h2>
+        <p>
+            As with previous releases, V3 will be shaped by community contributors. Volunteers for development and testing are encouraged to reach out via mod mail. Priority will be given to testers who helped during V2 and to contributors who commit to transparency and responsible disclosure.
+        </p>
+
+        <h2>Next Steps</h2>
+        <p>
+            Deployment targets will be confirmed after V2 stabilisation and a short pilot test for early Achievement and Transfer History features. We will publish timelines, demo notes, and testing instructions on the Trello board and in mod announcements.
+        </p>
+
+        <h2>Conclusion</h2>
+        <p>
+            MemeCoin V3 represents a careful step toward a richer, trackable, and community-centered economy. Our development approach prioritises fairness, clarity, and incremental delivery to protect the value and trust that our user base expects.
+        </p>
+
+        <p>Thank you to everyone contributing to the project — your feedback will shape the final release.</p>
+        
+    </article>
+
+    <!-- Article Footer with Share Options -->
+    <div class="article-footer">
+        <div class="share-section">
+            <h3>Share this article</h3>
+            <div class="share-links">
+                <a href="#">🐦 Twitter</a>
+                <a href="#">🚩 Reddit</a>
+                <a href="#">💬 Discord</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Articles Section -->
+    <div class="related-articles">
+        <h3>Related Articles</h3>
+        <div class="related-grid">
+            <a href="#" class="related-card">
+                <h4>🛡️ Project Obsidian</h4>
+                <p>How Obsidian keeps MemeCoin fair and secure.</p>
+            </a>
+            <a href="#" class="related-card">
+                <h4>🚀 V2 Release Notes</h4>
+                <p>Stability improvements, leaderboard sync, and V2 fixes.</p>
+            </a>
+            <a href="#" class="related-card">
+                <h4>🔧 Developer & Tester Guide</h4>
+                <p>How to join the V3 testing program and contribute.</p>
+            </a>
+        </div>
+    </div>
+
+</main>
+
+    <script>
+        // Countdown timer
+        const countdownEl = document.getElementById('countdown');
+        function updateCountdown() {
+            const eventDate = new Date("2025-11-05T00:00:00+00:00");
+            const now = new Date();
+            const diff = eventDate - now;
+
+            if (diff <= 0) {
+                countdownEl.textContent = "🎉 V2 Released!";
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const mins = Math.floor((diff / (1000 * 60)) % 60);
+            const secs = Math.floor((diff / 1000) % 60);
+
+            countdownEl.textContent = `V2 in ${days}d ${hours}h ${mins}m ${secs}s`;
+        }
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
