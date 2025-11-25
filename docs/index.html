@@ -593,6 +593,86 @@
         }
       }
 
+      .announcement {
+        padding: 60px 50px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 107, 0, 0.15) 0%,
+          rgba(137, 11, 255, 0.15) 100%
+        );
+        border-top: 2px solid rgba(255, 107, 0, 0.5);
+        border-bottom: 2px solid rgba(255, 107, 0, 0.5);
+      }
+
+      .announcement-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .announcement-title {
+        font-size: 42px;
+        margin-bottom: 25px;
+        background: linear-gradient(
+          135deg,
+          #ff6b00 0%,
+          #ff0844 50%,
+          #ffd700 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .announcement-text {
+        font-size: 18px;
+        color: rgba(255, 255, 255, 0.85);
+        margin-bottom: 35px;
+        line-height: 1.7;
+      }
+
+      .announcement-buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .announcement-btn {
+        padding: 14px 35px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 16px;
+        transition: all 0.4s ease;
+        border: 2px solid;
+        cursor: pointer;
+      }
+
+      .announcement-btn.dev {
+        background: linear-gradient(135deg, #890bff 0%, #00c9ff 100%);
+        border-color: #890bff;
+        color: white;
+        box-shadow: 0 0 20px rgba(137, 11, 255, 0.4);
+      }
+
+      .announcement-btn.dev:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 0 40px rgba(137, 11, 255, 0.7);
+      }
+
+      .announcement-btn.mod {
+        background: linear-gradient(135deg, #ff6b00 0%, #ff0844 100%);
+        border-color: #ff6b00;
+        color: white;
+        box-shadow: 0 0 20px rgba(255, 107, 0, 0.4);
+      }
+
+      .announcement-btn.mod:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 0 40px rgba(255, 107, 0, 0.7);
+      }
+
       @media (max-width: 768px) {
         .hero h1 {
           font-size: 48px;
@@ -617,6 +697,21 @@
         .comparison-row {
           grid-template-columns: 1fr;
           gap: 12px;
+        }
+        .announcement {
+          padding: 40px 20px;
+        }
+        .announcement-title {
+          font-size: 28px;
+        }
+        .announcement-text {
+          font-size: 16px;
+        }
+        .announcement-buttons {
+          flex-direction: column;
+        }
+        .announcement-btn {
+          width: 100%;
         }
       }
     </style>
@@ -664,6 +759,35 @@
         </div>
       </div>
       <div class="scroll-indicator">↓</div>
+    </section>
+
+    <section class="announcement">
+      <div class="announcement-content">
+        <div style="font-size: 28px; margin-bottom: 15px">📢</div>
+        <h2 class="announcement-title">We're increasing our team!</h2>
+        <p class="announcement-text">
+          Join the MemeCoin development team! We're looking for passionate
+          developers and moderators to help shape the future of
+          r/MemeExchangeCommunism. Apply now to contribute to our growing
+          community.
+        </p>
+        <div class="announcement-buttons">
+          <a
+            href="https://forms.gle/eSPerXKFTxZRr8f29"
+            class="announcement-btn dev"
+            target="_blank"
+          >
+            💻 Developer Application
+          </a>
+          <a
+            href="https://forms.gle/npKduxfmB4Vjb8M88"
+            class="announcement-btn mod"
+            target="_blank"
+          >
+            🛡️ Moderator Candidate Application
+          </a>
+        </div>
+      </div>
     </section>
 
     <section class="stats" id="stats">
