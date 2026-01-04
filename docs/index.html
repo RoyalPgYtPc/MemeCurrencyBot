@@ -299,16 +299,25 @@
         .comparison-table {
             background: rgba(255, 255, 255, 0.06);
             border-radius: 25px;
-            overflow: hidden;
+            overflow-x: auto;
+            overflow-y: hidden;
             backdrop-filter: blur(15px);
         }
 
         .comparison-row {
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            padding: 20px 30px;
+            grid-template-columns: 180px repeat(5, 130px);
+            padding: 15px 20px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
+            min-width: min-content;
+            font-size: 14px;
+        }
+        
+        .comparison-row > div {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .comparison-row:hover:not(.header) {
@@ -381,7 +390,7 @@
             .cta-buttons { flex-direction: column; }
             nav { padding: 15px 20px; }
             .nav-links { display: none; }
-            .comparison-row { grid-template-columns: 1fr; }
+            .comparison-row { grid-template-columns: minmax(150px, 1fr); padding: 12px 15px; font-size: 12px; }
         }
     </style>
 </head>
@@ -402,8 +411,6 @@
             <li><a href="#stats">Stats</a></li>
             <li><a href="news.html">News</a></li>
         </ul>
-        </ul>
-        </ul>
     </nav>
 
     <section class="hero" id="home">
@@ -418,7 +425,7 @@
             <div class="cta-buttons">
                 <a href="https://reddit.com/r/MemeExchangeCommunism" class="btn btn-primary">Visit Subreddit</a>
                 <a href="interactive-v4.html" class="btn btn-secondary">Interactive Demo</a>
-                <a href="architecture.html" class="btn btn-secondary">Architecture Deep Dive</a>
+                <a href="#features" class="btn btn-secondary">Architecture Deep Dive</a>
             </div>
         </div>
     </section>
@@ -819,7 +826,7 @@
             <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 40px">
                 <a href="https://reddit.com/r/MemeExchangeCommunism" class="btn btn-primary">Main Subreddit</a>
                 <a href="interactive-v4.html" class="btn btn-secondary">Try Demo</a>
-                <a href="architecture.html" class="btn btn-secondary">Documentation</a>
+                <a href="#features" class="btn btn-secondary">Documentation</a>
             </div>
             <p style="margin-top: 60px; color: rgba(255, 255, 255, 0.5); font-size: 14px">
                 V4.5.0 • Built with Reddit Devvit • r/MemeExchangeCommunism
