@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MemeCoin V4.5 - Advanced Economy System</title>
+    <title>MemeCoin V4.5 - Revolutionary Reddit Economy</title>
     <style>
         * {
             margin: 0;
@@ -11,105 +11,97 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --primary: #FF6B00;
-            --secondary: #890BFF;
-            --accent: #FFD700;
-            --success: #00CC00;
-            --dark: #0a0a0a;
-            --light: #ffffff;
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--dark);
-            color: var(--light);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #000;
+            color: #fff;
             overflow-x: hidden;
         }
 
-        .background {
+        /* Background */
+        .bg-gradient {
             position: fixed;
-            width: 100vw;
-            height: 100vh;
             top: 0;
             left: 0;
-            z-index: -1;
-            background: radial-gradient(circle at 20% 50%, rgba(255, 107, 0, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(137, 11, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 40% 20%, rgba(255, 215, 0, 0.08) 0%, transparent 50%);
-        }
-
-        .floating-shapes {
-            position: fixed;
             width: 100%;
             height: 100%;
+            z-index: -2;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 107, 0, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+                #000;
+        }
+
+        .mesh-gradient {
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 107, 0, 0.2) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(124, 58, 237, 0.2) 0%, transparent 30%);
+            animation: meshMove 20s ease-in-out infinite;
+            filter: blur(80px);
+        }
+
+        @keyframes meshMove {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(5%, 5%); }
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
             top: 0;
             left: 0;
-            z-index: -1;
-            pointer-events: none;
+            height: 3px;
+            background: linear-gradient(90deg, #FF6B00, #EC4899, #7C3AED);
+            width: 0%;
+            z-index: 10000;
         }
 
-        .shape {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(60px);
-            animation: float 25s infinite ease-in-out;
-        }
-
-        .shape:nth-child(1) {
-            width: 400px;
-            height: 400px;
-            background: rgba(255, 107, 0, 0.25);
-            top: 10%;
-            left: 10%;
-        }
-
-        .shape:nth-child(2) {
-            width: 350px;
-            height: 350px;
-            background: rgba(137, 11, 255, 0.25);
-            top: 60%;
-            right: 10%;
-            animation-delay: 8s;
-        }
-
-        .shape:nth-child(3) {
-            width: 300px;
-            height: 300px;
-            background: rgba(255, 215, 0, 0.15);
-            bottom: 10%;
-            left: 50%;
-            animation-delay: 16s;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
-            33% { transform: translate(100px, -80px) scale(1.2) rotate(120deg); }
-            66% { transform: translate(-80px, 60px) scale(0.8) rotate(240deg); }
-        }
-
+        /* Navigation */
         nav {
             position: fixed;
             top: 0;
-            width: 100%;
-            padding: 20px 50px;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 25px 60px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 1000;
+            transition: all 0.3s;
+            background: transparent;
+        }
+
+        nav.scrolled {
+            background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(20px);
-            background: rgba(10, 10, 10, 0.85);
-            border-bottom: 1px solid rgba(255, 107, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 107, 0, 0.2);
+            padding: 20px 60px;
         }
 
         .logo {
             font-size: 28px;
-            font-weight: bold;
-            background: linear-gradient(135deg, #FF6B00 0%, #FF0844 50%, #FFD700 100%);
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .logo-text {
+            background: linear-gradient(135deg, #FF6B00, #EC4899);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            cursor: pointer;
         }
 
         .nav-links {
@@ -119,242 +111,146 @@
         }
 
         .nav-links a {
-            color: var(--light);
+            color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
+            font-weight: 600;
+            transition: color 0.3s;
         }
 
         .nav-links a:hover {
-            color: var(--primary);
+            color: #FF6B00;
         }
 
-        .hero {
+        /* Sections */
+        section {
+            position: relative;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 100px 50px;
+            padding: 120px 60px 80px;
         }
 
-        .hero-content {
+        .container {
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Hero */
+        .hero {
             text-align: center;
-            max-width: 1100px;
         }
 
-        .version-badge {
+        .badge {
             display: inline-block;
             padding: 12px 30px;
-            background: linear-gradient(135deg, #890BFF 0%, #00C9FF 100%);
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(236, 72, 153, 0.2));
+            border: 2px solid rgba(124, 58, 237, 0.5);
             border-radius: 50px;
-            font-weight: bold;
+            font-weight: 700;
+            margin-bottom: 40px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-size: clamp(50px, 10vw, 120px);
+            font-weight: 900;
+            line-height: 1.1;
             margin-bottom: 30px;
-            animation: pulse 3s infinite;
-            box-shadow: 0 0 40px rgba(137, 11, 255, 0.6);
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .hero h1 {
-            font-size: 80px;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #FF6B00 0%, #FF0844 50%, #FFD700 100%);
+            background: linear-gradient(135deg, #fff 0%, #FF6B00 50%, #7C3AED 100%);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
+            letter-spacing: -0.03em;
         }
 
-        .hero h2 {
-            font-size: 32px;
-            color: rgba(255, 255, 255, 0.85);
-            margin-bottom: 30px;
+        .subtitle {
+            font-size: clamp(24px, 4vw, 42px);
+            font-weight: 700;
+            margin-bottom: 25px;
         }
 
-        .hero p {
-            font-size: 19px;
-            color: rgba(255, 255, 255, 0.65);
-            margin-top: 25px;
+        .description {
+            font-size: clamp(16px, 2vw, 20px);
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 800px;
+            margin: 0 auto 50px;
             line-height: 1.6;
         }
 
         .cta-buttons {
             display: flex;
-            gap: 25px;
+            gap: 20px;
             justify-content: center;
-            margin-top: 45px;
             flex-wrap: wrap;
+            margin-bottom: 80px;
         }
 
         .btn {
-            padding: 16px 45px;
+            padding: 18px 45px;
+            font-size: 18px;
+            font-weight: 700;
             border-radius: 50px;
             text-decoration: none;
-            font-weight: bold;
-            font-size: 18px;
-            transition: all 0.4s ease;
-            cursor: pointer;
-            border: none;
+            transition: all 0.3s;
+            display: inline-block;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #FF6B00 0%, #FF0844 100%);
-            color: white;
-            box-shadow: 0 10px 30px rgba(255, 107, 0, 0.4);
+            background: linear-gradient(135deg, #FF6B00, #EC4899);
+            color: #fff;
         }
 
         .btn-primary:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 50px rgba(255, 107, 0, 0.7);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 0, 0.5);
         }
 
         .btn-secondary {
             background: transparent;
-            color: var(--light);
-            border: 2px solid var(--primary);
+            color: #fff;
+            border: 2px solid #FF6B00;
         }
 
         .btn-secondary:hover {
-            background: var(--primary);
-            transform: translateY(-5px);
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 50px 100px;
-        }
-
-        .section {
-            margin-bottom: 120px;
-        }
-
-        .section-title {
-            font-size: 56px;
-            text-align: center;
-            margin-bottom: 70px;
-            background: linear-gradient(135deg, #890BFF 0%, #00C9FF 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 35px;
-        }
-
-        .feature-card {
-            background: rgba(255, 255, 255, 0.06);
-            padding: 45px;
-            border-radius: 25px;
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 107, 0, 0.25);
-            transition: all 0.4s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            border-color: var(--primary);
-            box-shadow: 0 25px 60px rgba(255, 107, 0, 0.4);
-        }
-
-        .feature-icon {
-            font-size: 56px;
-            margin-bottom: 25px;
-            display: block;
-        }
-
-        .feature-card h3 {
-            font-size: 26px;
-            margin-bottom: 18px;
-            color: var(--primary);
-        }
-
-        .feature-card p {
-            color: rgba(255, 255, 255, 0.75);
-            line-height: 1.7;
-        }
-
-        .new-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #00CC00, #00FF88);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 15px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-left: 10px;
-            animation: glow 2s infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 0 10px rgba(0, 255, 136, 0.5); }
-            50% { box-shadow: 0 0 20px rgba(0, 255, 136, 0.8); }
-        }
-
-        .comparison-table {
-            background: rgba(255, 255, 255, 0.06);
-            border-radius: 25px;
-            overflow-x: auto;
-            overflow-y: hidden;
-            backdrop-filter: blur(15px);
-        }
-
-        .comparison-row {
-            display: grid;
-            grid-template-columns: 180px repeat(5, 130px);
-            padding: 15px 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            min-width: min-content;
-            font-size: 14px;
-        }
-        
-        .comparison-row > div {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .comparison-row:hover:not(.header) {
             background: rgba(255, 107, 0, 0.1);
+            transform: translateY(-3px);
         }
 
-        .comparison-row.header {
-            background: linear-gradient(135deg, #FF6B00 0%, #FF0844 100%);
-            font-weight: bold;
-        }
-
+        /* Stats */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 30px;
-            margin-top: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .stat-card {
             text-align: center;
             padding: 40px;
-            background: rgba(255, 255, 255, 0.05);
+            background: linear-gradient(135deg, rgba(255, 107, 0, 0.1), rgba(124, 58, 237, 0.1));
+            border: 2px solid rgba(255, 107, 0, 0.3);
             border-radius: 20px;
-            border: 1px solid rgba(255, 107, 0, 0.25);
-            transition: all 0.3s ease;
+            transition: all 0.4s;
         }
 
         .stat-card:hover {
             transform: translateY(-10px);
-            border-color: var(--primary);
-            box-shadow: 0 20px 40px rgba(255, 107, 0, 0.3);
+            border-color: rgba(255, 107, 0, 0.8);
+            box-shadow: 0 20px 60px rgba(255, 107, 0, 0.4);
         }
 
         .stat-number {
-            font-size: 56px;
-            font-weight: bold;
-            background: linear-gradient(135deg, #FF6B00 0%, #FF0844 100%);
+            font-size: 60px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #FF6B00, #EC4899);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -363,85 +259,270 @@
         }
 
         .stat-label {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.7);
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+            text-transform: uppercase;
         }
 
-        footer {
-            padding: 80px 50px;
+        /* Section titles */
+        .section-title {
+            font-size: clamp(40px, 7vw, 80px);
+            font-weight: 900;
             text-align: center;
-            background: rgba(10, 10, 10, 0.95);
-            border-top: 1px solid rgba(255, 107, 0, 0.3);
+            margin-bottom: 80px;
+            background: linear-gradient(135deg, #FF6B00, #7C3AED);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .ai-highlight {
-            background: linear-gradient(135deg, rgba(137, 11, 255, 0.2), rgba(0, 201, 255, 0.2));
-            border: 2px solid rgba(137, 11, 255, 0.5);
+        /* Features */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
         }
 
-        .architecture-highlight {
-            background: linear-gradient(135deg, rgba(0, 204, 0, 0.15), rgba(0, 255, 136, 0.15));
-            border: 2px solid rgba(0, 204, 0, 0.5);
+        .feature-card {
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+            border: 2px solid rgba(255, 107, 0, 0.2);
+            border-radius: 25px;
+            transition: all 0.4s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 107, 0, 0.8);
+            box-shadow: 0 20px 60px rgba(255, 107, 0, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            display: block;
+            filter: drop-shadow(0 0 20px rgba(255, 107, 0, 0.6));
+        }
+
+        .feature-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: #FF6B00;
+        }
+
+        .feature-desc {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        .new-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #10B981, #00FF88);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: 800;
+            margin-left: 8px;
+            text-transform: uppercase;
+        }
+
+        /* Timeline */
+        .timeline {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 100px;
+            align-items: center;
+        }
+
+        .timeline-item:nth-child(even) {
+            direction: rtl;
+        }
+
+        .timeline-item:nth-child(even) > * {
+            direction: ltr;
+        }
+
+        .timeline-version {
+            font-size: 50px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #FF6B00, #EC4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        .timeline-date {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 15px;
+        }
+
+        .timeline-desc {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+        }
+
+        .timeline-visual {
+            height: 300px;
+            background: linear-gradient(135deg, rgba(255, 107, 0, 0.2), rgba(124, 58, 237, 0.2));
+            border: 2px solid rgba(255, 107, 0, 0.3);
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            transition: all 0.4s;
+        }
+
+        .timeline-visual:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 60px rgba(255, 107, 0, 0.5);
+        }
+
+        /* Comparison table */
+        .table-wrapper {
+            overflow-x: auto;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+            border: 2px solid rgba(255, 107, 0, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: linear-gradient(135deg, #FF6B00, #7C3AED);
+            padding: 18px;
+            font-weight: 800;
+            text-align: left;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 15px;
+        }
+
+        tr:hover td {
+            background: rgba(255, 107, 0, 0.05);
+        }
+
+        /* Footer */
+        footer {
+            padding: 80px 60px;
+            text-align: center;
+            background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.9));
+            border-top: 2px solid rgba(255, 107, 0, 0.3);
+        }
+
+        .footer-logo {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .footer-title {
+            font-size: 40px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #FF6B00, #7C3AED);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 30px;
+            opacity: 0.5;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
         }
 
         @media (max-width: 768px) {
-            .hero h1 { font-size: 48px; }
-            .hero h2 { font-size: 22px; }
-            .cta-buttons { flex-direction: column; }
-            nav { padding: 15px 20px; }
+            nav, nav.scrolled { padding: 20px 30px; }
             .nav-links { display: none; }
-            .comparison-row { grid-template-columns: minmax(150px, 1fr); padding: 12px 15px; font-size: 12px; }
+            section { padding: 100px 30px 60px; }
+            .timeline-item { grid-template-columns: 1fr; }
+            .timeline-item:nth-child(even) { direction: ltr; }
+        }
+
+        /* Fade in animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <div class="background"></div>
-    <div class="floating-shapes">
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
-    </div>
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="bg-gradient"></div>
+    <div class="mesh-gradient"></div>
 
-    <nav>
-        <div class="logo">💰 MemeCoin</div>
+    <nav id="navbar">
+        <div class="logo">
+            <span style="font-size: 32px;">💰</span>
+            <span class="logo-text">MemeCoin</span>
+        </div>
         <ul class="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#features">Features</a></li>
-            <li><a href="#comparison">Comparison</a></li>
             <li><a href="#stats">Stats</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#timeline">Timeline</a></li>
             <li><a href="news.html">News</a></li>
         </ul>
     </nav>
 
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <div class="version-badge">🤖 V4.5 - AI-Powered & Modular</div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="badge">🤖 V4.5 - AI-Powered & Modular</div>
             <h1>MemeCoin V4.5</h1>
-            <h2>Next-Gen Economy with AI Intelligence</h2>
-            <p>
-                Advanced AI monitoring, modular architecture, daily rewards, lucky wheel gambling,
-                and comprehensive user analytics. The most sophisticated meme economy ever built.
+            <p class="subtitle">The Future of Reddit Economies</p>
+            <p class="description">
+                Advanced AI monitoring, modular architecture, 14 achievements, 16 quests, 
+                lucky wheel gambling, and comprehensive gamification for r/MemeExchangeCommunism.
             </p>
             <div class="cta-buttons">
-                <a href="https://reddit.com/r/MemeExchangeCommunism" class="btn btn-primary">Visit Subreddit</a>
-                <a href="interactive-v4.html" class="btn btn-secondary">Interactive Demo</a>
-                <a href="#features" class="btn btn-secondary">Architecture Deep Dive</a>
+                <a href="https://reddit.com/r/MemeExchangeCommunism" class="btn btn-primary">Join Community →</a>
+                <a href="#features" class="btn btn-secondary">Explore Features</a>
             </div>
-        </div>
-    </section>
-
-    <div class="container">
-        <!-- Stats Section -->
-        <section class="section" id="stats">
-            <h2 class="section-title">By The Numbers</h2>
             <div class="stats-grid">
                 <div class="stat-card">
                     <span class="stat-number">14</span>
                     <span class="stat-label">Achievements</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-number">8</span>
-                    <span class="stat-label">Daily Quests</span>
+                    <span class="stat-number">16</span>
+                    <span class="stat-label">Total Quests</span>
                 </div>
                 <div class="stat-card">
                     <span class="stat-number">12</span>
@@ -449,446 +530,361 @@
                 </div>
                 <div class="stat-card">
                     <span class="stat-number">4</span>
-                    <span class="stat-label">Booster Types</span>
+                    <span class="stat-label">Boosters</span>
                 </div>
                 <div class="stat-card">
                     <span class="stat-number">AI</span>
                     <span class="stat-label">Bot Detection</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-number">∞</span>
-                    <span class="stat-label">Lucky Spins</span>
+                    <span class="stat-number">6</span>
+                    <span class="stat-label">Badges</span>
                 </div>
             </div>
-        </section>
+        </div>
+        <div class="scroll-indicator">↓</div>
+    </section>
 
-        <!-- Major Features -->
-        <section class="section" id="features">
-            <h2 class="section-title">🚀 V4.5 Features</h2>
+    <!-- Features Section -->
+    <section id="features">
+        <div class="container">
+            <h2 class="section-title">Revolutionary Features</h2>
             <div class="features-grid">
-                <div class="feature-card ai-highlight">
+                <div class="feature-card fade-in">
                     <span class="feature-icon">🤖</span>
-                    <h3>Obsidian AI<span class="new-badge">NEW</span></h3>
-                    <p>
-                        Real-time bot detection, anomaly monitoring, behavioral profiling, and 
-                        Discord webhook alerts. Advanced machine learning keeps the economy fair.
+                    <h3 class="feature-title">Obsidian AI<span class="new-tag">V4.5</span></h3>
+                    <p class="feature-desc">
+                        Advanced bot detection with behavioral profiling and Discord webhook alerts.
                     </p>
                 </div>
-
-                <div class="feature-card architecture-highlight">
+                <div class="feature-card fade-in">
                     <span class="feature-icon">⚙️</span>
-                    <h3>Modular Architecture<span class="new-badge">V4.5</span></h3>
-                    <p>
-                        Split from monolithic 3000+ line file into organized constants/, utils/, 
-                        and components/. Lightning-fast debugging and maintenance.
+                    <h3 class="feature-title">Modular<span class="new-tag">V4.5</span></h3>
+                    <p class="feature-desc">
+                        Restructured from 3000+ lines into organized folders. Main file: ~500 lines.
                     </p>
                 </div>
-
-                <div class="feature-card">
-                    <span class="feature-icon">📅</span>
-                    <h3>Daily Login Rewards<span class="new-badge">NEW</span></h3>
-                    <p>
-                        Milestone-based streak system. Claim increasing rewards at Day 1, 3, 7, 
-                        and 30. Miss a day and your streak resets!
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <span class="feature-icon">🎡</span>
-                    <h3>Lucky Wheel<span class="new-badge">NEW</span></h3>
-                    <p>
-                        Daily gamble feature with 6 prize tiers. First spin free, extra spins 
-                        cost 100 MC. 2% chance for 1000 MC jackpot!
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <span class="feature-icon">📋</span>
-                    <h3>Activity Logs<span class="new-badge">NEW</span></h3>
-                    <p>
-                        Comprehensive tracking of every action: posts, comments, transfers, 
-                        purchases, spins. Full transparency for users and admins.
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <span class="feature-icon">🔐</span>
-                    <h3>Privacy Controls<span class="new-badge">NEW</span></h3>
-                    <p>
-                        Toggle profile sections public/private, hide balance, control leaderboard 
-                        visibility. Granular section-level privacy settings.
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <span class="feature-icon">🏷️</span>
-                    <h3>Shop Discounts<span class="new-badge">NEW</span></h3>
-                    <p>
-                        Admins can set category-wide sales on flairs, boosters, or badges. 
-                        Timed discounts with automatic expiration.
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <span class="feature-icon">🏅</span>
-                    <h3>Achievements</h3>
-                    <p>
-                        14 auto-unlocking achievements with 4 rarity tiers. Earn bonus MC and 
-                        show off your progress.
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <span class="feature-icon">📜</span>
-                    <h3>Quest System</h3>
-                    <p>
-                        3 randomized daily quests + 3 weekly quests. Complete objectives for 
-                        bonus rewards beyond normal earnings.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-<!-- Version Comparison -->
-        <section class="section" id="comparison">
-            <h2 class="section-title">Evolution Timeline</h2>
-            <div class="comparison-table">
-                <div class="comparison-row header">
-                    <div>Feature</div>
-                    <div>V1</div>
-                    <div>V2</div>
-                    <div>V3</div>
-                    <div>V4</div>
-                    <div>V4.5</div>
-                </div>
-                <div class="comparison-row">
-                    <div>Architecture</div>
-                    <div>Single File</div>
-                    <div>Single File</div>
-                    <div>Single File</div>
-                    <div>Single File</div>
-                    <div>✅ Modular</div>
-                </div>
-                <div class="comparison-row">
-                    <div>Core Economy</div>
-                    <div>✅ Basic</div>
-                    <div>✅ Basic</div>
-                    <div>✅ Basic</div>
-                    <div>✅ Basic</div>
-                    <div>✅ Basic</div>
-                </div>
-                <div class="comparison-row">
-                    <div>Flair Tiers</div>
-                    <div>10 Tiers</div>
-                    <div>8 Tiers</div>
-                    <div>10 Tiers</div>
-                    <div>12 Tiers</div>
-                    <div>12 Tiers</div>
-                </div>
-                <div class="comparison-row">
-                    <div>Daily Bonus</div>
-                    <div>✅ Simple</div>
-                    <div>✅ Simple</div>
-                    <div>✅ Simple</div>
-                    <div>✅ Simple</div>
-                    <div>✅ Simple</div>
-                </div>
-                <div class="comparison-row">
-                    <div>Leaderboard</div>
-                    <div>✅ Basic</div>
-                    <div>✅ Basic</div>
-                    <div>✅ Basic</div>
-                    <div>✅ Basic</div>
-                    <div>✅ Basic</div>
-                </div>
-                <div class="comparison-row">
-                    <div>Admin Panel</div>
-                    <div>✅ 4 Sections</div>
-                    <div>✅ 4 Sections</div>
-                    <div>✅ 4 Sections</div>
-                    <div>✅ 10 Sections</div>
-                    <div>✅ 10 Sections</div>
-                </div>
-                <div class="comparison-row">
-                    <div>Achievements</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>✅ 14 Total</div>
-                    <div>✅ 14 Total</div>
-                    <div>✅ 14 Total</div>
-                </div>
-                <div class="comparison-row">
-                    <div>Daily Quests</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>✅ 3 Random</div>
-                    <div>✅ 8 Pool</div>
-                    <div>✅ 8 Pool</div>
-                </div>
-                <div class="comparison-row">
-                    <div>Weekly Quests</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>✅ 8 Pool</div>
-                    <div>✅ 8 Pool</div>
-                </div>
-                <div class="comparison-row">
-                    <div>Personal Boosters</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>✅ 2x-10x</div>
-                    <div>✅ 2x-10x</div>
-                    <div>✅ 2x-10x</div>
-                </div>
-                <div class="comparison-row">
-                    <div>Collectible Badges</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>✅ 6 Types</div>
-                    <div>✅ 6 Types</div>
-                    <div>✅ 6 Types</div>
-                </div>
-                <div class="comparison-row">
-                    <div>P2P Transfers</div>
-                    <div>❌ None</div>
-                    <div>❌ Basic</div>
-                    <div>✅ w/ History</div>
-                    <div>✅ w/ History</div>
-                    <div>✅ w/ History</div>
-                </div>
-                <div class="comparison-row">
-                    <div>Daily Streak</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>✅ Basic</div>
-                    <div>✅ Basic</div>
-                    <div>✅ Basic</div>
-                </div>
-                <div class="comparison-row">
-                    <div>Gift System</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>✅ 50 MC/post</div>
-                    <div>✅ 50 MC/post</div>
-                    <div>✅ 50 MC/post</div>
-                </div>
-                <div class="comparison-row">
-                    <div>Daily Login Rewards</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>✅ Milestone</div>
-                    <div>✅ Milestone</div>
-                </div>
-                <div class="comparison-row">
-                    <div>Lucky Wheel</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>✅ Daily Spin</div>
-                    <div>✅ Daily Spin</div>
-                </div>
-                <div class="comparison-row">
-                    <div>Activity Logs</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>✅ Basic</div>
-                    <div>✅ Detailed</div>
-                </div>
-                <div class="comparison-row">
-                    <div>Privacy Settings</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>✅ Profile-wide</div>
-                    <div>✅ Section-level</div>
-                </div>
-                <div class="comparison-row">
-                    <div>Shop Discounts</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>✅ Category Sales</div>
-                    <div>✅ Category Sales</div>
-                </div>
-                <div class="comparison-row">
-                    <div>AI Bot Detection</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>✅ Basic</div>
-                    <div>✅ Advanced</div>
-                </div>
-                <div class="comparison-row">
-                    <div>Subreddit Whitelist</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>✅ 3 Subs</div>
-                    <div>✅ 3 Subs</div>
-                </div>
-                <div class="comparison-row">
-                    <div>Test Commands</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>✅ !trigger</div>
-                    <div>✅ !trigger</div>
-                </div>
-                <div class="comparison-row">
-                    <div>Discord Webhooks</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>❌ None</div>
-                    <div>✅ AI Alerts</div>
-                </div>
-                <div class="comparison-row">
-                    <div>Code Lines</div>
-                    <div>~600</div>
-                    <div>~1800</div>
-                    <div>~2500</div>
-                    <div>~3000</div>
-                    <div>~500 main</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Version Highlights -->
-        <section class="section">
-            <h2 class="section-title">Version Highlights</h2>
-            <div class="features-grid">
-                <div class="feature-card" style="border-color: rgba(50, 150, 255, 0.5);">
-                    <span class="feature-icon">🎯</span>
-                    <h3 style="color: #3296FF;">V1 - Foundation</h3>
-                    <p>
-                        <strong>Basic Economy Launch:</strong> 10 flair tiers, simple post/comment rewards, 
-                        daily bonus system, basic leaderboard, and 4-section admin panel. The beginning 
-                        of the MemeCoin ecosystem (~600 lines).
-                    </p>
-                </div>
-
-                <div class="feature-card" style="border-color: rgba(100, 100, 255, 0.5);">
-                    <span class="feature-icon">📈</span>
-                    <h3 style="color: #6464FF;">V2 - Growth</h3>
-                    <p>
-                        <strong>Economy Expansion:</strong> Reduced to 8 optimized flair tiers, 
-                        refined balance mechanics, improved admin controls. Focus on stability 
-                        and user experience (~1800 lines).
-                    </p>
-                </div>
-
-                <div class="feature-card" style="border-color: rgba(150, 100, 255, 0.5);">
-                    <span class="feature-icon">🎮</span>
-                    <h3 style="color: #9664FF;">V3 - Gamification</h3>
-                    <p>
-                        <strong>Major Feature Drop:</strong> Added 14 achievements (4 rarity tiers), 
-                        3 daily quests, personal boosters (2x-10x), 6 collectible badges, enhanced P2P 
-                        transfers with history, daily streaks, gift command, and expanded to 10 flair 
-                        tiers (~2500 lines).
-                    </p>
-                </div>
-
-                <div class="feature-card" style="border-color: rgba(255, 100, 150, 0.5);">
+                <div class="feature-card fade-in">
                     <span class="feature-icon">🎰</span>
-                    <h3 style="color: #FF6496;">V4 - Advanced Economy</h3>
-                    <p>
-                        <strong>Economy & Security Overhaul:</strong> Milestone-based daily login rewards, 
-                        lucky wheel gambling (free daily + paid spins), comprehensive activity logs, 
-                        granular privacy settings, shop discount system, AI behavior profiling, 
-                        subreddit whitelist (3 authorized subs), 12 flair tiers, and 10-section 
-                        admin panel (~3000 lines).
+                    <h3 class="feature-title">Lucky Wheel<span class="new-tag">V4</span></h3>
+                    <p class="feature-desc">
+                        Daily gambling with 6 prize tiers. 2% chance at 1000 MC jackpot!
                     </p>
                 </div>
-
-                <div class="feature-card architecture-highlight">
+                <div class="feature-card fade-in">
+                    <span class="feature-icon">🏅</span>
+                    <h3 class="feature-title">Achievements<span class="new-tag">V3</span></h3>
+                    <p class="feature-desc">
+                        14 auto-unlocking achievements across 4 rarity tiers.
+                    </p>
+                </div>
+                <div class="feature-card fade-in">
+                    <span class="feature-icon">📜</span>
+                    <h3 class="feature-title">Quest System<span class="new-tag">V3</span></h3>
+                    <p class="feature-desc">
+                        8 daily + 8 weekly quests for bonus rewards beyond normal earnings.
+                    </p>
+                </div>
+                <div class="feature-card fade-in">
                     <span class="feature-icon">⚡</span>
-                    <h3>V4.5 - Architecture Revolution</h3>
-                    <p>
-                        <strong>Modular Transformation:</strong> Broke down 3000+ line monolith into 
-                        organized constants/, utils/, and components/ folders. Added Discord webhook 
-                        alerts for AI monitoring, test commands (!trigger, !test_help), dramatically 
-                        improved maintainability. Main file reduced to ~500 lines with zero feature 
-                        changes - pure architectural upgrade.
+                    <h3 class="feature-title">Boosters<span class="new-tag">V3</span></h3>
+                    <p class="feature-desc">
+                        Personal multipliers from 2x to 10x. Stack with global events!
                     </p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Footer -->
-        <footer>
-            <div class="logo" style="font-size: 48px; margin-bottom: 30px">💰 MemeCoin V4.5</div>
-            <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 30px; font-size: 18px">
-                The most advanced Reddit economy system with AI-powered security
-            </p>
-            <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 40px">
-                <a href="https://reddit.com/r/MemeExchangeCommunism" class="btn btn-primary">Main Subreddit</a>
-                <a href="interactive-v4.html" class="btn btn-secondary">Try Demo</a>
-                <a href="#features" class="btn btn-secondary">Documentation</a>
+    <!-- Timeline Section -->
+    <section id="timeline">
+        <div class="container">
+            <h2 class="section-title">Evolution Timeline</h2>
+            <div class="timeline">
+                <div class="timeline-item fade-in">
+                    <div>
+                        <div class="timeline-version">V1</div>
+                        <div class="timeline-date">2024 - Foundation</div>
+                        <div class="timeline-desc">
+                            10 flair tiers, basic rewards, simple daily bonus. The birth of MemeCoin (~600 lines).
+                        </div>
+                    </div>
+                    <div class="timeline-visual">🎯</div>
+                </div>
+
+                <div class="timeline-item fade-in">
+                    <div>
+                        <div class="timeline-version">V2</div>
+                        <div class="timeline-date">November 2024 - Security</div>
+                        <div class="timeline-desc">
+                            Fixed bugs, unlimited leaderboard, P2P transfers, Project Obsidian anti-cheat (~1800 lines).
+                        </div>
+                    </div>
+                    <div class="timeline-visual">🛡️</div>
+                </div>
+
+                <div class="timeline-item fade-in">
+                    <div>
+                        <div class="timeline-version">V3</div>
+                        <div class="timeline-date">December 2024 - Gamification</div>
+                        <div class="timeline-desc">
+                            14 achievements, quests, boosters, badges. Full progression system (~2500 lines).
+                        </div>
+                    </div>
+                    <div class="timeline-visual">🎮</div>
+                </div>
+
+                <div class="timeline-item fade-in">
+                    <div>
+                        <div class="timeline-version">V4</div>
+                        <div class="timeline-date">November 2025 - Advanced</div>
+                        <div class="timeline-desc">
+                            Lucky wheel, login rewards, activity logs, privacy controls (~3000 lines).
+                        </div>
+                    </div>
+                    <div class="timeline-visual">🎰</div>
+                </div>
+
+                <div class="timeline-item fade-in">
+                    <div>
+                        <div class="timeline-version">V4.5</div>
+                        <div class="timeline-date">January 2026 - Modular</div>
+                        <div class="timeline-desc">
+                            Broke monolith into organized modules. Discord webhooks (~500 main lines).
+                        </div>
+                    </div>
+                    <div class="timeline-visual">⚡</div>
+                </div>
             </div>
-            <p style="margin-top: 60px; color: rgba(255, 255, 255, 0.5); font-size: 14px">
-                V4.5.0 • Built with Reddit Devvit • r/MemeExchangeCommunism
-            </p>
-        </footer>
-    </div>
+        </div>
+    </section>
+
+    <!-- Comparison Section -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">Version Comparison</h2>
+            <div class="table-wrapper fade-in">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>V1</th>
+                            <th>V2</th>
+                            <th>V3</th>
+                            <th>V4</th>
+                            <th>V4.5</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Release</strong></td>
+                            <td>2024</td>
+                            <td>Nov '24</td>
+                            <td>Dec '24</td>
+                            <td>Nov '25</td>
+                            <td>Jan '26</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Architecture</strong></td>
+                            <td>Monolith</td>
+                            <td>Monolith</td>
+                            <td>Monolith</td>
+                            <td>Monolith</td>
+                            <td>✅ Modular</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Code Lines</strong></td>
+                            <td>~600</td>
+                            <td>~1800</td>
+                            <td>~2500</td>
+                            <td>~3000</td>
+                            <td>~500 main</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Achievements</strong></td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>✅ 14</td>
+                            <td>✅ 14</td>
+                            <td>✅ 14</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Quests</strong></td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>✅ 3</td>
+                            <td>✅ 16</td>
+                            <td>✅ 16</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lucky Wheel</strong></td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>✅</td>
+                            <td>✅</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AI Detection</strong></td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>✅ Basic</td>
+                            <td>✅ Advanced</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Discord Webhooks</strong></td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>✅</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">💰</div>
+        <h2 class="footer-title">MemeCoin V4.5</h2>
+        <p style="color: rgba(255, 255, 255, 0.6); max-width: 600px; margin: 0 auto 40px; font-size: 18px;">
+            The most advanced Reddit economy with AI security and modular architecture.
+        </p>
+        <div class="cta-buttons">
+            <a href="https://reddit.com/r/MemeExchangeCommunism" class="btn btn-primary">Join r/MemeExchangeCommunism</a>
+        </div>
+        <p style="color: rgba(255, 255, 255, 0.4); margin-top: 40px; font-size: 14px;">
+            V4.5.0 • Built with Reddit Devvit • Created with ❤️
+        </p>
+    </footer>
 
     <script>
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Navbar scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
         // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                const href = this.getAttribute('href');
-                if (href === '#') return;
                 e.preventDefault();
-                const target = document.querySelector(href);
+                const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    target.scrollIntoView({ behavior: 'smooth' });
                 }
             });
         });
 
-        // Navbar scroll effect
-        const nav = document.querySelector('nav');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                nav.style.padding = '15px 50px';
-                nav.style.boxShadow = '0 5px 40px rgba(255, 107, 0, 0.4)';
-            } else {
-                nav.style.padding = '20px 50px';
-                nav.style.boxShadow = 'none';
-            }
-        });
-
-        // Counter animation
+        // Fade in on scroll
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    const counters = entry.target.querySelectorAll('.stat-number');
-                    counters.forEach(counter => {
-                        const text = counter.textContent;
-                        if (text === 'AI' || text === '∞') return;
-                        
-                        const target = parseInt(text);
-                        let current = 0;
-                        const increment = target / 50;
-                        const timer = setInterval(() => {
-                            current += increment;
-                            if (current >= target) {
-                                counter.textContent = target;
-                                clearInterval(timer);
-                            } else {
-                                counter.textContent = Math.floor(current);
-                            }
-                        }, 30);
-                    });
-                    observer.unobserve(entry.target);
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Counter animation
+        const animateCounter = (element) => {
+            const text = element.textContent.trim();
+            if (text === 'AI') return;
+            
+            const target = parseInt(text);
+            if (isNaN(target)) return;
+            
+            let current = 0;
+            const increment = target / 50;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 30);
+        };
+
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const number = entry.target.querySelector('.stat-number');
+                    if (number) animateCounter(number);
+                    statObserver.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.5 });
 
-        const statsSection = document.querySelector('#stats');
-        if (statsSection) observer.observe(statsSection);
+        document.querySelectorAll('.stat-card').forEach(card => {
+            statObserver.observe(card);
+        });
+
+        // Parallax effect
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const mesh = document.querySelector('.mesh-gradient');
+            mesh.style.transform = `translate(${scrolled * 0.05}px, ${scrolled * 0.08}px)`;
+        });
+
+        // 3D tilt on cards
+        document.querySelectorAll('.feature-card, .stat-card, .timeline-visual').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 20;
+                const rotateY = (centerX - x) / 20;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+
+        // Magnetic button effect
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+            });
+            
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = '';
+            });
+        });
+
+        // Add stagger delay to cards
+        document.querySelectorAll('.feature-card').forEach((card, index) => {
+            card.style.transitionDelay = `${index * 0.1}s`;
+        });
+
+        document.querySelectorAll('.timeline-item').forEach((item, index) => {
+            item.style.transitionDelay = `${index * 0.15}s`;
+        });
     </script>
 </body>
 </html>
