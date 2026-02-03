@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MemeCoin V5.0 - Project Nexus Announcement</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 107, 0, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+                #000;
+        }
+
+        .mesh-gradient {
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 107, 0, 0.2) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(124, 58, 237, 0.2) 0%, transparent 30%);
+            animation: meshMove 20s ease-in-out infinite;
+            filter: blur(80px);
+        }
+
+        @keyframes meshMove {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(5%, 5%); }
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 25px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+            background: transparent;
+        }
+
+        nav.scrolled {
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 107, 0, 0.2);
+            padding: 20px 60px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-text {
+            background: linear-gradient(135deg, #FF6B00, #EC4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #FF6B00;
+            background: rgba(255, 107, 0, 0.1);
+        }
+
+        .hero {
+            padding: 140px 60px 40px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(40px, 7vw, 72px);
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #FF6B00, #7C3AED);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: clamp(16px, 2vw, 20px);
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .article-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 60px 100px;
+        }
+
+        .meta {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .meta span {
+            padding: 6px 14px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 107, 0, 0.25);
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .article-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+            border: 2px solid rgba(255, 107, 0, 0.2);
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
+        }
+
+        .article-card h2 {
+            font-size: clamp(30px, 4vw, 44px);
+            margin-bottom: 20px;
+            color: #FF6B00;
+        }
+
+        .article-card p {
+            font-size: 17px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+        }
+
+        .article-points {
+            list-style: none;
+            display: grid;
+            gap: 14px;
+            margin-top: 20px;
+        }
+
+        .article-points li {
+            padding: 14px 18px;
+            border-radius: 16px;
+            background: rgba(255, 107, 0, 0.08);
+            border: 1px solid rgba(255, 107, 0, 0.25);
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .cta-row {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 34px;
+            border-radius: 999px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FF6B00, #EC4899);
+            color: #fff;
+        }
+
+        .btn-secondary {
+            border: 2px solid #FF6B00;
+            color: #fff;
+        }
+
+        .btn-primary:hover,
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(255, 107, 0, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            nav, nav.scrolled { padding: 20px 30px; }
+            .nav-links { display: none; }
+            .hero { padding: 120px 30px 30px; }
+            .article-wrapper { padding: 0 30px 80px; }
+            .article-card { padding: 35px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="mesh-gradient"></div>
+
+    <nav id="navbar">
+        <a href="index.html" class="logo">
+            <span style="font-size: 32px;">💰</span>
+            <span class="logo-text">MemeCoin</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="news.html" class="active">News</a></li>
+            <li><a href="formsv5.html">Apply for V5</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <h1>Project Nexus: V5.0 Announcement</h1>
+        <p>Guilds, Properties, Jury governance, and seasonal progression arrive in the biggest MemeCoin update yet.</p>
+    </section>
+
+    <div class="article-wrapper">
+        <div class="meta">
+            <span>February 2026</span>
+            <span>Announcement</span>
+            <span>V5.0</span>
+        </div>
+        <div class="article-card">
+            <h2>A Community Economy That Scales With Trust</h2>
+            <p>
+                V5.0 is the most intentional evolution of MemeCoin yet. It shifts the economy from a simple points
+                system into a living ecosystem where collaboration, reputation, and long-term play are rewarded.
+                Project Nexus is about making the community feel like a shared world: you build together, you protect
+                together, and you grow together.
+            </p>
+            <p>
+                At the center of V5 is a fair, player-first economy. Guild treasuries encourage shared goals, while
+                property income creates steady momentum without pay-to-win shortcuts. A seasonal Battle Pass adds
+                progression with cosmetics and status, never power. And for the first time, the Community Jury gives
+                trusted users a formal voice in moderation decisions.
+            </p>
+            <p>
+                This update is also about clarity. Unified inventory, tighter UI flows, and improved activity
+                transparency make it easier to understand how you earn, spend, and influence the economy.
+                Every system connects, and every action matters.
+            </p>
+            <ul class="article-points">
+                <li><strong>Guilds:</strong> Coordinate quests, compete for seasonal ranks, and manage team treasuries.</li>
+                <li><strong>Properties:</strong> Earn passive income over time with upgrades tuned for balance.</li>
+                <li><strong>Jury System:</strong> Transparent community oversight for fairer enforcement.</li>
+                <li><strong>Battle Pass:</strong> Seasonal goals that reward engagement with cosmetics and flair.</li>
+            </ul>
+            <div class="cta-row">
+                <a href="formsv5.html" class="btn btn-primary">Apply for Beta Testing</a>
+                <a href="news.html" class="btn btn-secondary">Back to News</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 100);
+        });
+    </script>
+</body>
+</html>
