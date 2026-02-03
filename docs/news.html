@@ -1,767 +1,716 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MemeCoin News & Updates</title>
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      :root {
-        --primary: #ff6b00;
-        --secondary: #890bff;
-        --accent: #ffd700;
-        --dark: #0a0a0a;
-        --light: #ffffff;
-      }
-
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: var(--dark);
-        color: var(--light);
-        overflow-x: hidden;
-      }
-
-      .background {
-        position: fixed;
-        width: 100vw;
-        height: 100vh;
-        top: 0;
-        left: 0;
-        z-index: -1;
-        background: radial-gradient(
-            circle at 20% 50%,
-            rgba(255, 107, 0, 0.15) 0%,
-            transparent 50%
-          ),
-          radial-gradient(
-            circle at 80% 80%,
-            rgba(137, 11, 255, 0.15) 0%,
-            transparent 50%
-          ),
-          radial-gradient(
-            circle at 40% 20%,
-            rgba(255, 215, 0, 0.08) 0%,
-            transparent 50%
-          );
-      }
-
-      .floating-shapes {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        z-index: -1;
-        pointer-events: none;
-      }
-
-      .shape {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(60px);
-        animation: float 25s infinite ease-in-out;
-      }
-
-      .shape:nth-child(1) {
-        width: 400px;
-        height: 400px;
-        background: rgba(255, 107, 0, 0.25);
-        top: 10%;
-        left: 10%;
-      }
-
-      .shape:nth-child(2) {
-        width: 350px;
-        height: 350px;
-        background: rgba(137, 11, 255, 0.25);
-        top: 60%;
-        right: 10%;
-        animation-delay: 8s;
-      }
-
-      .shape:nth-child(3) {
-        width: 300px;
-        height: 300px;
-        background: rgba(255, 215, 0, 0.15);
-        bottom: 10%;
-        left: 50%;
-        animation-delay: 16s;
-      }
-
-      @keyframes float {
-        0%,
-        100% {
-          transform: translate(0, 0) scale(1) rotate(0deg);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        33% {
-          transform: translate(100px, -80px) scale(1.2) rotate(120deg);
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
         }
-        66% {
-          transform: translate(-80px, 60px) scale(0.8) rotate(240deg);
+
+        /* Background */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 107, 0, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+                #000;
         }
-      }
 
-      nav {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        padding: 20px 50px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        z-index: 1000;
-        backdrop-filter: blur(20px);
-        background: rgba(10, 10, 10, 0.85);
-        border-bottom: 1px solid rgba(255, 107, 0, 0.3);
-        transition: all 0.3s ease;
-      }
-
-      nav.scrolled {
-        padding: 15px 50px;
-        box-shadow: 0 5px 40px rgba(255, 107, 0, 0.4);
-        background: rgba(10, 10, 10, 0.95);
-      }
-
-      .logo {
-        font-size: 28px;
-        font-weight: bold;
-        background: linear-gradient(
-          135deg,
-          #ff6b00 0%,
-          #ff0844 50%,
-          #ffd700 100%
-        );
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        animation: shimmer 4s infinite;
-        cursor: pointer;
-        text-decoration: none;
-      }
-
-      @keyframes shimmer {
-        0%,
-        100% {
-          filter: brightness(1) hue-rotate(0deg);
+        .mesh-gradient {
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 107, 0, 0.2) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(124, 58, 237, 0.2) 0%, transparent 30%);
+            animation: meshMove 20s ease-in-out infinite;
+            filter: blur(80px);
         }
-        50% {
-          filter: brightness(1.4) hue-rotate(10deg);
+
+        @keyframes meshMove {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(5%, 5%); }
         }
-      }
 
-      .nav-links {
-        display: flex;
-        gap: 35px;
-        list-style: none;
-      }
-
-      .nav-links a {
-        color: var(--light);
-        text-decoration: none;
-        font-weight: 500;
-        position: relative;
-        transition: all 0.3s ease;
-        padding: 8px 12px;
-      }
-
-      .nav-links a.active {
-        color: var(--primary);
-      }
-
-      .nav-links a::before {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        width: 0;
-        height: 2px;
-        background: linear-gradient(90deg, var(--primary), var(--accent));
-        transition: all 0.3s ease;
-        transform: translateX(-50%);
-      }
-
-      .nav-links a:hover,
-      .nav-links a.active {
-        color: var(--primary);
-        transform: translateY(-2px);
-      }
-
-      .nav-links a:hover::before,
-      .nav-links a.active::before {
-        width: 100%;
-      }
-
-      .news-hero {
-        padding: 140px 50px 80px;
-        text-align: center;
-        animation: fadeInUp 1s ease;
-      }
-
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(40px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .version-badge {
-        display: inline-block;
-        padding: 10px 28px;
-        background: linear-gradient(135deg, #890bff 0%, #00c9ff 100%);
-        border-radius: 50px;
-        font-weight: bold;
-        margin-bottom: 25px;
-        animation: pulse 3s infinite;
-        box-shadow: 0 0 30px rgba(137, 11, 255, 0.5);
-        font-size: 15px;
-      }
-
-      @keyframes pulse {
-        0%,
-        100% {
-          transform: scale(1);
-          box-shadow: 0 0 30px rgba(137, 11, 255, 0.5);
-        }
-        50% {
-          transform: scale(1.08);
-          box-shadow: 0 0 50px rgba(137, 11, 255, 0.8);
-        }
-      }
-
-      .section-title {
-        font-size: 56px;
-        margin-bottom: 20px;
-        background: linear-gradient(135deg, #890bff 0%, #00c9ff 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-      }
-
-      .subtitle {
-        font-size: 20px;
-        color: rgba(255, 255, 255, 0.7);
-        max-width: 700px;
-        margin: 0 auto;
-      }
-
-      .news-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 60px 50px 120px;
-      }
-
-      .news-grid {
-        display: grid;
-        gap: 35px;
-      }
-
-      .news-card {
-        background: rgba(255, 255, 255, 0.06);
-        padding: 40px;
-        border-radius: 25px;
-        border: 1px solid rgba(255, 107, 0, 0.25);
-        backdrop-filter: blur(15px);
-        transition: all 0.4s ease;
-        opacity: 0;
-        transform: translateY(30px);
-        animation: slideInUp 0.6s ease forwards;
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-        text-decoration: none;
-        color: var(--light);
-        display: block;
-      }
-
-      .news-card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 107, 0, 0.1),
-          transparent
-        );
-        transition: left 0.6s ease;
-      }
-
-      .news-card:hover::before {
-        left: 100%;
-      }
-
-      .news-card:nth-child(1) {
-        animation-delay: 0.1s;
-      }
-      .news-card:nth-child(2) {
-        animation-delay: 0.2s;
-      }
-      .news-card:nth-child(3) {
-        animation-delay: 0.3s;
-      }
-      .news-card:nth-child(4) {
-        animation-delay: 0.4s;
-      }
-      .news-card:nth-child(5) {
-        animation-delay: 0.5s;
-      }
-
-      @keyframes slideInUp {
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .news-card:hover {
-        transform: translateY(-10px) scale(1.02);
-        border-color: var(--primary);
-        box-shadow: 0 25px 60px rgba(255, 107, 0, 0.4);
-        background: rgba(255, 255, 255, 0.1);
-      }
-
-      .news-header-content {
-        display: flex;
-        align-items: flex-start;
-        gap: 25px;
-        margin-bottom: 20px;
-      }
-
-      .news-icon {
-        font-size: 48px;
-        flex-shrink: 0;
-        animation: bounce 3s infinite;
-      }
-
-      @keyframes bounce {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-10px);
-        }
-      }
-
-      .news-card:hover .news-icon {
-        animation: spin 0.6s ease;
-      }
-
-      @keyframes spin {
-        from {
-          transform: rotate(0deg) scale(1);
-        }
-        to {
-          transform: rotate(360deg) scale(1.2);
-        }
-      }
-
-      .news-text {
-        flex: 1;
-      }
-
-      .news-card h2 {
-        font-size: 28px;
-        color: var(--primary);
-        margin-bottom: 12px;
-        line-height: 1.3;
-      }
-
-      .news-card p {
-        color: rgba(255, 255, 255, 0.75);
-        line-height: 1.7;
-        font-size: 17px;
-        margin-bottom: 20px;
-      }
-
-      .news-meta {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 15px;
-      }
-
-      .date {
-        font-size: 14px;
-        color: rgba(255, 255, 255, 0.5);
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .date::before {
-        content: "📅";
-      }
-
-      .category-badge {
-        display: inline-block;
-        padding: 6px 16px;
-        background: linear-gradient(135deg, var(--primary), var(--accent));
-        border-radius: 20px;
-        font-size: 13px;
-        font-weight: bold;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
-
-      .read-more {
-        color: var(--accent);
-        text-decoration: none;
-        font-weight: bold;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        transition: all 0.3s ease;
-      }
-
-      .read-more::after {
-        content: "→";
-        transition: transform 0.3s ease;
-      }
-
-      .news-card:hover .read-more {
-        color: var(--primary);
-        transform: translateX(5px);
-      }
-
-      .news-card:hover .read-more::after {
-        transform: translateX(5px);
-      }
-
-      .featured-card {
-        background: linear-gradient(
-          135deg,
-          rgba(255, 107, 0, 0.15) 0%,
-          rgba(137, 11, 255, 0.15) 100%
-        );
-        border: 2px solid var(--primary);
-        box-shadow: 0 15px 40px rgba(255, 107, 0, 0.3);
-      }
-
-      .featured-badge {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        background: linear-gradient(135deg, #ffd700, #ff6b00);
-        padding: 8px 16px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: bold;
-        text-transform: uppercase;
-        animation: pulse 2s infinite;
-      }
-
-      footer {
-        padding: 60px 50px;
-        text-align: center;
-        background: rgba(10, 10, 10, 0.95);
-        border-top: 1px solid rgba(255, 107, 0, 0.3);
-      }
-
-      .social-links {
-        display: flex;
-        justify-content: center;
-        gap: 25px;
-        margin: 35px 0;
-      }
-
-      .social-links a {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #ff6b00 0%, #ff0844 100%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        font-size: 28px;
-        transition: all 0.4s ease;
-      }
-
-      .social-links a:hover {
-        transform: translateY(-8px) rotate(360deg);
-        box-shadow: 0 15px 40px rgba(255, 107, 0, 0.6);
-      }
-
-      @media (max-width: 768px) {
-        .section-title {
-          font-size: 36px;
-        }
-        .nav-links {
-          display: none;
-        }
+        /* Navigation */
         nav {
-          padding: 15px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 25px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+            background: transparent;
         }
-        .news-hero {
-          padding: 120px 20px 60px;
+
+        nav.scrolled {
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 107, 0, 0.2);
+            padding: 20px 60px;
         }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-text {
+            background: linear-gradient(135deg, #FF6B00, #EC4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #FF6B00;
+            background: rgba(255, 107, 0, 0.1);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 140px 60px 80px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(40px, 8vw, 80px);
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #FF6B00, #7C3AED);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: clamp(16px, 2vw, 20px);
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            max-width: 1400px;
+            margin: 0 auto 60px;
+            padding: 0 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 107, 0, 0.2);
+            border-radius: 25px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: linear-gradient(135deg, #FF6B00, #EC4899);
+            border-color: transparent;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 107, 0, 0.2);
+            border-radius: 25px;
+            padding: 10px 20px;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .search-box:focus-within {
+            border-color: #FF6B00;
+            box-shadow: 0 0 20px rgba(255, 107, 0, 0.3);
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 14px;
+            width: 200px;
+        }
+
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* News Grid */
         .news-container {
-          padding: 40px 20px 80px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 60px 100px;
         }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 30px;
+        }
+
+        /* Featured Article (Large) */
+        .featured-article {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(255, 107, 0, 0.1), rgba(124, 58, 237, 0.1));
+            border: 2px solid rgba(255, 107, 0, 0.5);
+            border-radius: 30px;
+            padding: 50px;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-article::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 0, 0.1), transparent);
+            transition: left 0.6s;
+        }
+
+        .featured-article:hover::before {
+            left: 100%;
+        }
+
+        .featured-article:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 80px rgba(255, 107, 0, 0.4);
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #FFD700, #FF6B00);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .featured-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .featured-icon {
+            font-size: 120px;
+            text-align: center;
+        }
+
+        .featured-text h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #FF6B00, #EC4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .featured-text p {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        .featured-meta {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* Regular News Cards */
         .news-card {
-          padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 107, 0, 0.2);
+            border-radius: 25px;
+            padding: 35px;
+            transition: all 0.4s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
-        .news-header-content {
-          flex-direction: column;
+
+        .news-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 0, 0.1), transparent);
+            transition: left 0.6s;
         }
-        .news-icon {
-          font-size: 40px;
+
+        .news-card:hover::before {
+            left: 100%;
         }
-      }
+
+        .news-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 107, 0, 0.8);
+            box-shadow: 0 20px 60px rgba(255, 107, 0, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .card-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .news-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #FF6B00;
+            line-height: 1.3;
+        }
+
+        .news-card p {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .date {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .category-tag {
+            padding: 6px 14px;
+            background: linear-gradient(135deg, #7C3AED, #EC4899);
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .read-more {
+            color: #FFD700;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .read-more::after {
+            content: '→';
+            transition: transform 0.3s;
+        }
+
+        .news-card:hover .read-more::after {
+            transform: translateX(5px);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 60px;
+        }
+
+        .page-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 107, 0, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page-btn:hover,
+        .page-btn.active {
+            background: linear-gradient(135deg, #FF6B00, #EC4899);
+            border-color: transparent;
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        /* Footer */
+        footer {
+            padding: 80px 60px;
+            text-align: center;
+            background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.9));
+            border-top: 2px solid rgba(255, 107, 0, 0.3);
+        }
+
+        .footer-logo {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .footer-title {
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #FF6B00, #7C3AED);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @media (max-width: 1024px) {
+            .featured-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .news-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav, nav.scrolled { padding: 20px 30px; }
+            .nav-links { display: none; }
+            .hero { padding: 120px 30px 60px; }
+            .filter-bar { padding: 0 30px; }
+            .news-container { padding: 0 30px 80px; }
+            .news-grid { grid-template-columns: 1fr; }
+            .featured-article { padding: 35px; }
+            .featured-text h2 { font-size: 32px; }
+            .filter-bar { justify-content: center; }
+            .search-box { width: 100%; }
+            .search-box input { width: 100%; }
+        }
+
+        /* Fade in animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in:nth-child(1) { animation-delay: 0.1s; }
+        .fade-in:nth-child(2) { animation-delay: 0.2s; }
+        .fade-in:nth-child(3) { animation-delay: 0.3s; }
+        .fade-in:nth-child(4) { animation-delay: 0.4s; }
+        .fade-in:nth-child(5) { animation-delay: 0.5s; }
+        .fade-in:nth-child(6) { animation-delay: 0.6s; }
     </style>
-  </head>
-  <body>
-    <div class="background"></div>
-    <div class="floating-shapes">
-      <div class="shape"></div>
-      <div class="shape"></div>
-      <div class="shape"></div>
-    </div>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="mesh-gradient"></div>
 
     <nav id="navbar">
-      <a href="index.html" class="logo">💰 MemeCoin</a>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="index.html#features">Features</a></li>
-        <li><a href="index.html#stats">Stats</a></li>
-        <li><a href="index.html#comparison">Comparison</a></li>
-        <li><a href="news.html" class="active">News</a></li>
-      </ul>
+        <a href="index.html" class="logo">
+            <span style="font-size: 32px;">💰</span>
+            <span class="logo-text">MemeCoin</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#stats">Stats</a></li>
+            <li><a href="index.html#features">Features</a></li>
+            <li><a href="news.html" class="active">News</a></li>
+        </ul>
     </nav>
 
+    <section class="hero">
+        <h1>News & Updates</h1>
+        <p>Stay updated with the latest MemeCoin developments, features, and announcements</p>
+    </section>
+
+    <div class="filter-bar">
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All Posts</button>
+            <button class="filter-btn" data-filter="announcement">📢 Announcements</button>
+            <button class="filter-btn" data-filter="feature">✨ Features</button>
+            <button class="filter-btn" data-filter="security">🛡️ Security</button>
+            <button class="filter-btn" data-filter="technical">⚙️ Technical</button>
+        </div>
+        <div class="search-box">
+            <span>🔍</span>
+            <input type="text" id="searchInput" placeholder="Search articles...">
+        </div>
+    </div>
 
     <div class="news-container">
-      <div class="news-grid">
-        <!-- Featured Article - V2 Launch -->
-        <a href="news/v4ann.html" class="featured-card news-card">
-          <div class="news-header-content">
-            <span class="news-icon">📣</span>
-            <div class="news-text">
-              <h2>V4 Launch Announcement</h2>
-            </div>
-          </div>
-          <p>
-            We're thrilled to announce the upcoming launch of MemeCoin V4 on
-            December 27th, 2025! This major update brings exciting new features,
-            enhanced security, and a revamped user experience. Get ready for a
-            whole new level of MemeCoin fun!
-          </p>
-          <div class="news-meta">
-            <span class="date">27 December, 2025</span>
-            <span class="featured-badge">📢 Announcement</span>
-            <span class="read-more">Read Full Article</span>
-          </div>
-        </a>
+        <div class="news-grid" id="newsGrid">
+            <!-- Featured Article -->
+            <article class="featured-article fade-in" data-category="announcement">
+                <span class="featured-badge">⭐ Featured</span>
+                <div class="featured-content">
+                    <div class="featured-icon">🚀</div>
+                    <div class="featured-text">
+                        <h2>MemeCoin V4.5 - Modular Architecture Revolution</h2>
+                        <p>
+                            We've completely restructured the codebase from a 3000+ line monolith into 
+                            organized constants/, utils/, and components/ folders. This architectural 
+                            transformation brings Discord webhook alerts for AI monitoring, test commands, 
+                            and dramatically improved maintainability—all while keeping every feature intact.
+                        </p>
+                        <div class="featured-meta">
+                            <span class="date">📅 January 2026</span>
+                            <span class="category-tag">Announcement</span>
+                            <a href="#" class="read-more">Read Full Article</a>
+                        </div>
+                    </div>
+                </div>
+            </article>
 
-        <a href="news/v3-ann.html" class="news-card">
-          <div class="news-header-content">
-            <span class="news-icon">📣</span>
-            <div class="news-text">
-              <h2>V3 Launch Announcement</h2>
-            </div>
-          </div>
-          <p>
-            New features and improvements are coming with the V3 launch! Stay
-            tuned for more details.
-          </p>
-          <div class="news-meta">
-            <span class="date">November 1, 2025</span>
-            <span class="featured-badge">📢 Announcement</span>
-            <span class="read-more">Read Full Article</span>
-          </div>
-        </a>
-        <a href="news/newftip.html" class="news-card">
-          <span class="category-badge">Feature</span>
-          <div class="news-header-content">
-            <span class="news-icon">🚀</span>
-            <div class="news-text">
-              <h2>Introducing the /gift Feature — Send MemeCoins to Posts</h2>
-            </div>
-          </div>
-          <p>
-            We're excited to launch the /gift feature, allowing users to send
-            MemeCoins directly to Reddit posts! Spread the love and reward great
-            content in the community with this easy-to-use command in the
-            comments
-          </p>
-          <div class="news-meta">
-            <span class="date">November 10, 2025</span>
-            <span class="category-badge">Feature</span>
-            <span class="read-more">Read Full Article</span>
-          </div>
-        </a>
-        <a href="news/v2-launch.html" class="news-card">
-          <span class="category-badge">📢 Announcement</span>
-          <div class="news-header-content">
-            <span class="news-icon">🚀</span>
-            <div class="news-text">
-              <h2>MemeCoin V2 Arrives – November 5th</h2>
-            </div>
-          </div>
-          <p>
-            The wait is almost over! V2 launches with a complete overhaul
-            including the full flair system, daily bonus mechanics,
-            comprehensive transfer system, and multi-layer anti-cheat
-            protection. This is the biggest update yet, bringing
-            professional-grade features to the community.
-          </p>
-          <div class="news-meta">
-            <span class="date">October 30, 2025</span>
-            <span class="category-badge">🎉 Launch</span>
-            <span class="read-more">Read Full Article</span>
-          </div>
-        </a>
-        <!-- Leaderboard Wipe Article -->
-        <a href="news/leaderboardreset.html" class="news-card">
-          <div class="news-header-content">
-            <span class="news-icon">📊</span>
-            <div class="news-text">
-              <h2>Leaderboard Wipe Incoming</h2>
-            </div>
-          </div>
-          <p>
-            To ensure a fair playing field for all users, we're performing a
-            complete leaderboard reset. All test data from V1 will be cleared,
-            giving everyone an equal opportunity to climb the ranks in V2. No
-            funny business – just pure competition!
-          </p>
-          <div class="news-meta">
-            <span class="date">October 30, 2025</span>
-            <span class="category-badge">📢 Announcement</span>
-            <span class="read-more">Read Full Article</span>
-          </div>
-        </a>
+            <!-- Regular News Cards -->
+            <article class="news-card fade-in" data-category="announcement">
+                <span class="card-icon">🎰</span>
+                <h3>V4 Launch - Advanced Economy Update</h3>
+                <p>
+                    Major update brings lucky wheel gambling, milestone login rewards, 
+                    activity logs, and comprehensive privacy controls. The economy just got serious!
+                </p>
+                <div class="card-meta">
+                    <span class="date">📅 December 2025</span>
+                    <span class="category-tag">Launch</span>
+                </div>
+                <a href="#" class="read-more">Read More</a>
+            </article>
 
-        <!-- Maintenance Window Article -->
-        <a href="news/maintenance.html" class="news-card">
-          <div class="news-header-content">
-            <span class="news-icon">🛠️</span>
-            <div class="news-text">
-              <h2>Scheduled Maintenance Window</h2>
-            </div>
-          </div>
-          <p>
-            A brief maintenance period is scheduled before the V2 launch for
-            database synchronization and final system checks. Expected downtime:
-            5-10 minutes. All services will be back online shortly with enhanced
-            performance and new features.
-          </p>
-          <div class="news-meta">
-            <span class="date">October 29, 2025</span>
-            <span class="category-badge">⚙️ Technical</span>
-            <span class="read-more">Read Full Article</span>
-          </div>
-        </a>
+            <article class="news-card fade-in" data-category="feature">
+                <span class="card-icon">🏅</span>
+                <h3>V3 Gamification System Launched</h3>
+                <p>
+                    14 achievements, daily quests, personal boosters, and collectible badges 
+                    transform MemeCoin into a full progression system.
+                </p>
+                <div class="card-meta">
+                    <span class="date">📅 Late November 2025</span>
+                    <span class="category-tag">Feature</span>
+                </div>
+                <a href="#" class="read-more">Read More</a>
+            </article>
 
-        <!-- Daily Bonuses Article -->
-        <a href="news/daily-bonuses.html" class="news-card">
-          <div class="news-header-content">
-            <span class="news-icon">🎁</span>
-            <div class="news-text">
-              <h2>Introducing Daily Bonuses</h2>
-            </div>
-          </div>
-          <p>
-            V2 brings the most requested feature: Daily Bonuses! Claim 50
-            MemeCoin every 24 hours with our automatic cooldown system.
-            Real-time countdown timers prevent abuse while rewarding consistent
-            engagement. Never miss a day!
-          </p>
-          <div class="news-meta">
-            <span class="date">October 28, 2025</span>
-            <span class="category-badge">✨ Feature</span>
-            <span class="read-more">Read Full Article</span>
-          </div>
-        </a>
+            <article class="news-card fade-in" data-category="security">
+                <span class="card-icon">🛡️</span>
+                <h3>Project Obsidian Anti-Cheat</h3>
+                <p>
+                    Multi-layer security system with deletion penalties, transfer safeguards, 
+                    and real-time monitoring keeps the economy fair for everyone.
+                </p>
+                <div class="card-meta">
+                    <span class="date">📅 Early November 2025</span>
+                    <span class="category-tag">Security</span>
+                </div>
+                <a href="#" class="read-more">Read More</a>
+            </article>
 
-        <!-- Anti-Cheat Article -->
-        <a href="news/anti-cheat.html" class="news-card">
-          <div class="news-header-content">
-            <span class="news-icon">🔒</span>
-            <div class="news-text">
-              <h2>Multi-Layer Anti-Cheat System</h2>
-            </div>
-          </div>
-          <p>
-            Security is our priority. V2 introduces a comprehensive anti-cheat
-            system with multiple verification layers, automated monitoring, and
-            real-time fraud detection. The economy stays balanced and fair for
-            all legitimate users.
-          </p>
-          <div class="news-meta">
-            <span class="date">October 27, 2025</span>
-            <span class="category-badge">🛡️ Security</span>
-            <span class="read-more">Read Full Article</span>
-          </div>
-        </a>
-      </div>
+            <article class="news-card fade-in" data-category="feature">
+                <span class="card-icon">💸</span>
+                <h3>P2P Transfer System Live</h3>
+                <p>
+                    Send MemeCoin directly to other users with gift messages, preset amounts, 
+                    and full transfer history tracking. Community economy enabled!
+                </p>
+                <div class="card-meta">
+                    <span class="date">📅 Early November 2025</span>
+                    <span class="category-tag">Feature</span>
+                </div>
+                <a href="#" class="read-more">Read More</a>
+            </article>
+
+            <article class="news-card fade-in" data-category="technical">
+                <span class="card-icon">⚙️</span>
+                <h3>Flair Template ID Bug Fixed</h3>
+                <p>
+                    Critical fix resolves V1's biggest issue—mismatched flair template IDs. 
+                    All 10 tiers now purchasable with instant redemption!
+                </p>
+                <div class="card-meta">
+                    <span class="date">📅 November 2025</span>
+                    <span class="category-tag">Technical</span>
+                </div>
+                <a href="#" class="read-more">Read More</a>
+            </article>
+
+            <article class="news-card fade-in" data-category="announcement">
+                <span class="card-icon">🎯</span>
+                <h3>MemeCoin V1 Launch</h3>
+                <p>
+                    The journey begins! 10 flair tiers, basic rewards system, and simple daily bonus. 
+                    The foundation of the MemeCoin economy is live.
+                </p>
+                <div class="card-meta">
+                    <span class="date">📅 October 2025</span>
+                    <span class="category-tag">Launch</span>
+                </div>
+                <a href="#" class="read-more">Read More</a>
+            </article>
+        </div>
+
+        <div class="pagination">
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <button class="page-btn">→</button>
+        </div>
     </div>
 
     <footer>
-      <div class="logo" style="font-size: 36px; margin-bottom: 25px">
-        💰 MemeCoin Dashboard
-      </div>
-      <p
-        style="
-          color: rgba(255, 255, 255, 0.65);
-          margin-bottom: 25px;
-          font-size: 17px;
-        "
-      >
-        Built exclusively for r/MemeExchangeCommunism
-      </p>
-      <div class="social-links">
-        <a href="https://reddit.com/r/MemeExchangeCommunism">🚩</a>
-        <a href="#">💬</a>
-        <a href="#">📊</a>
-      </div>
-      <p style="color: rgba(255, 255, 255, 0.45); font-size: 15px">
-        © 2025 MemeCoin Dashboard V2.0 | The revolution will be gamified!
-      </p>
+        <div class="footer-logo">💰</div>
+        <h2 class="footer-title">MemeCoin V4.5</h2>
+        <p style="color: rgba(255, 255, 255, 0.6); max-width: 600px; margin: 0 auto 40px; font-size: 18px;">
+            Built for r/MemeExchangeCommunism
+        </p>
+        <p style="color: rgba(255, 255, 255, 0.4); font-size: 14px;">
+            V4.5.0 • Built with Reddit Devvit • Created with ❤️
+        </p>
     </footer>
 
     <script>
-      // Countdown timer
-      const countdownEl = document.getElementById("countdown");
-      function updateCountdown() {
-        const eventDate = new Date("2025-11-05T00:00:00+00:00");
-        const now = new Date();
-        const diff = eventDate - now;
+        // Navbar scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 100);
+        });
 
-        if (diff <= 0) {
-          countdownEl.textContent = "🎉 V2 Released!";
-          return;
-        }
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const newsCards = document.querySelectorAll('.news-card, .featured-article');
+        
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active button
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const filter = btn.dataset.filter;
+                
+                // Filter cards
+                newsCards.forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.style.display = '';
+                        card.style.animation = 'fadeInUp 0.6s forwards';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
 
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-        const mins = Math.floor((diff / (1000 * 60)) % 60);
-        const secs = Math.floor((diff / 1000) % 60);
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            
+            newsCards.forEach(card => {
+                const title = card.querySelector('h2, h3').textContent.toLowerCase();
+                const content = card.querySelector('p').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || content.includes(searchTerm)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
 
-        countdownEl.textContent = `V2 in ${days}d ${hours}h ${mins}m ${secs}s`;
-      }
-      updateCountdown();
-      setInterval(updateCountdown, 1000);
-
-      // Navbar scroll effect
-      const navbar = document.getElementById("navbar");
-      window.addEventListener("scroll", () => {
-        navbar.classList.toggle("scrolled", window.scrollY > 50);
-      });
+        // Pagination
+        const pageBtns = document.querySelectorAll('.page-btn');
+        pageBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                pageBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
     </script>
-  </body>
+</body>
 </html>

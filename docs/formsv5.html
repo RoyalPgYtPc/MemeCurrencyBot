@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MemeCoin V5.0 Beta Tester Application</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FF6B00;
+            --secondary: #890BFF;
+            --accent: #00FFAA;
+            --dark: #0A0E27;
+            --darker: #050814;
+            --light: #E0E0E0;
+            --glow: rgba(255, 107, 0, 0.5);
+        }
+
+        body {
+            font-family: 'Space Mono', monospace;
+            background: var(--darker);
+            color: var(--light);
+            min-height: 100vh;
+            padding: 2rem;
+            position: relative;
+        }
+
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(137, 11, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 107, 0, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(0, 255, 170, 0.1) 0%, transparent 50%);
+            animation: bgPulse 15s ease-in-out infinite;
+        }
+
+        @keyframes bgPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: 
+                linear-gradient(rgba(255, 107, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 107, 0, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-header {
+            background: linear-gradient(135deg, rgba(137, 11, 255, 0.2), rgba(255, 107, 0, 0.2));
+            border: 3px solid var(--primary);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 107, 0, 0.3) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .form-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-subtitle {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-description {
+            margin-top: 1rem;
+            color: var(--light);
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
+            line-height: 1.6;
+        }
+
+        .benefits-box {
+            background: rgba(0, 255, 170, 0.1);
+            border: 2px solid var(--accent);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .benefits-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .benefits-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.8rem;
+        }
+
+        .benefits-list li {
+            padding: 0.5rem;
+            background: rgba(0, 255, 170, 0.05);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .form-body {
+            background: linear-gradient(135deg, rgba(10, 14, 39, 0.95), rgba(5, 8, 20, 0.95));
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid rgba(255, 107, 0, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.95rem;
+            color: var(--light);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .required {
+            color: var(--primary);
+            margin-left: 0.2rem;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 107, 0, 0.3);
+            border-radius: 10px;
+            color: var(--light);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="number"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px var(--glow);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .checkbox-group,
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .checkbox-item,
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem;
+            background: rgba(255, 107, 0, 0.05);
+            border: 1px solid rgba(255, 107, 0, 0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-item:hover,
+        .radio-item:hover {
+            background: rgba(255, 107, 0, 0.1);
+            border-color: var(--primary);
+        }
+
+        input[type="checkbox"],
+        input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .help-text {
+            font-size: 0.85rem;
+            color: #999;
+            margin-top: 0.3rem;
+        }
+
+        .submit-section {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .submit-btn {
+            padding: 1rem 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px var(--glow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.5s ease, height 0.5s ease;
+        }
+
+        .submit-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px var(--glow);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .success-message,
+        .error-message {
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+
+        .success-message {
+            background: rgba(0, 255, 170, 0.2);
+            border: 2px solid var(--accent);
+            color: var(--accent);
+        }
+
+        .success-message h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .error-message {
+            background: rgba(255, 0, 0, 0.2);
+            border: 2px solid #ff0000;
+            color: #ff6666;
+        }
+
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .submit-btn.loading .spinner {
+            display: inline-block;
+        }
+
+        .submit-btn.loading span {
+            display: none;
+        }
+
+        .info-box {
+            background: rgba(0, 170, 255, 0.1);
+            border: 2px solid rgba(0, 170, 255, 0.5);
+            border-radius: 15px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #66B3FF;
+        }
+
+        .info-box strong {
+            color: #00AAFF;
+        }
+
+        @media (max-width: 768px) {
+            .form-title {
+                font-size: 1.8rem;
+            }
+
+            .form-subtitle {
+                font-size: 0.6rem;
+            }
+
+            .benefits-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    <div class="grid-overlay"></div>
+
+    <div class="container">
+        <!-- Form Header -->
+        <div class="form-header">
+            <h1 class="form-title">🎮 Beta Tester Application</h1>
+            <p class="form-subtitle">MemeCoin V5.0 - Project NEXUS</p>
+            <p class="form-description">
+                Join an elite group of beta testers and help shape the future of MemeCoin! 
+                Test cutting-edge features before anyone else and earn exclusive rewards.
+            </p>
+
+            <div class="benefits-box">
+                <h3 class="benefits-title">🌟 Beta Tester Benefits</h3>
+                <ul class="benefits-list">
+                    <li>🎁 500 MC Welcome Bonus</li>
+                    <li>🏅 Exclusive Beta Tester Badge</li>
+                    <li>⚡ Early Access to All Features</li>
+                    <li>👑 Founder Team Opportunity</li>
+                    <li>💬 Direct Dev Team Access</li>
+                    <li>🎨 Exclusive Beta Flair</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Success/Error Messages -->
+        <div class="success-message" id="successMessage">
+            <h3>✅ Application Submitted!</h3>
+            <p>Thank you for applying! We'll review your application and contact you within 48 hours via Reddit DM.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Check your Reddit inbox for updates!</p>
+        </div>
+        <div class="error-message" id="errorMessage">
+            ❌ Oops! Something went wrong. Please try again or contact us on Reddit.
+        </div>
+
+        <!-- Form Body -->
+        <form id="betaApplicationForm" class="form-body">
+            <!-- Section 1: Basic Information -->
+            <div class="form-section">
+                <h2 class="section-title">📋 Basic Information</h2>
+
+                <div class="form-group">
+                    <label for="redditUsername">
+                        Reddit Username <span class="required">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="redditUsername" 
+                        name="entry.1360472699"
+                        placeholder="u/YourUsername"
+                        required
+                    >
+                    <p class="help-text">We'll contact you via Reddit DM if accepted</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="discordUsername">
+                        Discord Username (Optional)
+                    </label>
+                    <input 
+                        type="text" 
+                        id="discordUsername" 
+                        name="entry.268481679"
+                        placeholder="YourDiscord#1234"
+                    >
+                    <p class="help-text">For faster communication and community access</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">
+                        Email Address (Optional)
+                    </label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="entry.950102827"
+                        placeholder="your.email@example.com"
+                    >
+                    <p class="help-text">For important updates and announcements</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="timezone">
+                        Your Timezone <span class="required">*</span>
+                    </label>
+                    <select id="timezone" name="entry.1973898465" required>
+                        <option value="">Select your timezone...</option>
+                        <option value="PST (UTC-8)">PST (UTC-8) - Pacific Time</option>
+                        <option value="MST (UTC-7)">MST (UTC-7) - Mountain Time</option>
+                        <option value="CST (UTC-6)">CST (UTC-6) - Central Time</option>
+                        <option value="EST (UTC-5)">EST (UTC-5) - Eastern Time</option>
+                        <option value="GMT (UTC+0)">GMT (UTC+0) - London</option>
+                        <option value="CET (UTC+1)">CET (UTC+1) - Central Europe</option>
+                        <option value="IST (UTC+5:30)">IST (UTC+5:30) - India</option>
+                        <option value="CST (UTC+8)">CST (UTC+8) - China</option>
+                        <option value="JST (UTC+9)">JST (UTC+9) - Japan</option>
+                        <option value="AEST (UTC+10)">AEST (UTC+10) - Australia East</option>
+                        <option value="Other">Other (specify in comments)</option>
+                    </select>
+                    <p class="help-text">Helps us schedule testing sessions</p>
+                </div>
+            </div>
+
+            <!-- Section 2: Experience & Activity -->
+            <div class="form-section">
+                <h2 class="section-title">⚡ Activity & Experience</h2>
+
+                <div class="form-group">
+                    <label>
+                        How active are you on Reddit? <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-item">
+                            <input type="radio" name="entry.1394104156" value="Daily - Multiple hours" required>
+                            <span>🔥 Daily - Multiple hours per day</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="entry.1394104156" value="Daily - 1-2 hours">
+                            <span>⚡ Daily - 1-2 hours per day</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="entry.1394104156" value="Few times a week">
+                            <span>📅 Few times a week</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="entry.1394104156" value="Weekly">
+                            <span>🌙 Weekly - But committed to testing</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="accountAge">
+                        How long have you been on Reddit? <span class="required">*</span>
+                    </label>
+                    <select id="accountAge" name="entry.1491524581" required>
+                        <option value="">Select...</option>
+                        <option value="Less than 1 month">Less than 1 month</option>
+                        <option value="1-6 months">1-6 months</option>
+                        <option value="6 months - 1 year">6 months - 1 year</option>
+                        <option value="1-2 years">1-2 years</option>
+                        <option value="2-5 years">2-5 years</option>
+                        <option value="5+ years">5+ years (Reddit veteran!)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Have you used MemeCoin before? <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-item">
+                            <input type="radio" name="entry.1332660514" value="Yes, active user" required>
+                            <span>✅ Yes, I'm an active user!</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="entry.1332660514" value="Yes, tried it">
+                            <span>👍 Yes, tried it a few times</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="entry.1332660514" value="No, but interested">
+                            <span>🆕 No, but very interested!</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="entry.1332660514" value="No, completely new">
+                            <span>🌟 No, completely new to MemeCoin</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="currentBalance">
+                        Current MemeCoin Balance (if applicable)
+                    </label>
+                    <input 
+                        type="number" 
+                        id="currentBalance" 
+                        name="entry.271294886"
+                        placeholder="e.g., 1500"
+                        min="0"
+                    >
+                    <p class="help-text">Enter 0 if you're new or don't remember</p>
+                </div>
+            </div>
+
+            <!-- Section 3: Testing Experience -->
+            <div class="form-section">
+                <h2 class="section-title">🧪 Testing Experience</h2>
+
+                <div class="form-group">
+                    <label>
+                        Have you beta tested software before? <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-item">
+                            <input type="radio" name="entry.142542880" value="Yes, professionally" required>
+                            <span>💼 Yes, professionally (QA/Testing experience)</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="entry.142542880" value="Yes, as a hobby">
+                            <span>🎮 Yes, as a hobby (games, apps, etc.)</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="entry.142542880" value="Once or twice">
+                            <span>👍 Once or twice before</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="entry.142542880" value="No, first time">
+                            <span>🆕 No, this would be my first time!</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        What devices will you use for testing? <span class="required">*</span>
+                    </label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="entry.918695263" value="Desktop PC">
+                            <span>🖥️ Desktop PC (Windows/Mac/Linux)</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="entry.918695263" value="Laptop">
+                            <span>💻 Laptop</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="entry.918695263" value="iPhone">
+                            <span>📱 iPhone (iOS)</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="entry.918695263" value="Android Phone">
+                            <span>📱 Android Phone</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="entry.918695263" value="iPad/Tablet">
+                            <span>📱 iPad/Android Tablet</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="testingTime">
+                        How much time can you dedicate to beta testing weekly? <span class="required">*</span>
+                    </label>
+                    <select id="testingTime" name="entry.1048621072" required>
+                        <option value="">Select...</option>
+                        <option value="1-2 hours">1-2 hours per week</option>
+                        <option value="3-5 hours">3-5 hours per week</option>
+                        <option value="5-10 hours">5-10 hours per week</option>
+                        <option value="10+ hours">10+ hours per week (Power tester!)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Section 4: Interest & Motivation -->
+            <div class="form-section">
+                <h2 class="section-title">🎯 Your Interest</h2>
+
+                <div class="form-group">
+                    <label>
+                        Which V5.0 features are you most excited to test? <span class="required">*</span>
+                    </label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="entry.146559438" value="Teams/Guilds System">
+                            <span>👥 Teams/Guilds System - Social collaboration</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="entry.146559438" value="Property System">
+                            <span>🏘️ Property/Investment System - Passive income</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="entry.146559438" value="AI Anti-Cheat">
+                            <span>🤖 AI Anti-Cheat + Community Jury</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="entry.146559438" value="Battle Pass">
+                            <span>🎫 Battle Pass/Seasons - Progression system</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="entry.146559438" value="All of them">
+                            <span>✨ All of them! I want the full experience!</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="whyBetaTest">
+                        Why do you want to be a beta tester? <span class="required">*</span>
+                    </label>
+                    <textarea 
+                        id="whyBetaTest" 
+                        name="entry.1679426961"
+                        placeholder="Tell us why you'd be a great beta tester! What motivates you? What unique perspective or skills can you bring?"
+                        required
+                    ></textarea>
+                    <p class="help-text">Be honest and specific - this helps us choose the best testers!</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="findBugs">
+                        How would you approach finding bugs and issues? <span class="required">*</span>
+                    </label>
+                    <textarea 
+                        id="findBugs" 
+                        name="entry.1912747904"
+                        placeholder="Describe your testing approach. What would you focus on? How would you report issues?"
+                        required
+                    ></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="suggestions">
+                        Any feature suggestions or ideas for V5.0?
+                    </label>
+                    <textarea 
+                        id="suggestions" 
+                        name="entry.984077956"
+                        placeholder="Share your creative ideas! What would make V5.0 even better?"
+                    ></textarea>
+                </div>
+            </div>
+
+            <!-- Section 5: Commitment -->
+            <div class="form-section">
+                <h2 class="section-title">✅ Commitment</h2>
+
+                <div class="form-group">
+                    <label class="checkbox-item" style="background: rgba(255, 107, 0, 0.1); border: 2px solid var(--primary); padding: 1rem;">
+                        <input type="checkbox" name="entry.1405295522" value="Yes" required>
+                        <span>
+                            <strong>I commit to:</strong> Testing features thoroughly, reporting bugs clearly, 
+                            providing honest feedback, and being an active participant in the beta testing community. 
+                            <span class="required">*</span>
+                        </span>
+                    </label>
+                </div>
+
+                <div class="info-box">
+                    <strong>📌 What to Expect:</strong><br>
+                    • Beta testing starts Week 8 (2 weeks before public launch)<br>
+                    • You'll get access to r/cordisdie2025 (beta subreddit)<br>
+                    • Expected to test 2-3 times per week minimum<br>
+                    • Fill out a feedback form after testing<br>
+                    • Join optional Discord for real-time discussions
+                </div>
+            </div>
+
+            <!-- Submit Section -->
+            <div class="submit-section">
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span>🚀 Submit Application</span>
+                    <div class="spinner"></div>
+                </button>
+                <p style="margin-top: 1rem; font-size: 0.85rem; color: #999;">
+                    Applications are reviewed within 48 hours
+                </p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Form submission
+        document.getElementById('betaApplicationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            const successMsg = document.getElementById('successMessage');
+            const errorMsg = document.getElementById('errorMessage');
+
+            // Hide previous messages
+            successMsg.style.display = 'none';
+            errorMsg.style.display = 'none';
+
+            // Validate at least one device is selected
+            const deviceCheckboxes = document.querySelectorAll('input[name="entry.918695263"]:checked');
+            if (deviceCheckboxes.length === 0) {
+                alert('Please select at least one device you will use for testing.');
+                return;
+            }
+
+            // Validate at least one feature interest is selected
+            const featureCheckboxes = document.querySelectorAll('input[name="entry.146559438"]:checked');
+            if (featureCheckboxes.length === 0) {
+                alert('Please select at least one feature you are interested in testing.');
+                return;
+            }
+
+            // Show loading state
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+
+            // Get form data
+            const formData = new FormData(this);
+
+            // ============================================================
+            // GOOGLE FORM URL
+            // ============================================================
+            const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScyW2UqsJgnVsBjU-vmKzCQYLax-8WfaBSSZpjKvpP844BHiw/formResponse';
+            
+            try {
+                // Submit to Google Forms
+                await fetch(GOOGLE_FORM_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Important for Google Forms
+                    body: formData
+                });
+
+                // Show success message
+                successMsg.style.display = 'block';
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                // Reset form
+                this.reset();
+
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                errorMsg.style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } finally {
+                // Remove loading state
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Smooth scroll on page load
+        window.addEventListener('load', () => {
+            window.scrollTo({ top: 0 });
+        });
+    </script>
+</body>
+</html>
