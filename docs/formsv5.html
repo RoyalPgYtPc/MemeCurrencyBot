@@ -185,6 +185,7 @@
 
         .form-group {
             margin-bottom: 1.5rem;
+            position: relative;
         }
 
         label {
@@ -230,6 +231,14 @@
         textarea {
             min-height: 120px;
             resize: vertical;
+        }
+
+        .char-count {
+            position: absolute;
+            bottom: -20px;
+            right: 0;
+            font-size: 0.75rem;
+            color: #666;
         }
 
         .checkbox-group,
@@ -400,15 +409,100 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Hidden iframe for submission */
+        #hidden_iframe {
+            display: none;
+        }
     </style>
+    <script>
+        // Track submission status globally
+        var submitted = false;
+
+        function showSuccess() {
+            const submitBtn = document.getElementById('submitBtn');
+            const successMsg = document.getElementById('successMessage');
+            const form = document.getElementById('betaApplicationForm');
+
+            if (!submitBtn || !successMsg || !form) return;
+
+            // Hide loading state
+            submitBtn.classList.remove('loading');
+            submitBtn.disabled = false;
+
+            // Show success message
+            successMsg.style.display = 'block';
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Reset form and clear local storage
+            form.reset();
+            localStorage.removeItem('memecoin_form_data');
+        }
+
+        // Feature: Update Character Counter
+        function updateCharCount(id, countId) {
+            const el = document.getElementById(id);
+            const countEl = document.getElementById(countId);
+            if (el && countEl) {
+                countEl.textContent = el.value.length + " characters";
+            }
+        }
+
+        // Feature: Persistence - Save as user types
+        function saveDraft() {
+            const form = document.getElementById('betaApplicationForm');
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => {
+                if(!data[key]) {
+                    data[key] = value;
+                } else {
+                    if(!Array.isArray(data[key])) data[key] = [data[key]];
+                    data[key].push(value);
+                }
+            });
+            localStorage.setItem('memecoin_form_data', JSON.stringify(data));
+        }
+
+        // Load Draft on Init
+        window.onload = function() {
+            const saved = localStorage.getItem('memecoin_form_data');
+            if (saved) {
+                const data = JSON.parse(saved);
+                const form = document.getElementById('betaApplicationForm');
+                Object.keys(data).forEach(key => {
+                    const elements = form.querySelectorAll(`[name="${key}"]`);
+                    elements.forEach(el => {
+                        if (el.type === 'checkbox' || el.type === 'radio') {
+                            if (Array.isArray(data[key])) {
+                                el.checked = data[key].includes(el.value);
+                            } else {
+                                el.checked = el.value === data[key];
+                            }
+                        } else {
+                            el.value = data[key];
+                        }
+                    });
+                });
+                // Trigger counters
+                updateCharCount('whyBetaTest', 'whyCount');
+                updateCharCount('findBugs', 'bugsCount');
+            }
+        };
+    </script>
 </head>
 <body>
     <div class="bg-animation"></div>
     <div class="grid-overlay"></div>
 
+    <!-- Hidden iframe to handle Google Form submission -->
+    <iframe name="hidden_iframe" id="hidden_iframe" onload="if(submitted) {showSuccess();}"></iframe>
+
     <div class="container">
         <!-- Form Header -->
-        <div class="form-header">
+        <header class="form-header">
             <h1 class="form-title">🎮 Beta Tester Application</h1>
             <p class="form-subtitle">MemeCoin V5.0 - Project NEXUS</p>
             <p class="form-description">
@@ -427,68 +521,47 @@
                     <li>🎨 Exclusive Beta Flair</li>
                 </ul>
             </div>
-        </div>
+        </header>
 
-        <!-- Success/Error Messages -->
-        <div class="success-message" id="successMessage">
+        <!-- Messages -->
+        <div class="success-message" id="successMessage" role="alert">
             <h3>✅ Application Submitted!</h3>
             <p>Thank you for applying! We'll review your application and contact you within 48 hours via Reddit DM.</p>
-            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Check your Reddit inbox for updates!</p>
         </div>
-        <div class="error-message" id="errorMessage">
+        <div class="error-message" id="errorMessage" role="alert">
             ❌ Oops! Something went wrong. Please try again or contact us on Reddit.
         </div>
 
         <!-- Form Body -->
-        <form id="betaApplicationForm" class="form-body">
-            <!-- Section 1: Basic Information -->
-            <div class="form-section">
+        <form 
+            id="betaApplicationForm" 
+            class="form-body"
+            action="https://docs.google.com/forms/d/e/1FAIpQLScyW2UqsJgnVsBjU-vmKzCQYLax-8WfaBSSZpjKvpP844BHiw/formResponse"
+            method="POST"
+            target="hidden_iframe"
+            oninput="saveDraft()"
+        >
+            <!-- Section 1: Basic Info -->
+            <section class="form-section">
                 <h2 class="section-title">📋 Basic Information</h2>
 
                 <div class="form-group">
-                    <label for="redditUsername">
-                        Reddit Username <span class="required">*</span>
-                    </label>
-                    <input 
-                        type="text" 
-                        id="redditUsername" 
-                        name="entry.1360472699"
-                        placeholder="u/YourUsername"
-                        required
-                    >
-                    <p class="help-text">We'll contact you via Reddit DM if accepted</p>
+                    <label for="redditUsername">Reddit Username <span class="required">*</span></label>
+                    <input type="text" id="redditUsername" name="entry.1360472699" placeholder="u/YourUsername" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="discordUsername">
-                        Discord Username (Optional)
-                    </label>
-                    <input 
-                        type="text" 
-                        id="discordUsername" 
-                        name="entry.268481679"
-                        placeholder="YourDiscord#1234"
-                    >
-                    <p class="help-text">For faster communication and community access</p>
+                    <label for="discordUsername">Discord Username (Optional)</label>
+                    <input type="text" id="discordUsername" name="entry.268481679" placeholder="YourDiscord#1234">
                 </div>
 
                 <div class="form-group">
-                    <label for="email">
-                        Email Address (Optional)
-                    </label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        name="entry.950102827"
-                        placeholder="your.email@example.com"
-                    >
-                    <p class="help-text">For important updates and announcements</p>
+                    <label for="email">Email Address (Optional)</label>
+                    <input type="email" id="email" name="entry.950102827" placeholder="your.email@example.com">
                 </div>
 
                 <div class="form-group">
-                    <label for="timezone">
-                        Your Timezone <span class="required">*</span>
-                    </label>
+                    <label for="timezone">Your Timezone <span class="required">*</span></label>
                     <select id="timezone" name="entry.1973898465" required>
                         <option value="">Select your timezone...</option>
                         <option value="PST (UTC-8)">PST (UTC-8) - Pacific Time</option>
@@ -501,44 +574,27 @@
                         <option value="CST (UTC+8)">CST (UTC+8) - China</option>
                         <option value="JST (UTC+9)">JST (UTC+9) - Japan</option>
                         <option value="AEST (UTC+10)">AEST (UTC+10) - Australia East</option>
-                        <option value="Other">Other (specify in comments)</option>
+                        <option value="Other">Other</option>
                     </select>
-                    <p class="help-text">Helps us schedule testing sessions</p>
                 </div>
-            </div>
+            </section>
 
-            <!-- Section 2: Experience & Activity -->
-            <div class="form-section">
+            <!-- Section 2: Activity -->
+            <section class="form-section">
                 <h2 class="section-title">⚡ Activity & Experience</h2>
 
                 <div class="form-group">
-                    <label>
-                        How active are you on Reddit? <span class="required">*</span>
-                    </label>
+                    <label>How active are you on Reddit? <span class="required">*</span></label>
                     <div class="radio-group">
-                        <label class="radio-item">
-                            <input type="radio" name="entry.1394104156" value="Daily - Multiple hours" required>
-                            <span>🔥 Daily - Multiple hours per day</span>
-                        </label>
-                        <label class="radio-item">
-                            <input type="radio" name="entry.1394104156" value="Daily - 1-2 hours">
-                            <span>⚡ Daily - 1-2 hours per day</span>
-                        </label>
-                        <label class="radio-item">
-                            <input type="radio" name="entry.1394104156" value="Few times a week">
-                            <span>📅 Few times a week</span>
-                        </label>
-                        <label class="radio-item">
-                            <input type="radio" name="entry.1394104156" value="Weekly">
-                            <span>🌙 Weekly - But committed to testing</span>
-                        </label>
+                        <label class="radio-item"><input type="radio" name="entry.1394104156" value="Daily - Multiple hours" required> <span>🔥 Daily - Multiple hours</span></label>
+                        <label class="radio-item"><input type="radio" name="entry.1394104156" value="Daily - 1-2 hours"> <span>⚡ Daily - 1-2 hours</span></label>
+                        <label class="radio-item"><input type="radio" name="entry.1394104156" value="Few times a week"> <span>📅 Few times a week</span></label>
+                        <label class="radio-item"><input type="radio" name="entry.1394104156" value="Weekly"> <span>🌙 Weekly</span></label>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="accountAge">
-                        How long have you been on Reddit? <span class="required">*</span>
-                    </label>
+                    <label for="accountAge">How long have you been on Reddit? <span class="required">*</span></label>
                     <select id="accountAge" name="entry.1491524581" required>
                         <option value="">Select...</option>
                         <option value="Less than 1 month">Less than 1 month</option>
@@ -546,296 +602,121 @@
                         <option value="6 months - 1 year">6 months - 1 year</option>
                         <option value="1-2 years">1-2 years</option>
                         <option value="2-5 years">2-5 years</option>
-                        <option value="5+ years">5+ years (Reddit veteran!)</option>
+                        <option value="5+ years">5+ years</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label>
-                        Have you used MemeCoin before? <span class="required">*</span>
-                    </label>
+                    <label>Have you used MemeCoin before? <span class="required">*</span></label>
                     <div class="radio-group">
-                        <label class="radio-item">
-                            <input type="radio" name="entry.1332660514" value="Yes, active user" required>
-                            <span>✅ Yes, I'm an active user!</span>
-                        </label>
-                        <label class="radio-item">
-                            <input type="radio" name="entry.1332660514" value="Yes, tried it">
-                            <span>👍 Yes, tried it a few times</span>
-                        </label>
-                        <label class="radio-item">
-                            <input type="radio" name="entry.1332660514" value="No, but interested">
-                            <span>🆕 No, but very interested!</span>
-                        </label>
-                        <label class="radio-item">
-                            <input type="radio" name="entry.1332660514" value="No, completely new">
-                            <span>🌟 No, completely new to MemeCoin</span>
-                        </label>
+                        <label class="radio-item"><input type="radio" name="entry.1332660514" value="Yes, active user" required> <span>✅ Active User</span></label>
+                        <label class="radio-item"><input type="radio" name="entry.1332660514" value="Yes, tried it"> <span>👍 Tried it</span></label>
+                        <label class="radio-item"><input type="radio" name="entry.1332660514" value="No, but interested"> <span>🆕 Interested</span></label>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="currentBalance">
-                        Current MemeCoin Balance (if applicable)
-                    </label>
-                    <input 
-                        type="number" 
-                        id="currentBalance" 
-                        name="entry.271294886"
-                        placeholder="e.g., 1500"
-                        min="0"
-                    >
-                    <p class="help-text">Enter 0 if you're new or don't remember</p>
+                    <label for="currentBalance">Current MemeCoin Balance</label>
+                    <input type="number" id="currentBalance" name="entry.271294886" placeholder="e.g. 1500" min="0">
                 </div>
-            </div>
+            </section>
 
-            <!-- Section 3: Testing Experience -->
-            <div class="form-section">
+            <!-- Section 3: Testing -->
+            <section class="form-section">
                 <h2 class="section-title">🧪 Testing Experience</h2>
 
                 <div class="form-group">
-                    <label>
-                        Have you beta tested software before? <span class="required">*</span>
-                    </label>
+                    <label>Have you beta tested before? <span class="required">*</span></label>
                     <div class="radio-group">
-                        <label class="radio-item">
-                            <input type="radio" name="entry.142542880" value="Yes, professionally" required>
-                            <span>💼 Yes, professionally (QA/Testing experience)</span>
-                        </label>
-                        <label class="radio-item">
-                            <input type="radio" name="entry.142542880" value="Yes, as a hobby">
-                            <span>🎮 Yes, as a hobby (games, apps, etc.)</span>
-                        </label>
-                        <label class="radio-item">
-                            <input type="radio" name="entry.142542880" value="Once or twice">
-                            <span>👍 Once or twice before</span>
-                        </label>
-                        <label class="radio-item">
-                            <input type="radio" name="entry.142542880" value="No, first time">
-                            <span>🆕 No, this would be my first time!</span>
-                        </label>
+                        <label class="radio-item"><input type="radio" name="entry.142542880" value="Yes, professionally" required> <span>💼 Yes, professionally</span></label>
+                        <label class="radio-item"><input type="radio" name="entry.142542880" value="Yes, as a hobby"> <span>🎮 Yes, hobby</span></label>
+                        <label class="radio-item"><input type="radio" name="entry.142542880" value="No, first time"> <span>🆕 First time</span></label>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>
-                        What devices will you use for testing? <span class="required">*</span>
-                    </label>
+                    <label>Devices used for testing? <span class="required">*</span></label>
                     <div class="checkbox-group">
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="entry.918695263" value="Desktop PC">
-                            <span>🖥️ Desktop PC (Windows/Mac/Linux)</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="entry.918695263" value="Laptop">
-                            <span>💻 Laptop</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="entry.918695263" value="iPhone">
-                            <span>📱 iPhone (iOS)</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="entry.918695263" value="Android Phone">
-                            <span>📱 Android Phone</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="entry.918695263" value="iPad/Tablet">
-                            <span>📱 iPad/Android Tablet</span>
-                        </label>
+                        <label class="checkbox-item"><input type="checkbox" name="entry.918695263" value="Desktop PC"> <span>🖥️ Desktop</span></label>
+                        <label class="checkbox-item"><input type="checkbox" name="entry.918695263" value="Laptop"> <span>💻 Laptop</span></label>
+                        <label class="checkbox-item"><input type="checkbox" name="entry.918695263" value="iPhone"> <span>📱 iPhone</span></label>
+                        <label class="checkbox-item"><input type="checkbox" name="entry.918695263" value="Android Phone"> <span>📱 Android</span></label>
+                        <label class="checkbox-item"><input type="checkbox" name="entry.918695263" value="iPad/Tablet"> <span>📱 Tablet</span></label>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="testingTime">
-                        How much time can you dedicate to beta testing weekly? <span class="required">*</span>
-                    </label>
+                    <label for="testingTime">Weekly Commitment? <span class="required">*</span></label>
                     <select id="testingTime" name="entry.1048621072" required>
                         <option value="">Select...</option>
-                        <option value="1-2 hours">1-2 hours per week</option>
-                        <option value="3-5 hours">3-5 hours per week</option>
-                        <option value="5-10 hours">5-10 hours per week</option>
-                        <option value="10+ hours">10+ hours per week (Power tester!)</option>
+                        <option value="1-2 hours">1-2 hours</option>
+                        <option value="3-5 hours">3-5 hours</option>
+                        <option value="5-10 hours">5-10 hours</option>
+                        <option value="10+ hours">10+ hours</option>
                     </select>
                 </div>
-            </div>
+            </section>
 
-            <!-- Section 4: Interest & Motivation -->
-            <div class="form-section">
+            <!-- Section 4: Interest -->
+            <section class="form-section">
                 <h2 class="section-title">🎯 Your Interest</h2>
 
                 <div class="form-group">
-                    <label>
-                        Which V5.0 features are you most excited to test? <span class="required">*</span>
-                    </label>
+                    <label>Which V5.0 features excite you? <span class="required">*</span></label>
                     <div class="checkbox-group">
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="entry.146559438" value="Teams/Guilds System">
-                            <span>👥 Teams/Guilds System - Social collaboration</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="entry.146559438" value="Property System">
-                            <span>🏘️ Property/Investment System - Passive income</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="entry.146559438" value="AI Anti-Cheat">
-                            <span>🤖 AI Anti-Cheat + Community Jury</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="entry.146559438" value="Battle Pass">
-                            <span>🎫 Battle Pass/Seasons - Progression system</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="entry.146559438" value="All of them">
-                            <span>✨ All of them! I want the full experience!</span>
-                        </label>
+                        <label class="checkbox-item"><input type="checkbox" name="entry.146559438" value="Teams/Guilds System"> <span>👥 Teams/Guilds</span></label>
+                        <label class="checkbox-item"><input type="checkbox" name="entry.146559438" value="Property System"> <span>🏘️ Property System</span></label>
+                        <label class="checkbox-item"><input type="checkbox" name="entry.146559438" value="AI Anti-Cheat Revison"> <span>🤖 AI Anti-Cheat Revision</span></label>
+                        <label class="checkbox-item"><input type="checkbox" name="entry.146559438" value="Battle Pass"> <span>🎫 Battle Pass</span></label>
+                        <label class="checkbox-item"><input type="checkbox" name="entry.146559438" value="All of them"> <span>✨ All of them</span></label>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="whyBetaTest">
-                        Why do you want to be a beta tester? <span class="required">*</span>
-                    </label>
-                    <textarea 
-                        id="whyBetaTest" 
-                        name="entry.1679426961"
-                        placeholder="Tell us why you'd be a great beta tester! What motivates you? What unique perspective or skills can you bring?"
-                        required
-                    ></textarea>
-                    <p class="help-text">Be honest and specific - this helps us choose the best testers!</p>
+                    <label for="whyBetaTest">Why you? <span class="required">*</span></label>
+                    <textarea id="whyBetaTest" name="entry.1679426961" onkeyup="updateCharCount('whyBetaTest', 'whyCount')" required></textarea>
+                    <div class="char-count" id="whyCount">0 characters</div>
                 </div>
 
                 <div class="form-group">
-                    <label for="findBugs">
-                        How would you approach finding bugs and issues? <span class="required">*</span>
-                    </label>
-                    <textarea 
-                        id="findBugs" 
-                        name="entry.1912747904"
-                        placeholder="Describe your testing approach. What would you focus on? How would you report issues?"
-                        required
-                    ></textarea>
+                    <label for="findBugs">Approach to finding bugs? <span class="required">*</span></label>
+                    <textarea id="findBugs" name="entry.1912747904" onkeyup="updateCharCount('findBugs', 'bugsCount')" required></textarea>
+                    <div class="char-count" id="bugsCount">0 characters</div>
                 </div>
 
                 <div class="form-group">
-                    <label for="suggestions">
-                        Any feature suggestions or ideas for V5.0?
-                    </label>
-                    <textarea 
-                        id="suggestions" 
-                        name="entry.984077956"
-                        placeholder="Share your creative ideas! What would make V5.0 even better?"
-                    ></textarea>
+                    <label for="suggestions">Ideas for V5.0?</label>
+                    <textarea id="suggestions" name="entry.984077956"></textarea>
                 </div>
-            </div>
+            </section>
 
             <!-- Section 5: Commitment -->
-            <div class="form-section">
+            <section class="form-section">
                 <h2 class="section-title">✅ Commitment</h2>
-
                 <div class="form-group">
-                    <label class="checkbox-item" style="background: rgba(255, 107, 0, 0.1); border: 2px solid var(--primary); padding: 1rem;">
+                    <label class="checkbox-item">
                         <input type="checkbox" name="entry.1405295522" value="Yes" required>
-                        <span>
-                            <strong>I commit to:</strong> Testing features thoroughly, reporting bugs clearly, 
-                            providing honest feedback, and being an active participant in the beta testing community. 
-                            <span class="required">*</span>
-                        </span>
+                        <span><strong>I commit to testing and reporting bugs.</strong> <span class="required">*</span></span>
                     </label>
                 </div>
+            </section>
 
-                <div class="info-box">
-                    <strong>📌 What to Expect:</strong><br>
-                    • Beta testing starts Week 8 (2 weeks before public launch)<br>
-                    • You'll get access to r/cordisdie2025 (beta subreddit)<br>
-                    • Expected to test 2-3 times per week minimum<br>
-                    • Fill out a feedback form after testing<br>
-                    • Join optional Discord for real-time discussions
-                </div>
-            </div>
-
-            <!-- Submit Section -->
+            <!-- Submit -->
             <div class="submit-section">
                 <button type="submit" class="submit-btn" id="submitBtn">
                     <span>🚀 Submit Application</span>
                     <div class="spinner"></div>
                 </button>
-                <p style="margin-top: 1rem; font-size: 0.85rem; color: #999;">
-                    Applications are reviewed within 48 hours
-                </p>
             </div>
         </form>
     </div>
 
     <script>
-        // Form submission
-        document.getElementById('betaApplicationForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-
+        document.getElementById('betaApplicationForm').addEventListener('submit', function(e) {
             const submitBtn = document.getElementById('submitBtn');
-            const successMsg = document.getElementById('successMessage');
-            const errorMsg = document.getElementById('errorMessage');
-
-            // Hide previous messages
-            successMsg.style.display = 'none';
-            errorMsg.style.display = 'none';
-
-            // Validate at least one device is selected
-            const deviceCheckboxes = document.querySelectorAll('input[name="entry.918695263"]:checked');
-            if (deviceCheckboxes.length === 0) {
-                alert('Please select at least one device you will use for testing.');
-                return;
-            }
-
-            // Validate at least one feature interest is selected
-            const featureCheckboxes = document.querySelectorAll('input[name="entry.146559438"]:checked');
-            if (featureCheckboxes.length === 0) {
-                alert('Please select at least one feature you are interested in testing.');
-                return;
-            }
-
-            // Show loading state
             submitBtn.classList.add('loading');
             submitBtn.disabled = true;
-
-            // Get form data
-            const formData = new FormData(this);
-
-            // ============================================================
-            // GOOGLE FORM URL
-            // ============================================================
-            const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScyW2UqsJgnVsBjU-vmKzCQYLax-8WfaBSSZpjKvpP844BHiw/formResponse';
-            
-            try {
-                // Submit to Google Forms
-                await fetch(GOOGLE_FORM_URL, {
-                    method: 'POST',
-                    mode: 'no-cors', // Important for Google Forms
-                    body: formData
-                });
-
-                // Show success message
-                successMsg.style.display = 'block';
-                
-                // Scroll to top
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-
-                // Reset form
-                this.reset();
-
-            } catch (error) {
-                console.error('Error submitting form:', error);
-                errorMsg.style.display = 'block';
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } finally {
-                // Remove loading state
-                submitBtn.classList.remove('loading');
-                submitBtn.disabled = false;
-            }
-        });
-
-        // Smooth scroll on page load
-        window.addEventListener('load', () => {
-            window.scrollTo({ top: 0 });
+            submitted = true;
         });
     </script>
 </body>
