@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MemeCoin V5.0 - Project NEXUS Roadmap</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FF6B00;
+            --secondary: #890BFF;
+            --accent: #00FFAA;
+            --dark: #0A0E27;
+            --darker: #050814;
+            --light: #E0E0E0;
+            --glow: rgba(255, 107, 0, 0.5);
+        }
+
+        body {
+            font-family: 'Space Mono', monospace;
+            background: var(--darker);
+            color: var(--light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(137, 11, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 107, 0, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(0, 255, 170, 0.1) 0%, transparent 50%);
+            animation: bgPulse 15s ease-in-out infinite;
+        }
+
+        @keyframes bgPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Grid overlay */
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: 
+                linear-gradient(rgba(255, 107, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 107, 0, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridScroll 20s linear infinite;
+        }
+
+        @keyframes gridScroll {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(50px); }
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            border-bottom: 3px solid var(--primary);
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+            animation: headerGlow 8s ease-in-out infinite;
+        }
+
+        @keyframes headerGlow {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.5; }
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px var(--glow);
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .tagline {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 1;
+            animation: glitch 3s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 90%, 100% { transform: translateX(0); }
+            92% { transform: translateX(-2px); }
+            94% { transform: translateX(2px); }
+            96% { transform: translateX(-2px); }
+        }
+
+        .release-date {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1.5rem;
+            background: rgba(255, 107, 0, 0.2);
+            border: 2px solid var(--primary);
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            color: var(--primary);
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 0 20px var(--glow);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px var(--glow); }
+            50% { box-shadow: 0 0 40px var(--glow); }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(255, 107, 0, 0.1), rgba(137, 11, 255, 0.1));
+            border: 2px solid var(--primary);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px var(--glow);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 107, 0, 0.3) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Timeline */
+        .timeline-section {
+            margin: 3rem 0;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary), var(--secondary), var(--accent));
+            box-shadow: 0 0 20px var(--glow);
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 3rem;
+            position: relative;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+        .timeline-item:nth-child(3) { animation-delay: 0.3s; }
+        .timeline-item:nth-child(4) { animation-delay: 0.4s; }
+        .timeline-item:nth-child(5) { animation-delay: 0.5s; }
+        .timeline-item:nth-child(6) { animation-delay: 0.6s; }
+        .timeline-item:nth-child(7) { animation-delay: 0.7s; }
+        .timeline-item:nth-child(8) { animation-delay: 0.8s; }
+        .timeline-item:nth-child(9) { animation-delay: 0.9s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: linear-gradient(135deg, rgba(10, 14, 39, 0.95), rgba(5, 8, 20, 0.95));
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 0 2rem;
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .timeline-content:hover {
+            transform: scale(1.05);
+            border-color: var(--accent);
+            box-shadow: 0 20px 50px rgba(255, 107, 0, 0.3);
+        }
+
+        .timeline-marker {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: 4px solid var(--dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 1.2rem;
+            z-index: 2;
+            box-shadow: 0 0 30px var(--glow);
+            flex-shrink: 0;
+        }
+
+        .timeline-week {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-tasks {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .timeline-tasks li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--light);
+        }
+
+        .timeline-tasks li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(10, 14, 39, 0.9), rgba(5, 8, 20, 0.9));
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 0, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 60px rgba(255, 107, 0, 0.4);
+        }
+
+        .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            filter: drop-shadow(0 0 20px var(--glow));
+        }
+
+        .feature-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .feature-desc {
+            color: var(--light);
+            line-height: 1.6;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .feature-priority {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            background: rgba(255, 107, 0, 0.2);
+            border: 1px solid var(--primary);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-top: 1rem;
+        }
+
+        /* Progress Bar */
+        .progress-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(10, 14, 39, 0.9), rgba(5, 8, 20, 0.9));
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 40px;
+            background: rgba(255, 107, 0, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            margin: 1rem 0;
+            border: 2px solid var(--primary);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 1rem;
+            transition: width 2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .week-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--light);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            margin: 4rem 0;
+            padding: 3rem;
+            background: linear-gradient(135deg, rgba(137, 11, 255, 0.2), rgba(255, 107, 0, 0.2));
+            border: 3px solid var(--primary);
+            border-radius: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 107, 0, 0.3) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
+        }
+
+        .cta-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-text {
+            font-size: 1.2rem;
+            color: var(--light);
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 1.1rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px var(--glow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.5s ease, height 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px var(--glow);
+        }
+
+        .cta-button.secondary {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker);
+            border-top: 3px solid var(--primary);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            color: var(--light);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+            }
+
+            .tagline {
+                font-size: 0.6rem;
+            }
+
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-item {
+                flex-direction: column !important;
+                align-items: flex-start;
+                padding-left: 60px;
+            }
+
+            .timeline-content {
+                margin: 0;
+            }
+
+            .timeline-marker {
+                position: absolute;
+                left: 0;
+                width: 50px;
+                height: 50px;
+                font-size: 1rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-title {
+                font-size: 1.8rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: 3px solid var(--dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: white;
+            box-shadow: 0 10px 30px var(--glow);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards 1s;
+        }
+
+        .scroll-indicator:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px var(--glow);
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* Interactive modal (for feature details) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, var(--dark), var(--darker));
+            border: 3px solid var(--primary);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlideIn 0.5s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            transform: rotate(90deg);
+            background: var(--secondary);
+        }
+
+        .modal-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .modal-body {
+            color: var(--light);
+            line-height: 1.8;
+        }
+
+        .modal-body h3 {
+            color: var(--accent);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        .modal-body ul {
+            margin-left: 2rem;
+        }
+
+        .modal-body li {
+            margin: 0.5rem 0;
+        }
+
+        /* Checklist styling */
+        .checklist {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .checklist li {
+            padding: 0.5rem 0;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .checklist li::before {
+            content: '☐';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .checklist li.done::before {
+            content: '☑';
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background animations -->
+    <div class="bg-animation"></div>
+    <div class="grid-overlay"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">💎 MEMECOIN V5.0</div>
+        <div class="tagline">PROJECT NEXUS</div>
+        <div class="release-date">🚀 LAUNCHING IN 9 WEEKS 🚀</div>
+    </header>
+
+    <!-- Container -->
+    <div class="container">
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-card" onclick="showModal('features')">
+                <div class="stat-value">4</div>
+                <div class="stat-label">Major Features</div>
+            </div>
+            <div class="stat-card" onclick="showModal('timeline')">
+                <div class="stat-value">9</div>
+                <div class="stat-label">Week Timeline</div>
+            </div>
+            <div class="stat-card" onclick="showModal('community')">
+                <div class="stat-value">+300%</div>
+                <div class="stat-label">DAU Target</div>
+            </div>
+            <div class="stat-card" onclick="showModal('engagement')">
+                <div class="stat-value">2x</div>
+                <div class="stat-label">Development Time</div>
+            </div>
+        </div>
+
+        <!-- Progress Section -->
+        <section class="progress-section">
+            <h2 class="section-title">🎯 Development Progress</h2>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 5%" id="progressBar">
+                    Week 0 - Planning Phase
+                </div>
+            </div>
+            <div class="week-labels">
+                <span>Week 1</span>
+                <span>Week 3</span>
+                <span>Week 5</span>
+                <span>Week 7</span>
+                <span>Week 9 🎉</span>
+            </div>
+        </section>
+
+        <!-- Features Grid -->
+        <section>
+            <h2 class="section-title">💡 Core Features</h2>
+            <div class="features-grid">
+                <div class="feature-card" onclick="showFeatureModal('teams')">
+                    <div class="feature-icon">👥</div>
+                    <div class="feature-title">Teams/Guilds System</div>
+                    <div class="feature-desc">
+                        Form teams, compete together, share resources, and dominate the leaderboards!
+                    </div>
+                    <div class="feature-priority">⚡ CRITICAL - 2 WEEKS</div>
+                </div>
+
+                <div class="feature-card" onclick="showFeatureModal('properties')">
+                    <div class="feature-icon">🏘️</div>
+                    <div class="feature-title">Property System</div>
+                    <div class="feature-desc">
+                        Buy virtual properties that generate passive MC income. Build your empire!
+                    </div>
+                    <div class="feature-priority">⚡ CRITICAL - 2 WEEKS</div>
+                </div>
+
+                <div class="feature-card" onclick="showFeatureModal('ai')">
+                    <div class="feature-icon">🤖</div>
+                    <div class="feature-title">AI Anti-Cheat + Jury</div>
+                    <div class="feature-desc">
+                        Enhanced AI detection with community voting system for fair moderation.
+                    </div>
+                    <div class="feature-priority">🔥 HIGH - 1.5 WEEKS</div>
+                </div>
+
+                <div class="feature-card" onclick="showFeatureModal('battlepass')">
+                    <div class="feature-icon">🎫</div>
+                    <div class="feature-title">Battle Pass</div>
+                    <div class="feature-desc">
+                        30-day seasons with exclusive rewards, challenges, and progression tiers.
+                    </div>
+                    <div class="feature-priority">🔥 HIGH - 1.5 WEEKS</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline -->
+        <section class="timeline-section">
+            <h2 class="section-title">📅 9-Week Development Timeline</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker">1</div>
+                    <div class="timeline-content">
+                        <div class="timeline-week">Week 1: Teams Foundation</div>
+                        <ul class="timeline-tasks">
+                            <li>Design team data structures</li>
+                            <li>Implement team creation & joining</li>
+                            <li>Build team treasury system</li>
+                            <li>Create basic team UI</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">2</div>
+                    <div class="timeline-content">
+                        <div class="timeline-week">Week 2: Teams Features</div>
+                        <ul class="timeline-tasks">
+                            <li>Team leaderboard system</li>
+                            <li>Team quests (daily & weekly)</li>
+                            <li>Team management panel</li>
+                            <li>Integration tests</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">3</div>
+                    <div class="timeline-content">
+                        <div class="timeline-week">Week 3: Properties Backend</div>
+                        <ul class="timeline-tasks">
+                            <li>Property catalog design (8 properties)</li>
+                            <li>Purchase & ownership system</li>
+                            <li>Passive income calculator</li>
+                            <li>Level-up progression</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">4</div>
+                    <div class="timeline-content">
+                        <div class="timeline-week">Week 4: Properties UI</div>
+                        <ul class="timeline-tasks">
+                            <li>Property shop interface</li>
+                            <li>Property management dashboard</li>
+                            <li>Income claim system</li>
+                            <li>Economy balance testing</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">5</div>
+                    <div class="timeline-content">
+                        <div class="timeline-week">Week 5: AI Enhancement + Jury</div>
+                        <ul class="timeline-tasks">
+                            <li>Expand AI training dataset</li>
+                            <li>Jury case creation system</li>
+                            <li>Jury voting interface</li>
+                            <li>Reputation calculation system</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">6</div>
+                    <div class="timeline-content">
+                        <div class="timeline-week">Week 6: Battle Pass System</div>
+                        <ul class="timeline-tasks">
+                            <li>Season data structures</li>
+                            <li>XP tracking & tier progression</li>
+                            <li>Battle Pass UI design</li>
+                            <li>Season shop & exclusive items</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">7</div>
+                    <div class="timeline-content">
+                        <div class="timeline-week">Week 7: Integration & Balance</div>
+                        <ul class="timeline-tasks">
+                            <li>Full system integration testing</li>
+                            <li>Economy balance adjustments</li>
+                            <li>Bug fixes & optimization</li>
+                            <li>Performance profiling</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">8</div>
+                    <div class="timeline-content">
+                        <div class="timeline-week">Week 8: Public Beta</div>
+                        <ul class="timeline-tasks">
+                            <li>Deploy to r/cordisdie2025</li>
+                            <li>Beta testing with community</li>
+                            <li>Gather feedback & iterate</li>
+                            <li>Critical bug fixes</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">🚀</div>
+                    <div class="timeline-content">
+                        <div class="timeline-week">Week 9: LAUNCH! 🎉</div>
+                        <ul class="timeline-tasks">
+                            <li>Final QA testing</li>
+                            <li>Deploy to r/memeexchangecommunism</li>
+                            <li>Launch event & celebration</li>
+                            <li>Monitor, support, and hotfix</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2 class="cta-title">Join The Revolution</h2>
+            <p class="cta-text">
+                Be part of the biggest MemeCoin update ever. Test new features, provide feedback, and shape the future!
+            </p>
+            <div class="cta-buttons">
+                <a href="https://www.reddit.com/r/memeexchangecommunism/" class="cta-button" target="_blank">
+                    Join Community
+                </a>
+                <a href="https://www.reddit.com/r/cordisdie2025/" class="cta-button secondary" target="_blank">
+                    Beta Testing
+                </a>
+                <a href="https://github.com/RoyalPGYTPC/MemeCurrencyBot" class="cta-button" target="_blank">
+                    View GitHub
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>
+            💎 MemeCoin V5.0 "Project NEXUS" | 
+            <a href="https://royalpgytpc.github.io/MemeCurrencyBot/" target="_blank">Main Website</a> | 
+            <a href="https://github.com/RoyalPGYTPC/MemeCurrencyBot" target="_blank">GitHub</a>
+        </p>
+        <p style="margin-top: 1rem; font-size: 0.8rem; color: #666;">
+            Built with ♥ by the MemeExchangeCommunism dev team | © 2026
+        </p>
+    </footer>
+
+    <!-- Scroll to top button -->
+    <div class="scroll-indicator" onclick="scrollToTop()">↑</div>
+
+    <!-- Modal -->
+    <div class="modal" id="featureModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <h2 class="modal-title" id="modalTitle">Feature Details</h2>
+            <div class="modal-body" id="modalBody">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Progress bar animation on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('progressBar').style.width = '5%';
+            }, 500);
+        });
+
+        // Scroll to top
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Show/hide scroll indicator
+        window.addEventListener('scroll', () => {
+            const scrollIndicator = document.querySelector('.scroll-indicator');
+            if (window.scrollY > 300) {
+                scrollIndicator.style.opacity = '1';
+            } else {
+                scrollIndicator.style.opacity = '0';
+            }
+        });
+
+        // Modal functions
+        function showModal(type) {
+            const modal = document.getElementById('featureModal');
+            const title = document.getElementById('modalTitle');
+            const body = document.getElementById('modalBody');
+
+            if (type === 'features') {
+                title.textContent = '💡 4 Major Features';
+                body.innerHTML = `
+                    <p>V5.0 introduces 4 game-changing features:</p>
+                    <h3>1. Teams/Guilds System 👥</h3>
+                    <p>Collaborate with up to 20 members, share resources, and compete on team leaderboards.</p>
+                    
+                    <h3>2. Property System 🏘️</h3>
+                    <p>8 unique properties that generate passive MC income. Upgrade and expand your empire!</p>
+                    
+                    <h3>3. AI Anti-Cheat + Community Jury 🤖</h3>
+                    <p>Enhanced ML detection with community voting for fair, transparent moderation.</p>
+                    
+                    <h3>4. Battle Pass System 🎫</h3>
+                    <p>30-day seasons with exclusive cosmetics, challenges, and progression rewards.</p>
+                `;
+            }
+
+            modal.classList.add('active');
+        }
+
+        function showFeatureModal(feature) {
+            const modal = document.getElementById('featureModal');
+            const title = document.getElementById('modalTitle');
+            const body = document.getElementById('modalBody');
+
+            const featureData = {
+                teams: {
+                    title: '👥 Teams/Guilds System',
+                    content: `
+                        <p><strong>Priority:</strong> CRITICAL | <strong>Timeline:</strong> 2 Weeks</p>
+                        
+                        <h3>Overview</h3>
+                        <p>Form teams of up to 20 members and compete together for glory and rewards.</p>
+                        
+                        <h3>Features</h3>
+                        <ul>
+                            <li>Team creation and invitation system</li>
+                            <li>Shared team treasury for collaborative goals</li>
+                            <li>Team-specific quests and challenges</li>
+                            <li>Team leaderboards and rankings</li>
+                            <li>Team perks and bonuses</li>
+                            <li>Activity feed and team chat</li>
+                        </ul>
+                        
+                        <h3>Development Phases</h3>
+                        <ul class="checklist">
+                            <li>Week 1: Foundation (data structures, creation, treasury)</li>
+                            <li>Week 2: Features (leaderboards, quests, management)</li>
+                        </ul>
+                    `
+                },
+                properties: {
+                    title: '🏘️ Property/Investment System',
+                    content: `
+                        <p><strong>Priority:</strong> CRITICAL | <strong>Timeline:</strong> 2 Weeks</p>
+                        
+                        <h3>Overview</h3>
+                        <p>Purchase and upgrade properties that generate passive MC income while you're away!</p>
+                        
+                        <h3>Property Types</h3>
+                        <ul>
+                            <li>🏭 Meme Factory - +10 MC/hour</li>
+                            <li>🌾 Karma Farm - +15 MC/hour</li>
+                            <li>💬 Comment Center - +8 MC/hour</li>
+                            <li>👍 Upvote Mill - +20 MC/hour</li>
+                            <li>💰 Gold Mine - +50 MC/hour (premium)</li>
+                            <li>🏪 Trading Post - Reduces shop prices 5%</li>
+                            <li>🍀 Lucky Shrine - Boosts lucky wheel odds</li>
+                            <li>⚔️ XP Dojo - +10% quest rewards</li>
+                        </ul>
+                        
+                        <h3>Mechanics</h3>
+                        <ul>
+                            <li>10 upgrade levels per property</li>
+                            <li>Income scales with property level</li>
+                            <li>24-hour max income cap</li>
+                            <li>Property leaderboards</li>
+                        </ul>
+                    `
+                },
+                ai: {
+                    title: '🤖 AI Anti-Cheat + Community Jury',
+                    content: `
+                        <p><strong>Priority:</strong> HIGH | <strong>Timeline:</strong> 1.5 Weeks</p>
+                        
+                        <h3>Overview</h3>
+                        <p>Next-gen bot detection powered by ML and community oversight.</p>
+                        
+                        <h3>AI Enhancements</h3>
+                        <ul>
+                            <li>Expanded training dataset (100+ labeled users)</li>
+                            <li>Improved behavioral fingerprinting</li>
+                            <li>Network analysis for bot rings</li>
+                            <li>Predictive threat detection</li>
+                        </ul>
+                        
+                        <h3>Community Jury System</h3>
+                        <ul>
+                            <li>Random jury selection (5 jurors per case)</li>
+                            <li>Vote on suspicious accounts</li>
+                            <li>Earn 50 MC per case reviewed</li>
+                            <li>Majority rules (3/5 votes)</li>
+                            <li>Public moderation transparency</li>
+                        </ul>
+                        
+                        <h3>Reputation System</h3>
+                        <ul>
+                            <li>0-1000 reputation score</li>
+                            <li>Affects transfer limits and privileges</li>
+                            <li>Builds community trust</li>
+                        </ul>
+                    `
+                },
+                battlepass: {
+                    title: '🎫 Battle Pass / Seasons',
+                    content: `
+                        <p><strong>Priority:</strong> HIGH | <strong>Timeline:</strong> 1.5 Weeks</p>
+                        
+                        <h3>Overview</h3>
+                        <p>30-day seasons with exclusive rewards and progression tiers.</p>
+                        
+                        <h3>Season Structure</h3>
+                        <ul>
+                            <li>30 tiers of rewards</li>
+                            <li>Free tier: 15 rewards</li>
+                            <li>Premium tier: 30 rewards (500 MC)</li>
+                            <li>Season-exclusive items</li>
+                        </ul>
+                        
+                        <h3>XP Sources</h3>
+                        <ul>
+                            <li>Daily login: +50 XP</li>
+                            <li>Posts: +20 XP</li>
+                            <li>Comments: +10 XP</li>
+                            <li>Quest completion: +100 XP</li>
+                            <li>Achievement unlock: +150 XP</li>
+                        </ul>
+                        
+                        <h3>Season 1 Theme</h3>
+                        <p><strong>"The Awakening"</strong> - Legendary rewards, exclusive flairs, and community-voted challenges!</p>
+                    `
+                }
+            };
+
+            const data = featureData[feature];
+            title.textContent = data.title;
+            body.innerHTML = data.content;
+
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('featureModal').classList.remove('active');
+        }
+
+        // Close modal on outside click
+        document.getElementById('featureModal').addEventListener('click', (e) => {
+            if (e.target.id === 'featureModal') {
+                closeModal();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Parallax effect on scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            document.querySelector('.bg-animation').style.transform = `translateY(${scrolled * 0.5}px)`;
+        });
+    </script>
+</body>
+</html>
