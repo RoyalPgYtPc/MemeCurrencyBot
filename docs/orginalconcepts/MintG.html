@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retro_Dash_v1</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d0d25;
+            --panel: #1a1a3a;
+            --border: #ffffff;
+            --accent-yellow: #f4d03f;
+            --accent-pink: #ff4dff;
+            --accent-green: #2ecc71;
+            --text: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            image-rendering: pixelated; /* Ensures icons stay sharp */
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Press Start 2P', cursive;
+            margin: 0;
+            padding: 20px;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        /* Pixel Border Effect */
+        .pixel-box {
+            background: var(--panel);
+            border: 4px solid var(--border);
+            padding: 15px;
+            margin-bottom: 20px;
+            position: relative;
+            box-shadow: 6px 6px 0px rgba(0,0,0,0.5);
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 4px dotted var(--accent-pink);
+            padding-bottom: 15px;
+        }
+
+        .balance-display {
+            color: var(--accent-yellow);
+            font-size: 14px;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        h2 {
+            font-size: 10px;
+            color: var(--accent-green);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Retro Inputs */
+        input {
+            width: 100%;
+            background: #000;
+            border: 2px solid var(--border);
+            padding: 12px;
+            color: var(--accent-green);
+            font-family: 'Press Start 2P', cursive;
+            font-size: 8px;
+            margin: 10px 0;
+            outline: none;
+        }
+
+        /* Arcade Buttons */
+        .btn-arcade {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: var(--accent-pink);
+            border: none;
+            border-bottom: 4px solid #b300b3;
+            color: white;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .btn-arcade:active {
+            margin-top: 14px;
+            border-bottom-width: 0;
+        }
+
+        /* Grid Leaderboard */
+        .grid-leaderboard {
+            display: grid;
+            grid-template-columns: 40px 1fr 80px;
+            gap: 2px;
+            background: var(--border);
+            border: 2px solid var(--border);
+        }
+
+        .grid-cell {
+            background: var(--bg);
+            padding: 10px 5px;
+            font-size: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .grid-header {
+            background: var(--panel);
+            color: var(--accent-yellow);
+        }
+
+        /* Coin Animation Overlay */
+        #coin-pop {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 100;
+        }
+
+        .animate-coin {
+            animation: coinUp 0.8s ease-out;
+        }
+
+        @keyframes coinUp {
+            0% { opacity: 0; transform: translate(-50%, 0); }
+            50% { opacity: 1; }
+            100% { opacity: 0; transform: translate(-50%, -100px); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="coin-pop">💰</div>
+
+    <div class="header-row">
+        <div>PLAYER_01</div>
+        <div class="balance-display" id="balance">🪙 1,250</div>
+    </div>
+
+    <div class="pixel-box">
+        <h2><span style="color:var(--accent-pink)">[X]</span> SHOP</h2>
+        <button class="btn-arcade" onclick="addCoin()">BUY_FLAIR</button>
+        <p style="font-size: 7px; color: #888; margin-top: 10px;">PROMO: 20% OFF ALL PIXEL-HATS</p>
+    </div>
+
+    <div class="pixel-box">
+        <h2><span style="color:var(--accent-yellow)">[!]</span> GIFT_SEND</h2>
+        <input type="text" placeholder="USER_ID...">
+        <input type="number" placeholder="AMOUNT...">
+        <button class="btn-arcade" style="background: var(--accent-green); border-color: #1e8449;">SEND_GIFT</button>
+    </div>
+
+    <div class="pixel-box">
+        <h2 style="color: var(--accent-yellow)">🏆 TOP_RANK</h2>
+        <div class="grid-leaderboard">
+            <div class="grid-cell grid-header">#</div>
+            <div class="grid-cell grid-header">USER</div>
+            <div class="grid-cell grid-header">COINS</div>
+            
+            <div class="grid-cell">01</div>
+            <div class="grid-cell">Cyber_Punk</div>
+            <div class="grid-cell">99k</div>
+
+            <div class="grid-cell">02</div>
+            <div class="grid-cell">Pixel_Lord</div>
+            <div class="grid-cell">85k</div>
+        </div>
+    </div>
+
+    <div class="pixel-box" style="border-color: var(--accent-pink);">
+        <h2 style="color: var(--accent-pink)">🎰 GAMBLE</h2>
+        <button class="btn-arcade" style="background: #000; border: 2px solid var(--accent-pink);">ROLL_DICE</button>
+    </div>
+
+    <script>
+        function addCoin() {
+            const pop = document.getElementById('coin-pop');
+            pop.classList.remove('animate-coin');
+            void pop.offsetWidth; // Trigger reflow
+            pop.classList.add('animate-coin');
+            
+            // Subtle sound or haptic would go here
+            console.log("Transaction processed...");
+        }
+    </script>
+</body>
+</html>

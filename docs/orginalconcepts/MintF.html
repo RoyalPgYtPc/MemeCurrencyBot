@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ALPHA_INDUSTRIAL_v1</title>
+    <style>
+        :root {
+            --matte-black: #080808;
+            --panel-gray: #121212;
+            --industrial-red: #ff0000;
+            --line-muted: #222;
+            --type-high: #ffffff;
+            --type-low: #444;
+        }
+
+        * { 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            background: var(--matte-black);
+            color: var(--type-high);
+            font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', monospace;
+            overflow-x: hidden;
+            text-transform: uppercase;
+        }
+
+        /* Background Coordinate System */
+        .bg-grid {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background-image: 
+                linear-gradient(to right, var(--line-muted) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--line-muted) 1px, transparent 1px);
+            background-size: 100% 25vh; /* One line per major section */
+            opacity: 0.5;
+        }
+
+        .container {
+            width: 100%;
+            padding: 20px;
+        }
+
+        header {
+            border-bottom: 1px solid var(--industrial-red);
+            padding: 20px 0 10px 0;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .version-tag {
+            font-size: 10px;
+            color: var(--industrial-red);
+            letter-spacing: 2px;
+        }
+
+        /* Section Layout */
+        section {
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .section-label {
+            position: absolute;
+            left: -10px;
+            top: 0;
+            font-size: 10px;
+            color: var(--type-low);
+            transform: rotate(-90deg) translateX(-100%);
+            transform-origin: left top;
+            white-space: nowrap;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            margin: 0 0 20px 0;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        h2::before {
+            content: '';
+            width: 4px;
+            height: 18px;
+            background: var(--industrial-red);
+            display: inline-block;
+        }
+
+        /* Industrial Inputs */
+        .control-group {
+            border: 1px solid var(--line-muted);
+            background: var(--panel-gray);
+            padding: 2px; /* Housing effect */
+            margin-bottom: 15px;
+        }
+
+        input {
+            width: 100%;
+            background: var(--matte-black);
+            border: none;
+            padding: 15px;
+            color: var(--type-high);
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+        }
+
+        input::placeholder { color: var(--type-low); }
+
+        /* Action Buttons */
+        .btn-action {
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--type-high);
+            color: var(--type-high);
+            padding: 20px;
+            font-family: inherit;
+            font-weight: bold;
+            text-align: left;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+
+        .btn-action::after {
+            content: '>';
+            position: absolute;
+            right: 20px;
+        }
+
+        .btn-action:active {
+            background: var(--industrial-red);
+            border-color: var(--industrial-red);
+            color: #000;
+        }
+
+        .btn-danger {
+            border-color: var(--industrial-red);
+            color: var(--industrial-red);
+        }
+
+        /* Detail Text */
+        .meta {
+            font-size: 10px;
+            color: var(--type-low);
+            margin-top: 10px;
+            display: block;
+            line-height: 1.4;
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--line-muted);
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .divider::after {
+            content: '';
+            position: absolute;
+            right: 0; top: -2px;
+            width: 5px; height: 5px;
+            background: var(--industrial-red);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="bg-grid"></div>
+
+    <div class="container">
+        <header>
+            <div class="title">OS_CORE_v.2.06</div>
+            <div class="version-tag">SYSTEM_READY</div>
+        </header>
+
+        <section>
+            <span class="section-label">MOD_FLAIR_01</span>
+            <h2>BUY_FLAIRS</h2>
+            <div class="control-group">
+                <button class="btn-action">INITIALIZE_MARKET</button>
+            </div>
+            <span class="meta">SYNCED TO CENTRAL_DATABASE. LAST REFRESH: 0ms ago.</span>
+        </section>
+
+        <div class="divider"></div>
+
+        <section>
+            <span class="section-label">TRANS_02</span>
+            <h2>GIFT_COINS</h2>
+            <div class="control-group">
+                <input type="text" placeholder="ID:TARGET_USER">
+            </div>
+            <div class="control-group">
+                <input type="number" placeholder="VAL:AMOUNT">
+            </div>
+            <button class="btn-action">AUTHORIZE_TRANSFER</button>
+        </section>
+
+        <div class="divider"></div>
+
+        <section>
+            <span class="section-label">RISK_03</span>
+            <h2>GAMBLE_ENGINE</h2>
+            <div class="control-group">
+                <input type="number" placeholder="WAGER_CREDITS">
+            </div>
+            <button class="btn-action btn-danger">ENGAGE_PROBABILITY</button>
+            <span class="meta">WARNING: LOSS OF CREDITS IS PERMANENT.</span>
+        </section>
+
+        <section>
+            <span class="section-label">SYS_04</span>
+            <h2>PRESTIGE_RESET</h2>
+            <button class="btn-action">EXECUTE_WIPE</button>
+            <span class="meta">SEASONAL REBOOT REQUIRED FOR PROGRESSION.</span>
+        </section>
+
+    </div>
+
+</body>
+</html>

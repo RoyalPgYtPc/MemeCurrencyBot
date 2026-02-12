@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MemeCurrency Dashboard</title>
+
+<style>
+:root {
+  --bg: #f6f8fb;
+  --card: #ffffff;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --accent: #0ea5a4; /* teal */
+  --accent-soft: #ccfbf1;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+               Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* Header / Balance */
+.balance-card {
+  background: var(--card);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.balance-info h1 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.balance-info p {
+  margin: 6px 0 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.balance-amount {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* Grid Layout */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+/* Cards */
+.card {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Inputs */
+input {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  font-size: 14px;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* Buttons */
+button {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: none;
+  background: var(--accent);
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background .2s ease, transform .1s ease;
+}
+
+button:hover {
+  background: #0c8f8e;
+}
+
+button:active {
+  transform: scale(.98);
+}
+
+/* Secondary Button */
+.secondary {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.secondary:hover {
+  background: #b2f5ea;
+}
+
+/* Subtle text */
+.muted {
+  color: var(--muted);
+  font-size: 13px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Balance Header -->
+  <div class="balance-card">
+    <div class="balance-info">
+      <h1>Memecoin Balance</h1>
+      <p>Available balance</p>
+    </div>
+    <div class="balance-amount" id="balance">$12,450</div>
+  </div>
+
+  <!-- Feature Grid -->
+  <div class="grid">
+
+    <div class="card">
+      <h2>Buy Flairs</h2>
+      <p class="muted">Enhance your profile with premium flair.</p>
+      <button>Buy Selected</button>
+      <button class="secondary">View Options</button>
+    </div>
+
+    <div class="card">
+      <h2>Gift Coins</h2>
+      <input placeholder="Recipient username">
+      <input type="number" placeholder="Amount">
+      <button>Send Gift</button>
+    </div>
+
+    <div class="card">
+      <h2>Gamble Coins</h2>
+      <input type="number" placeholder="Bet Amount">
+      <button>Place Bet</button>
+    </div>
+
+    <div class="card">
+      <h2>Leaderboard</h2>
+      <p class="muted">Top users this season</p>
+      <button class="secondary">View Rankings</button>
+    </div>
+
+    <div class="card">
+      <h2>Season Reset</h2>
+      <p class="muted">Start fresh and earn prestige rewards.</p>
+      <button>Reset Season</button>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+// Simple demo balance change animation
+const balanceEl = document.getElementById("balance");
+
+document.querySelectorAll("button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    balanceEl.style.opacity = 0.5;
+    setTimeout(() => balanceEl.style.opacity = 1, 200);
+  });
+});
+</script>
+
+</body>
+</html>

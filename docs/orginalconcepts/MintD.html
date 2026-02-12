@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Soft Glass Frosted MemeCurrency UI</title>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    /* Root colors & gradients */
+    :root {
+      --bg-gradient: linear-gradient(135deg, #2b5876, #4e4376);
+      --card-bg: rgba(255 255 255 / 0.12);
+      --card-border: rgba(255 255 255 / 0.2);
+      --button-glow: #94e0ff;
+      --button-gradient: linear-gradient(45deg, #43cea2, #185a9d);
+      --text-light: #e0e6f2;
+      --text-accent: #a0f0ff;
+      --shadow-glow: rgba(64, 200, 255, 0.4);
+      --shadow-soft: rgba(0, 0, 0, 0.1);
+    }
+
+    /* Reset & body */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg-gradient);
+      font-family: 'Poppins', sans-serif;
+      color: var(--text-light);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 20px;
+    }
+
+    /* Container */
+    .container {
+      max-width: 960px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      padding-bottom: 40px;
+    }
+
+    /* Frosted glass card */
+    .card {
+      background: var(--card-bg);
+      border-radius: 24px;
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(14px) saturate(180%);
+      -webkit-backdrop-filter: blur(14px) saturate(180%);
+      box-shadow:
+        0 8px 30px var(--shadow-soft),
+        0 0 8px var(--shadow-glow);
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow:
+        0 16px 40px var(--shadow-soft),
+        0 0 12px 3px var(--shadow-glow);
+    }
+
+    /* Headings */
+    .card h2 {
+      margin: 0;
+      font-weight: 600;
+      font-size: 1.5rem;
+      color: var(--text-accent);
+      text-shadow: 0 0 6px rgba(160, 240, 255, 0.6);
+    }
+
+    /* Inputs */
+    input {
+      background: rgba(255 255 255 / 0.2);
+      border: 1.5px solid rgba(255 255 255 / 0.4);
+      border-radius: 14px;
+      color: var(--text-light);
+      padding: 14px 16px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+      box-shadow: 0 0 8px rgba(160, 240, 255, 0);
+    }
+    input::placeholder {
+      color: rgba(224, 230, 242, 0.6);
+    }
+    input:focus {
+      outline: none;
+      border-color: var(--text-accent);
+      box-shadow: 0 0 14px var(--text-accent);
+      background: rgba(255 255 255 / 0.3);
+    }
+
+    /* Buttons */
+    button {
+      background: var(--button-gradient);
+      border: none;
+      border-radius: 24px;
+      padding: 14px 24px;
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: #f0f9ff;
+      cursor: pointer;
+      box-shadow:
+        0 0 8px var(--button-glow),
+        0 4px 10px rgba(0, 0, 0, 0.15);
+      transition:
+        background 0.4s ease,
+        box-shadow 0.3s ease,
+        transform 0.15s ease;
+      user-select: none;
+    }
+    button:hover {
+      background: linear-gradient(45deg, #5fe7ff, #1a6ee8);
+      box-shadow:
+        0 0 16px var(--button-glow),
+        0 8px 20px rgba(0, 105, 255, 0.6);
+      transform: translateY(-3px);
+    }
+    button:active {
+      transform: translateY(-1px);
+      box-shadow:
+        0 0 10px var(--button-glow),
+        0 3px 7px rgba(0, 80, 200, 0.7);
+    }
+
+    /* Compact button group */
+    .btn-group {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    /* Subtle text */
+    .subtle {
+      font-weight: 400;
+      font-size: 0.9rem;
+      color: rgba(224, 230, 242, 0.6);
+      user-select: none;
+    }
+
+    /* Full width card variant */
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    /* Header */
+    .header {
+      grid-column: 1 / -1;
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-accent);
+      text-shadow: 0 0 12px rgba(160, 240, 255, 0.7);
+      user-select: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      body {
+        padding: 20px 12px;
+      }
+      .container {
+        gap: 24px;
+      }
+      .card {
+        padding: 20px 16px;
+      }
+      button {
+        font-size: 1rem;
+        padding: 12px 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="container" role="main" aria-label="MemeCurrency Dashboard">
+
+    <header class="header" aria-level="1">memecurrencybot</header>
+
+    <section class="card" aria-labelledby="buy-flairs-label">
+      <h2 id="buy-flairs-label">Buy Flairs</h2>
+      <div class="btn-group" role="group" aria-label="Buy flairs controls">
+        <button type="button">Buy Selected</button>
+        <button type="button">Refresh</button>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="leaderboard-label">
+      <h2 id="leaderboard-label">🏆 Leaderboard</h2>
+      <button type="button">Refresh</button>
+    </section>
+
+    <section class="card" aria-labelledby="gift-coins-label">
+      <h2 id="gift-coins-label">Gift Coins</h2>
+      <input type="text" placeholder="Recipient username" aria-label="Recipient username" />
+      <input type="number" placeholder="Amount" aria-label="Amount" />
+      <button type="button">Send Gift</button>
+    </section>
+
+    <section class="card" aria-labelledby="gamble-coins-label">
+      <h2 id="gamble-coins-label">Gamble Coins</h2>
+      <input type="number" placeholder="Bet Amount" aria-label="Bet Amount" />
+      <button type="button">Gamble!</button>
+    </section>
+
+    <section class="card full" aria-labelledby="season-reset-label">
+      <h2 id="season-reset-label">Seasonal Reset &amp; Prestige</h2>
+      <button type="button">Reset Season</button>
+    </section>
+
+  </main>
+
+</body>
+</html>
