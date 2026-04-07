@@ -1,723 +1,657 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MemeCoin V5.0 Beta Tester Application</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beta Tester Application — MemeCoin V5.0</title>
+<meta name="description" content="Apply to beta test MemeCoin V5.0 Project Nexus before public launch.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --o:#FF5500;--og:rgba(255,85,0,.35);--v:#8B5CF6;--p:#EC4899;--g:#00FF88;
+  --bg:#040404;--s:rgba(255,255,255,.025);--bd:rgba(255,85,0,.12);
+  --t:#F0EDE8;--m:rgba(240,237,232,.42);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t);overflow-x:hidden;cursor:none;min-height:100vh}
 
-        :root {
-            --primary: #FF6B00;
-            --secondary: #890BFF;
-            --accent: #00FFAA;
-            --dark: #0A0E27;
-            --darker: #050814;
-            --light: #E0E0E0;
-            --glow: rgba(255, 107, 0, 0.5);
-        }
+/* CURSOR */
+#cur{position:fixed;width:10px;height:10px;background:var(--o);border-radius:50%;pointer-events:none;z-index:99999;left:-20px;top:-20px;transform:translate(-50%,-50%);mix-blend-mode:screen;transition:width .25s,height .25s}
+#ring{position:fixed;width:36px;height:36px;border:1.5px solid var(--o);border-radius:50%;pointer-events:none;z-index:99998;left:-40px;top:-40px;transform:translate(-50%,-50%);opacity:.45;transition:width .3s,height .3s,border-color .3s,opacity .3s}
 
-        body {
-            font-family: 'Space Mono', monospace;
-            background: var(--darker);
-            color: var(--light);
-            min-height: 100vh;
-            padding: 2rem;
-            position: relative;
-        }
+/* PROGRESS */
+#prog{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--o),var(--p),var(--v));width:0%;z-index:10000;box-shadow:0 0 12px var(--og)}
 
-        /* Animated background */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(137, 11, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(255, 107, 0, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 40% 20%, rgba(0, 255, 170, 0.1) 0%, transparent 50%);
-            animation: bgPulse 15s ease-in-out infinite;
-        }
+/* NOISE */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:.6}
 
-        @keyframes bgPulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.6; }
-        }
+/* ORBS */
+.orb{position:fixed;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:-1}
+.o1{width:600px;height:600px;background:radial-gradient(circle,rgba(255,85,0,.14) 0%,transparent 70%);top:-200px;left:-200px;animation:d1 28s ease-in-out infinite}
+.o2{width:500px;height:500px;background:radial-gradient(circle,rgba(139,92,246,.11) 0%,transparent 70%);bottom:-200px;right:-100px;animation:d2 34s ease-in-out infinite}
+.o3{width:350px;height:350px;background:radial-gradient(circle,rgba(0,255,136,.07) 0%,transparent 70%);top:50%;left:50%;animation:d3 20s ease-in-out infinite}
+@keyframes d1{0%,100%{transform:translate(0,0)}50%{transform:translate(80px,60px)}}
+@keyframes d2{0%,100%{transform:translate(0,0)}50%{transform:translate(-60px,-80px)}}
+@keyframes d3{0%,100%{transform:translate(-50%,-50%)}50%{transform:translate(-44%,-56%)}}
 
-        .grid-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background-image: 
-                linear-gradient(rgba(255, 107, 0, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 107, 0, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-        }
+/* CANVAS */
+#particles{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.3}
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:26px 60px;display:flex;justify-content:space-between;align-items:center;transition:all .4s cubic-bezier(.4,0,.2,1)}
+nav.scrolled{background:rgba(4,4,4,.94);backdrop-filter:blur(28px) saturate(1.6);border-bottom:1px solid var(--bd);padding:16px 60px;box-shadow:0 1px 40px rgba(0,0,0,.6)}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:.06em;display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--t)}
+.lc{display:inline-block;animation:coinflip 7s ease-in-out infinite}
+@keyframes coinflip{0%,85%,100%{transform:rotateY(0)}90%{transform:rotateY(180deg)}}
+.logo em{font-style:normal;background:linear-gradient(135deg,var(--o),var(--p));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nl{display:flex;gap:6px;list-style:none;align-items:center}
+.nl a{color:var(--m);text-decoration:none;font-size:12px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:8px 13px;border-radius:7px;transition:all .2s}
+.nl a:hover{color:var(--t);background:var(--s)}
+.nc-nav{background:var(--o)!important;color:#fff!important;font-weight:700!important}
+.nc-nav:hover{background:#ff6622!important;transform:translateY(-2px)!important;box-shadow:0 8px 28px var(--og)!important}
 
-        .form-header {
-            background: linear-gradient(135deg, rgba(137, 11, 255, 0.2), rgba(255, 107, 0, 0.2));
-            border: 3px solid var(--primary);
-            border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
-            margin-bottom: 2rem;
-            position: relative;
-            overflow: hidden;
-        }
+/* HERO */
+.hero{padding:160px 60px 80px;text-align:center;position:relative;overflow:hidden}
+.hgrid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,85,0,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,85,0,.04) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse 80% 60% at 50% 50%,black 40%,transparent 100%);pointer-events:none}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--o);border:1px solid rgba(255,85,0,.28);padding:8px 22px;border-radius:3px;margin-bottom:32px;background:rgba(255,85,0,.05);animation:fi .9s .1s both}
+.edot{width:6px;height:6px;background:var(--o);border-radius:50%;animation:pdot 1.6s ease-in-out infinite;display:inline-block}
+@keyframes pdot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.65)}}
+h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(64px,12vw,160px);line-height:.9;letter-spacing:-.01em;position:relative}
+.h1a{display:block;color:var(--t);animation:slideUp .9s .3s both}
+.h1b{display:block;background:linear-gradient(135deg,var(--o) 0%,var(--p) 55%,var(--v) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 60px rgba(255,85,0,.4));background-size:200% 200%;animation:slideUp .9s .45s both,gradshift 6s ease-in-out 1.4s infinite}
+@keyframes gradshift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes slideUp{from{opacity:0;transform:translateY(40px) skewY(2deg)}to{opacity:1;transform:translateY(0) skewY(0)}}
+.hero-sub{font-size:clamp(15px,2vw,19px);color:var(--m);max-width:540px;margin:24px auto 0;line-height:1.7;font-weight:300;font-style:italic;animation:fi 1s .65s both}
+@keyframes fi{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 
-        .form-header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 107, 0, 0.3) 0%, transparent 70%);
-            animation: rotate 10s linear infinite;
-        }
+/* BENEFITS STRIP */
+.benefits{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--bd);border:1px solid var(--bd);border-radius:14px;overflow:hidden;max-width:1000px;margin:64px auto 0;animation:fi 1s .9s both}
+.ben{background:var(--bg);padding:28px 16px;text-align:center;transition:background .3s;position:relative;overflow:hidden}
+.ben::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(255,85,0,.1),transparent 70%);opacity:0;transition:opacity .4s}
+.ben:hover{background:rgba(255,85,0,.04)}.ben:hover::after{opacity:1}
+.ben-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.ben-icon svg{width:18px;height:18px}
+.ben-val{font-family:'Bebas Neue',sans-serif;font-size:22px;line-height:1;background:linear-gradient(135deg,var(--o),var(--p));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;margin-bottom:4px}
+.ben-lbl{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--m)}
 
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+/* MAIN */
+.main{max-width:780px;margin:0 auto;padding:80px 60px 120px;position:relative;z-index:1}
 
-        .form-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 900;
-            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-            position: relative;
-            z-index: 1;
-        }
+/* SUCCESS / ERROR */
+.msg{border-radius:12px;padding:28px 32px;margin-bottom:40px;display:none;text-align:center;border:1px solid}
+.msg.show{display:block}
+.msg-ok{background:rgba(0,255,136,.05);border-color:rgba(0,255,136,.3)}
+.msg-ok h3{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:.03em;color:var(--g);margin-bottom:8px}
+.msg-ok p{font-size:15px;color:rgba(240,237,232,.65);line-height:1.65}
+.msg-err{background:rgba(255,50,50,.05);border-color:rgba(255,50,50,.25)}
+.msg-err p{color:rgba(255,100,100,.8);font-size:14px}
 
-        .form-subtitle {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.7rem;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            position: relative;
-            z-index: 1;
-        }
+/* SECTION CARD */
+.fsec{background:rgba(255,255,255,.018);border:1px solid var(--bd);border-radius:16px;padding:40px;margin-bottom:16px;position:relative;overflow:hidden;transition:border-color .3s}
+.fsec::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--o),var(--p),var(--v));opacity:0;transition:opacity .4s}
+.fsec:focus-within{border-color:rgba(255,85,0,.3)}
+.fsec:focus-within::before{opacity:1}
+.sec-head{display:flex;align-items:center;gap:14px;margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.06)}
+.sec-icon{width:40px;height:40px;border-radius:9px;background:rgba(255,85,0,.1);border:1px solid rgba(255,85,0,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sec-icon svg{width:18px;height:18px;stroke:var(--o)}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.04em;color:var(--t)}
+.sec-count{font-family:'Space Mono',monospace;font-size:10px;color:var(--m);letter-spacing:.12em;margin-top:2px}
 
-        .form-description {
-            margin-top: 1rem;
-            color: var(--light);
-            font-size: 0.9rem;
-            position: relative;
-            z-index: 1;
-            line-height: 1.6;
-        }
+/* FORM ELEMENTS */
+.fg{margin-bottom:28px}
+.fg:last-child{margin-bottom:0}
+label.lbl{display:block;font-size:13px;font-weight:600;letter-spacing:.04em;color:var(--t);margin-bottom:10px}
+label.lbl .req{color:var(--o);margin-left:3px}
+label.lbl .opt{font-family:'Space Mono',monospace;font-size:10px;color:var(--m);letter-spacing:.1em;text-transform:uppercase;margin-left:6px;font-weight:400}
+.help{font-family:'Space Mono',monospace;font-size:11px;color:var(--m);letter-spacing:.06em;margin-top:7px;line-height:1.5}
 
-        .benefits-box {
-            background: rgba(0, 255, 170, 0.1);
-            border: 2px solid var(--accent);
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-            position: relative;
-            z-index: 1;
-        }
+input[type=text],input[type=email],input[type=number],textarea,select{
+  width:100%;
+  padding:13px 18px;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--bd);
+  border-radius:6px;
+  color:var(--t);
+  font-family:'DM Sans',sans-serif;
+  font-size:14px;
+  transition:all .25s;
+  appearance:none;
+  -webkit-appearance:none;
+}
+input[type=text]::placeholder,input[type=email]::placeholder,input[type=number]::placeholder,textarea::placeholder{color:var(--m)}
+input[type=text]:focus,input[type=email]:focus,input[type=number]:focus,textarea:focus,select:focus{
+  outline:none;
+  border-color:rgba(255,85,0,.5);
+  background:rgba(255,85,0,.03);
+  box-shadow:0 0 0 3px rgba(255,85,0,.08);
+}
+select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(240,237,232,0.4)' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 16px center;
+  padding-right:44px;
+  cursor:pointer;
+}
+select option{background:#0a0a0a;color:var(--t)}
+textarea{min-height:110px;resize:vertical;line-height:1.65}
 
-        .benefits-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 900;
-            color: var(--accent);
-            margin-bottom: 1rem;
-            text-align: center;
-        }
+/* Char count */
+.char-wrap{position:relative}
+.char-count{font-family:'Space Mono',monospace;font-size:10px;color:var(--m);text-align:right;margin-top:6px;letter-spacing:.06em}
 
-        .benefits-list {
-            list-style: none;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 0.8rem;
-        }
+/* RADIO / CHECKBOX */
+.choice-group{display:flex;flex-direction:column;gap:8px}
+.choice-item{display:flex;align-items:center;gap:14px;padding:13px 18px;background:rgba(255,255,255,.02);border:1px solid var(--bd);border-radius:6px;cursor:pointer;transition:all .22s;user-select:none}
+.choice-item:hover{background:rgba(255,85,0,.04);border-color:rgba(255,85,0,.3)}
+.choice-item input{position:absolute;opacity:0;width:0;height:0}
+.choice-box{width:18px;height:18px;border-radius:3px;border:1.5px solid rgba(255,255,255,.2);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;background:transparent}
+.choice-circle{width:18px;height:18px;border-radius:50%;border:1.5px solid rgba(255,255,255,.2);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;background:transparent;position:relative}
+.choice-item.checked .choice-box{background:var(--o);border-color:var(--o)}
+.choice-item.checked .choice-circle{border-color:var(--o)}
+.choice-item.checked .choice-circle::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--o);position:absolute}
+.choice-item.checked{background:rgba(255,85,0,.06);border-color:rgba(255,85,0,.35)}
+.choice-item.checked .choice-lbl{color:var(--t)}
+.check-mark{width:10px;height:10px;display:none}
+.choice-item.checked .check-mark{display:block}
+.check-mark path{stroke:#fff;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.choice-lbl{font-size:14px;color:rgba(240,237,232,.75);line-height:1.4;transition:color .2s}
 
-        .benefits-list li {
-            padding: 0.5rem;
-            background: rgba(0, 255, 170, 0.05);
-            border-radius: 8px;
-            font-size: 0.9rem;
-        }
+/* 2-col grid for choices */
+.choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 
-        .form-body {
-            background: linear-gradient(135deg, rgba(10, 14, 39, 0.95), rgba(5, 8, 20, 0.95));
-            border: 2px solid var(--primary);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
+/* SUBMIT */
+.submit-wrap{text-align:center;margin-top:8px}
+.commit-item{display:flex;align-items:flex-start;gap:14px;padding:18px;background:rgba(255,85,0,.04);border:1px solid rgba(255,85,0,.2);border-radius:8px;cursor:pointer;transition:all .22s;margin-bottom:32px;user-select:none}
+.commit-item:hover{background:rgba(255,85,0,.07)}
+.commit-item input{position:absolute;opacity:0;width:0;height:0}
+.commit-item.checked{background:rgba(255,85,0,.08);border-color:rgba(255,85,0,.4)}
+.commit-lbl{font-size:14px;color:rgba(240,237,232,.75);line-height:1.6}
+.commit-lbl strong{color:var(--t)}
 
-        .form-section {
-            margin-bottom: 2rem;
-        }
+.sub-btn{display:inline-flex;align-items:center;gap:12px;padding:18px 48px;background:var(--o);color:#fff;border:none;border-radius:5px;font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.08em;cursor:pointer;transition:all .28s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
+.sub-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#ff7733,var(--p));opacity:0;transition:opacity .3s}
+.sub-btn:hover{transform:translateY(-3px);box-shadow:0 14px 44px var(--og)}
+.sub-btn:hover::before{opacity:1}
+.sub-btn span,.sub-btn svg{position:relative;z-index:1}
+.sub-btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.sub-btn svg{width:22px;height:22px;animation:none}
+.sub-btn.loading svg{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sub-note{font-family:'Space Mono',monospace;font-size:11px;color:var(--m);letter-spacing:.08em;margin-top:16px;line-height:1.6}
 
-        .section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid rgba(255, 107, 0, 0.3);
-        }
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.4,0,.2,1),transform .7s cubic-bezier(.4,0,.2,1)}
+.reveal.vis{opacity:1;transform:translateY(0)}
+.rd1{transition-delay:.07s}.rd2{transition-delay:.14s}.rd3{transition-delay:.21s}.rd4{transition-delay:.28s}.rd5{transition-delay:.35s}.rd6{transition-delay:.42s}
 
-        .form-group {
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
+/* FOOTER */
+footer{padding:64px 60px 48px;border-top:1px solid var(--bd)}
+.fi_{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.2fr 1fr;gap:80px;align-items:start}
+.fb_ p{font-size:14px;color:var(--m);line-height:1.72;max-width:340px;margin-top:14px}
+.flg_{display:flex;gap:56px}
+.fcol h4{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.17em;text-transform:uppercase;color:var(--m);margin-bottom:14px}
+.fcol a{display:block;color:rgba(240,237,232,.55);text-decoration:none;font-size:13px;padding:4px 0;transition:color .2s,padding-left .2s}
+.fcol a:hover{color:var(--o);padding-left:6px}
+.fbot{max-width:1280px;margin:36px auto 0;padding-top:22px;border-top:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+.fbot p{font-size:11px;color:var(--m)}
 
-        label {
-            display: block;
-            font-size: 0.95rem;
-            color: var(--light);
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .required {
-            color: var(--primary);
-            margin-left: 0.2rem;
-        }
-
-        input[type="text"],
-        input[type="email"],
-        input[type="number"],
-        textarea,
-        select {
-            width: 100%;
-            padding: 0.8rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 107, 0, 0.3);
-            border-radius: 10px;
-            color: var(--light);
-            font-family: 'Space Mono', monospace;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-        }
-
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        input[type="number"]:focus,
-        textarea:focus,
-        select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 20px var(--glow);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .char-count {
-            position: absolute;
-            bottom: -20px;
-            right: 0;
-            font-size: 0.75rem;
-            color: #666;
-        }
-
-        .checkbox-group,
-        .radio-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-        }
-
-        .checkbox-item,
-        .radio-item {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 0.8rem;
-            background: rgba(255, 107, 0, 0.05);
-            border: 1px solid rgba(255, 107, 0, 0.2);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .checkbox-item:hover,
-        .radio-item:hover {
-            background: rgba(255, 107, 0, 0.1);
-            border-color: var(--primary);
-        }
-
-        input[type="checkbox"],
-        input[type="radio"] {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            accent-color: var(--primary);
-        }
-
-        .help-text {
-            font-size: 0.85rem;
-            color: #999;
-            margin-top: 0.3rem;
-        }
-
-        .submit-section {
-            text-align: center;
-            margin-top: 2rem;
-        }
-
-        .submit-btn {
-            padding: 1rem 3rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border: none;
-            border-radius: 50px;
-            color: white;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 900;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px var(--glow);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .submit-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.5s ease, height 0.5s ease;
-        }
-
-        .submit-btn:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 50px var(--glow);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .success-message,
-        .error-message {
-            padding: 1.5rem;
-            border-radius: 15px;
-            margin-bottom: 1rem;
-            text-align: center;
-            font-weight: 600;
-            display: none;
-        }
-
-        .success-message {
-            background: rgba(0, 255, 170, 0.2);
-            border: 2px solid var(--accent);
-            color: var(--accent);
-        }
-
-        .success-message h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .error-message {
-            background: rgba(255, 0, 0, 0.2);
-            border: 2px solid #ff0000;
-            color: #ff6666;
-        }
-
-        .spinner {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .submit-btn.loading .spinner {
-            display: inline-block;
-        }
-
-        .submit-btn.loading span {
-            display: none;
-        }
-
-        .info-box {
-            background: rgba(0, 170, 255, 0.1);
-            border: 2px solid rgba(0, 170, 255, 0.5);
-            border-radius: 15px;
-            padding: 1rem;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            color: #66B3FF;
-        }
-
-        .info-box strong {
-            color: #00AAFF;
-        }
-
-        @media (max-width: 768px) {
-            .form-title {
-                font-size: 1.8rem;
-            }
-
-            .form-subtitle {
-                font-size: 0.6rem;
-            }
-
-            .benefits-list {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Hidden iframe for submission */
-        #hidden_iframe {
-            display: none;
-        }
-    </style>
-    <script>
-        // Track submission status globally
-        var submitted = false;
-
-        function showSuccess() {
-            const submitBtn = document.getElementById('submitBtn');
-            const successMsg = document.getElementById('successMessage');
-            const form = document.getElementById('betaApplicationForm');
-
-            if (!submitBtn || !successMsg || !form) return;
-
-            // Hide loading state
-            submitBtn.classList.remove('loading');
-            submitBtn.disabled = false;
-
-            // Show success message
-            successMsg.style.display = 'block';
-            
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            // Reset form and clear local storage
-            form.reset();
-            localStorage.removeItem('memecoin_form_data');
-        }
-
-        // Feature: Update Character Counter
-        function updateCharCount(id, countId) {
-            const el = document.getElementById(id);
-            const countEl = document.getElementById(countId);
-            if (el && countEl) {
-                countEl.textContent = el.value.length + " characters";
-            }
-        }
-
-        // Feature: Persistence - Save as user types
-        function saveDraft() {
-            const form = document.getElementById('betaApplicationForm');
-            const formData = new FormData(form);
-            const data = {};
-            formData.forEach((value, key) => {
-                if(!data[key]) {
-                    data[key] = value;
-                } else {
-                    if(!Array.isArray(data[key])) data[key] = [data[key]];
-                    data[key].push(value);
-                }
-            });
-            localStorage.setItem('memecoin_form_data', JSON.stringify(data));
-        }
-
-        // Load Draft on Init
-        window.onload = function() {
-            const saved = localStorage.getItem('memecoin_form_data');
-            if (saved) {
-                const data = JSON.parse(saved);
-                const form = document.getElementById('betaApplicationForm');
-                Object.keys(data).forEach(key => {
-                    const elements = form.querySelectorAll(`[name="${key}"]`);
-                    elements.forEach(el => {
-                        if (el.type === 'checkbox' || el.type === 'radio') {
-                            if (Array.isArray(data[key])) {
-                                el.checked = data[key].includes(el.value);
-                            } else {
-                                el.checked = el.value === data[key];
-                            }
-                        } else {
-                            el.value = data[key];
-                        }
-                    });
-                });
-                // Trigger counters
-                updateCharCount('whyBetaTest', 'whyCount');
-                updateCharCount('findBugs', 'bugsCount');
-            }
-        };
-    </script>
+@media(max-width:1024px){.benefits{grid-template-columns:repeat(3,1fr)}.fi_{grid-template-columns:1fr;gap:40px}}
+@media(max-width:768px){
+  nav,nav.scrolled{padding:16px 22px}.nl{display:none}
+  .hero{padding:110px 22px 56px}
+  .main{padding:56px 22px 80px}
+  .fsec{padding:28px 22px}
+  .benefits{grid-template-columns:repeat(2,1fr)}
+  .choice-grid{grid-template-columns:1fr}
+  .flg_{flex-direction:column;gap:28px}
+  .fbot{flex-direction:column;text-align:center}
+  footer{padding:48px 22px 40px}
+  body{cursor:auto}#cur,#ring{display:none}
+}
+</style>
 </head>
 <body>
-    <div class="bg-animation"></div>
-    <div class="grid-overlay"></div>
+<iframe name="hf" id="hf" style="display:none" onload="if(window._submitted)showSuccess()"></iframe>
+<div id="cur"></div><div id="ring"></div>
+<div id="prog"></div>
+<canvas id="particles"></canvas>
+<div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
 
-    <!-- Hidden iframe to handle Google Form submission -->
-    <iframe name="hidden_iframe" id="hidden_iframe" onload="if(submitted) {showSuccess();}"></iframe>
+<!-- NAV -->
+<nav id="nav">
+  <a href="index.html" class="logo"><span class="lc">💰</span><span>Meme<em>Coin</em></span></a>
+  <ul class="nl">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#features">Features</a></li>
+    <li><a href="index.html#v5">V5.0</a></li>
+    <li><a href="news.html">News</a></li>
+    <li><a href="v5-roadmap.html">Roadmap</a></li>
+  </ul>
+</nav>
 
-    <div class="container">
-        <!-- Form Header -->
-        <header class="form-header">
-            <h1 class="form-title">🎮 Beta Tester Application</h1>
-            <p class="form-subtitle">MemeCoin V5.0 - Project NEXUS</p>
-            <p class="form-description">
-                Join an elite group of beta testers and help shape the future of MemeCoin! 
-                Test cutting-edge features before anyone else and earn exclusive rewards.
-            </p>
+<!-- HERO -->
+<section class="hero">
+  <div class="hgrid"></div>
+  <div class="eyebrow"><span class="edot"></span>V5.0 — Project Nexus — Limited Spots</div>
+  <h1>
+    <span class="h1a">BETA</span>
+    <span class="h1b">APPLICATION</span>
+  </h1>
+  <p class="hero-sub">Join an elite group shaping the future of MemeCoin. Test before anyone else. Report what matters. Earn exclusive rewards.</p>
 
-            <div class="benefits-box">
-                <h3 class="benefits-title">🌟 Beta Tester Benefits</h3>
-                <ul class="benefits-list">
-                    <li>🎁 500 MC Welcome Bonus</li>
-                    <li>🏅 Exclusive Beta Tester Badge</li>
-                    <li>⚡ Early Access to All Features</li>
-                    <li>👑 Founder Team Opportunity</li>
-                    <li>💬 Direct Dev Team Access</li>
-                    <li>🎨 Exclusive Beta Flair</li>
-                </ul>
-            </div>
-        </header>
+  <!-- Benefits strip -->
+  <div class="benefits">
+    <div class="ben">
+      <div class="ben-icon" style="background:rgba(0,255,136,.1);border-color:rgba(0,255,136,.2)"><svg viewBox="0 0 24 24" fill="none" stroke="#00FF88" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+      <span class="ben-val">500</span>
+      <span class="ben-lbl">MC Bonus</span>
+    </div>
+    <div class="ben">
+      <div class="ben-icon" style="background:rgba(255,85,0,.1);border-color:rgba(255,85,0,.2)"><svg viewBox="0 0 24 24" fill="none" stroke="#FF5500" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+      <span class="ben-val">Beta</span>
+      <span class="ben-lbl">Exclusive Badge</span>
+    </div>
+    <div class="ben">
+      <div class="ben-icon" style="background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.2)"><svg viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+      <span class="ben-val">Early</span>
+      <span class="ben-lbl">All Features</span>
+    </div>
+    <div class="ben">
+      <div class="ben-icon" style="background:rgba(236,72,153,.1);border-color:rgba(236,72,153,.2)"><svg viewBox="0 0 24 24" fill="none" stroke="#EC4899" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <span class="ben-val">Founder</span>
+      <span class="ben-lbl">Team Access</span>
+    </div>
+    <div class="ben">
+      <div class="ben-icon" style="background:rgba(255,85,0,.1);border-color:rgba(255,85,0,.2)"><svg viewBox="0 0 24 24" fill="none" stroke="#FF5500" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+      <span class="ben-val">Direct</span>
+      <span class="ben-lbl">Dev Access</span>
+    </div>
+    <div class="ben">
+      <div class="ben-icon" style="background:rgba(255,215,0,.08);border-color:rgba(255,215,0,.18)"><svg viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+      <span class="ben-val">Beta</span>
+      <span class="ben-lbl">Exclusive Flair</span>
+    </div>
+  </div>
+</section>
 
-        <!-- Messages -->
-        <div class="success-message" id="successMessage" role="alert">
-            <h3>✅ Application Submitted!</h3>
-            <p>Thank you for applying! We'll review your application and contact you within 48 hours via Reddit DM.</p>
+<!-- FORM -->
+<div class="main">
+
+  <!-- Success -->
+  <div class="msg msg-ok" id="successMsg">
+    <h3>Application Received</h3>
+    <p>We'll review your application and contact you within 48 hours via Reddit DM. Stay tuned — and thank you for being part of this.</p>
+  </div>
+  <!-- Error -->
+  <div class="msg msg-err" id="errorMsg">
+    <p>Something went wrong. Please try again or reach out on r/memeexchangecommunism.</p>
+  </div>
+
+  <form
+    id="form"
+    action="https://docs.google.com/forms/d/e/1FAIpQLScyW2UqsJgnVsBjU-vmKzCQYLax-8WfaBSSZpjKvpP844BHiw/formResponse"
+    method="POST"
+    target="hf"
+  >
+
+    <!-- ── SECTION 1: BASIC INFO ── -->
+    <div class="fsec reveal">
+      <div class="sec-head">
+        <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div>
+          <div class="sec-title">Basic Information</div>
+          <div class="sec-count">Section 1 of 5</div>
         </div>
-        <div class="error-message" id="errorMessage" role="alert">
-            ❌ Oops! Something went wrong. Please try again or contact us on Reddit.
-        </div>
+      </div>
 
-        <!-- Form Body -->
-        <form 
-            id="betaApplicationForm" 
-            class="form-body"
-            action="https://docs.google.com/forms/d/e/1FAIpQLScyW2UqsJgnVsBjU-vmKzCQYLax-8WfaBSSZpjKvpP844BHiw/formResponse"
-            method="POST"
-            target="hidden_iframe"
-            oninput="saveDraft()"
-        >
-            <!-- Section 1: Basic Info -->
-            <section class="form-section">
-                <h2 class="section-title">📋 Basic Information</h2>
+      <div class="fg">
+        <label class="lbl" for="rUser">Reddit Username <span class="req">*</span></label>
+        <input type="text" id="rUser" name="entry.1360472699" placeholder="u/YourUsername" required autocomplete="off">
+      </div>
 
-                <div class="form-group">
-                    <label for="redditUsername">Reddit Username <span class="required">*</span></label>
-                    <input type="text" id="redditUsername" name="entry.1360472699" placeholder="u/YourUsername" required>
-                </div>
+      <div class="fg">
+        <label class="lbl" for="disc">Discord Username <span class="opt">Optional</span></label>
+        <input type="text" id="disc" name="entry.268481679" placeholder="username">
+      </div>
 
-                <div class="form-group">
-                    <label for="discordUsername">Discord Username (Optional)</label>
-                    <input type="text" id="discordUsername" name="entry.268481679" placeholder="YourDiscord#1234">
-                </div>
+      <div class="fg">
+        <label class="lbl" for="mail">Email Address <span class="opt">Optional</span></label>
+        <input type="email" id="mail" name="entry.950102827" placeholder="you@example.com">
+        <div class="help">Only used to notify you of your application status.</div>
+      </div>
 
-                <div class="form-group">
-                    <label for="email">Email Address (Optional)</label>
-                    <input type="email" id="email" name="entry.950102827" placeholder="your.email@example.com">
-                </div>
-
-                <div class="form-group">
-                    <label for="timezone">Your Timezone <span class="required">*</span></label>
-                    <select id="timezone" name="entry.1973898465" required>
-                        <option value="">Select your timezone...</option>
-                        <option value="PST (UTC-8)">PST (UTC-8) - Pacific Time</option>
-                        <option value="MST (UTC-7)">MST (UTC-7) - Mountain Time</option>
-                        <option value="CST (UTC-6)">CST (UTC-6) - Central Time</option>
-                        <option value="EST (UTC-5)">EST (UTC-5) - Eastern Time</option>
-                        <option value="GMT (UTC+0)">GMT (UTC+0) - London</option>
-                        <option value="CET (UTC+1)">CET (UTC+1) - Central Europe</option>
-                        <option value="IST (UTC+5:30)">IST (UTC+5:30) - India</option>
-                        <option value="CST (UTC+8)">CST (UTC+8) - China</option>
-                        <option value="JST (UTC+9)">JST (UTC+9) - Japan</option>
-                        <option value="AEST (UTC+10)">AEST (UTC+10) - Australia East</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-            </section>
-
-            <!-- Section 2: Activity -->
-            <section class="form-section">
-                <h2 class="section-title">⚡ Activity & Experience</h2>
-
-                <div class="form-group">
-                    <label>How active are you on Reddit? <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-item"><input type="radio" name="entry.1394104156" value="Daily - Multiple hours" required> <span>🔥 Daily - Multiple hours</span></label>
-                        <label class="radio-item"><input type="radio" name="entry.1394104156" value="Daily - 1-2 hours"> <span>⚡ Daily - 1-2 hours</span></label>
-                        <label class="radio-item"><input type="radio" name="entry.1394104156" value="Few times a week"> <span>📅 Few times a week</span></label>
-                        <label class="radio-item"><input type="radio" name="entry.1394104156" value="Weekly"> <span>🌙 Weekly</span></label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="accountAge">How long have you been on Reddit? <span class="required">*</span></label>
-                    <select id="accountAge" name="entry.1491524581" required>
-                        <option value="">Select...</option>
-                        <option value="Less than 1 month">Less than 1 month</option>
-                        <option value="1-6 months">1-6 months</option>
-                        <option value="6 months - 1 year">6 months - 1 year</option>
-                        <option value="1-2 years">1-2 years</option>
-                        <option value="2-5 years">2-5 years</option>
-                        <option value="5+ years">5+ years</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Have you used MemeCoin before? <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-item"><input type="radio" name="entry.1332660514" value="Yes, active user" required> <span>✅ Active User</span></label>
-                        <label class="radio-item"><input type="radio" name="entry.1332660514" value="Yes, tried it"> <span>👍 Tried it</span></label>
-                        <label class="radio-item"><input type="radio" name="entry.1332660514" value="No, but interested"> <span>🆕 Interested</span></label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="currentBalance">Current MemeCoin Balance</label>
-                    <input type="number" id="currentBalance" name="entry.271294886" placeholder="e.g. 1500" min="0">
-                </div>
-            </section>
-
-            <!-- Section 3: Testing -->
-            <section class="form-section">
-                <h2 class="section-title">🧪 Testing Experience</h2>
-
-                <div class="form-group">
-                    <label>Have you beta tested before? <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-item"><input type="radio" name="entry.142542880" value="Yes, professionally" required> <span>💼 Yes, professionally</span></label>
-                        <label class="radio-item"><input type="radio" name="entry.142542880" value="Yes, as a hobby"> <span>🎮 Yes, hobby</span></label>
-                        <label class="radio-item"><input type="radio" name="entry.142542880" value="No, first time"> <span>🆕 First time</span></label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Devices used for testing? <span class="required">*</span></label>
-                    <div class="checkbox-group">
-                        <label class="checkbox-item"><input type="checkbox" name="entry.918695263" value="Desktop PC"> <span>🖥️ Desktop</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="entry.918695263" value="Laptop"> <span>💻 Laptop</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="entry.918695263" value="iPhone"> <span>📱 iPhone</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="entry.918695263" value="Android Phone"> <span>📱 Android</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="entry.918695263" value="iPad/Tablet"> <span>📱 Tablet</span></label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="testingTime">Weekly Commitment? <span class="required">*</span></label>
-                    <select id="testingTime" name="entry.1048621072" required>
-                        <option value="">Select...</option>
-                        <option value="1-2 hours">1-2 hours</option>
-                        <option value="3-5 hours">3-5 hours</option>
-                        <option value="5-10 hours">5-10 hours</option>
-                        <option value="10+ hours">10+ hours</option>
-                    </select>
-                </div>
-            </section>
-
-            <!-- Section 4: Interest -->
-            <section class="form-section">
-                <h2 class="section-title">🎯 Your Interest</h2>
-
-                <div class="form-group">
-                    <label>Which V5.0 features excite you? <span class="required">*</span></label>
-                    <div class="checkbox-group">
-                        <label class="checkbox-item"><input type="checkbox" name="entry.146559438" value="Teams/Guilds System"> <span>👥 Teams/Guilds</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="entry.146559438" value="Property System"> <span>🏘️ Property System</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="entry.146559438" value="AI Anti-Cheat Revison"> <span>🤖 AI Anti-Cheat Revision</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="entry.146559438" value="Battle Pass"> <span>🎫 Battle Pass</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="entry.146559438" value="All of them"> <span>✨ All of them</span></label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="whyBetaTest">Why you? <span class="required">*</span></label>
-                    <textarea id="whyBetaTest" name="entry.1679426961" onkeyup="updateCharCount('whyBetaTest', 'whyCount')" required></textarea>
-                    <div class="char-count" id="whyCount">0 characters</div>
-                </div>
-
-                <div class="form-group">
-                    <label for="findBugs">Approach to finding bugs? <span class="required">*</span></label>
-                    <textarea id="findBugs" name="entry.1912747904" onkeyup="updateCharCount('findBugs', 'bugsCount')" required></textarea>
-                    <div class="char-count" id="bugsCount">0 characters</div>
-                </div>
-
-                <div class="form-group">
-                    <label for="suggestions">Ideas for V5.0?</label>
-                    <textarea id="suggestions" name="entry.984077956"></textarea>
-                </div>
-            </section>
-
-            <!-- Section 5: Commitment -->
-            <section class="form-section">
-                <h2 class="section-title">✅ Commitment</h2>
-                <div class="form-group">
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="entry.1405295522" value="Yes" required>
-                        <span><strong>I commit to testing and reporting bugs.</strong> <span class="required">*</span></span>
-                    </label>
-                </div>
-            </section>
-
-            <!-- Submit -->
-            <div class="submit-section">
-                <button type="submit" class="submit-btn" id="submitBtn">
-                    <span>🚀 Submit Application</span>
-                    <div class="spinner"></div>
-                </button>
-            </div>
-        </form>
+      <div class="fg">
+        <label class="lbl" for="tz">Your Timezone <span class="req">*</span></label>
+        <select id="tz" name="entry.1973898465" required>
+          <option value="">Select your timezone...</option>
+          <option value="PST (UTC-8)">PST (UTC-8) — Pacific Time</option>
+          <option value="MST (UTC-7)">MST (UTC-7) — Mountain Time</option>
+          <option value="CST (UTC-6)">CST (UTC-6) — Central Time</option>
+          <option value="EST (UTC-5)">EST (UTC-5) — Eastern Time</option>
+          <option value="GMT (UTC+0)">GMT (UTC+0) — London</option>
+          <option value="CET (UTC+1)">CET (UTC+1) — Central Europe</option>
+          <option value="IST (UTC+5:30)">IST (UTC+5:30) — India</option>
+          <option value="CST (UTC+8)">CST (UTC+8) — China</option>
+          <option value="JST (UTC+9)">JST (UTC+9) — Japan</option>
+          <option value="AEST (UTC+10)">AEST (UTC+10) — Australia East</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
     </div>
 
-    <script>
-        document.getElementById('betaApplicationForm').addEventListener('submit', function(e) {
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.classList.add('loading');
-            submitBtn.disabled = true;
-            submitted = true;
+    <!-- ── SECTION 2: ACTIVITY ── -->
+    <div class="fsec reveal rd1">
+      <div class="sec-head">
+        <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div>
+          <div class="sec-title">Activity & Experience</div>
+          <div class="sec-count">Section 2 of 5</div>
+        </div>
+      </div>
+
+      <div class="fg">
+        <label class="lbl">How active are you on Reddit? <span class="req">*</span></label>
+        <div class="choice-group" data-type="radio" data-name="entry.1394104156">
+          <div class="choice-item" data-val="Daily - Multiple hours"><div class="choice-circle"></div><span class="choice-lbl">Daily — multiple hours</span></div>
+          <div class="choice-item" data-val="Daily - 1-2 hours"><div class="choice-circle"></div><span class="choice-lbl">Daily — 1 to 2 hours</span></div>
+          <div class="choice-item" data-val="Few times a week"><div class="choice-circle"></div><span class="choice-lbl">A few times a week</span></div>
+          <div class="choice-item" data-val="Weekly"><div class="choice-circle"></div><span class="choice-lbl">Weekly</span></div>
+        </div>
+        <input type="hidden" name="entry.1394104156" id="h_activity" required>
+      </div>
+
+      <div class="fg">
+        <label class="lbl" for="age">How long have you been on Reddit? <span class="req">*</span></label>
+        <select id="age" name="entry.1491524581" required>
+          <option value="">Select...</option>
+          <option value="Less than 1 month">Less than 1 month</option>
+          <option value="1-6 months">1–6 months</option>
+          <option value="6 months - 1 year">6 months – 1 year</option>
+          <option value="1-2 years">1–2 years</option>
+          <option value="2-5 years">2–5 years</option>
+          <option value="5+ years">5+ years</option>
+        </select>
+      </div>
+
+      <div class="fg">
+        <label class="lbl">Have you used MemeCoin before? <span class="req">*</span></label>
+        <div class="choice-group" data-type="radio" data-name="entry.1332660514">
+          <div class="choice-item" data-val="Yes, active user"><div class="choice-circle"></div><span class="choice-lbl">Yes — I'm an active user</span></div>
+          <div class="choice-item" data-val="Yes, tried it"><div class="choice-circle"></div><span class="choice-lbl">Yes — I've tried it</span></div>
+          <div class="choice-item" data-val="No, but interested"><div class="choice-circle"></div><span class="choice-lbl">No — but I'm interested</span></div>
+        </div>
+        <input type="hidden" name="entry.1332660514" id="h_mc" required>
+      </div>
+
+      <div class="fg">
+        <label class="lbl" for="bal">Current MemeCoin Balance <span class="opt">Optional</span></label>
+        <input type="number" id="bal" name="entry.271294886" placeholder="e.g. 1500" min="0">
+      </div>
+    </div>
+
+    <!-- ── SECTION 3: TESTING ── -->
+    <div class="fsec reveal rd2">
+      <div class="sec-head">
+        <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg></div>
+        <div>
+          <div class="sec-title">Testing Experience</div>
+          <div class="sec-count">Section 3 of 5</div>
+        </div>
+      </div>
+
+      <div class="fg">
+        <label class="lbl">Have you beta tested before? <span class="req">*</span></label>
+        <div class="choice-group" data-type="radio" data-name="entry.142542880">
+          <div class="choice-item" data-val="Yes, professionally"><div class="choice-circle"></div><span class="choice-lbl">Yes — professionally</span></div>
+          <div class="choice-item" data-val="Yes, as a hobby"><div class="choice-circle"></div><span class="choice-lbl">Yes — as a hobby</span></div>
+          <div class="choice-item" data-val="No, first time"><div class="choice-circle"></div><span class="choice-lbl">No — this would be my first time</span></div>
+        </div>
+        <input type="hidden" name="entry.142542880" id="h_tested" required>
+      </div>
+
+      <div class="fg">
+        <label class="lbl">Devices you test on <span class="req">*</span></label>
+        <div class="choice-group choice-grid" data-type="checkbox" data-name="entry.918695263">
+          <div class="choice-item" data-val="Desktop PC"><div class="choice-box"><svg class="check-mark" viewBox="0 0 12 10"><path d="M1 5l3.5 3.5L11 1"/></svg></div><span class="choice-lbl">Desktop PC</span></div>
+          <div class="choice-item" data-val="Laptop"><div class="choice-box"><svg class="check-mark" viewBox="0 0 12 10"><path d="M1 5l3.5 3.5L11 1"/></svg></div><span class="choice-lbl">Laptop</span></div>
+          <div class="choice-item" data-val="iPhone"><div class="choice-box"><svg class="check-mark" viewBox="0 0 12 10"><path d="M1 5l3.5 3.5L11 1"/></svg></div><span class="choice-lbl">iPhone</span></div>
+          <div class="choice-item" data-val="Android Phone"><div class="choice-box"><svg class="check-mark" viewBox="0 0 12 10"><path d="M1 5l3.5 3.5L11 1"/></svg></div><span class="choice-lbl">Android Phone</span></div>
+          <div class="choice-item" data-val="iPad/Tablet"><div class="choice-box"><svg class="check-mark" viewBox="0 0 12 10"><path d="M1 5l3.5 3.5L11 1"/></svg></div><span class="choice-lbl">iPad / Tablet</span></div>
+        </div>
+      </div>
+
+      <div class="fg">
+        <label class="lbl" for="commit">Weekly time commitment <span class="req">*</span></label>
+        <select id="commit" name="entry.1048621072" required>
+          <option value="">Select...</option>
+          <option value="1-2 hours">1–2 hours</option>
+          <option value="3-5 hours">3–5 hours</option>
+          <option value="5-10 hours">5–10 hours</option>
+          <option value="10+ hours">10+ hours</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- ── SECTION 4: INTEREST ── -->
+    <div class="fsec reveal rd3">
+      <div class="sec-head">
+        <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <div>
+          <div class="sec-title">Your Interest</div>
+          <div class="sec-count">Section 4 of 5</div>
+        </div>
+      </div>
+
+      <div class="fg">
+        <label class="lbl">Which V5.0 features excite you most? <span class="req">*</span></label>
+        <div class="choice-group choice-grid" data-type="checkbox" data-name="entry.146559438">
+          <div class="choice-item" data-val="Teams/Guilds System"><div class="choice-box"><svg class="check-mark" viewBox="0 0 12 10"><path d="M1 5l3.5 3.5L11 1"/></svg></div><span class="choice-lbl">Teams & Guilds</span></div>
+          <div class="choice-item" data-val="Property System"><div class="choice-box"><svg class="check-mark" viewBox="0 0 12 10"><path d="M1 5l3.5 3.5L11 1"/></svg></div><span class="choice-lbl">Property System</span></div>
+          <div class="choice-item" data-val="AI Anti-Cheat Revison"><div class="choice-box"><svg class="check-mark" viewBox="0 0 12 10"><path d="M1 5l3.5 3.5L11 1"/></svg></div><span class="choice-lbl">AI Anti-Cheat Revision</span></div>
+          <div class="choice-item" data-val="Battle Pass"><div class="choice-box"><svg class="check-mark" viewBox="0 0 12 10"><path d="M1 5l3.5 3.5L11 1"/></svg></div><span class="choice-lbl">Battle Pass</span></div>
+          <div class="choice-item" data-val="All of them"><div class="choice-box"><svg class="check-mark" viewBox="0 0 12 10"><path d="M1 5l3.5 3.5L11 1"/></svg></div><span class="choice-lbl">All of them</span></div>
+        </div>
+      </div>
+
+      <div class="fg">
+        <label class="lbl" for="why">Why should we pick you? <span class="req">*</span></label>
+        <div class="char-wrap">
+          <textarea id="why" name="entry.1679426961" placeholder="Tell us what makes you the right fit. Be specific — generic answers get filtered." required oninput="cnt('why','wc')"></textarea>
+          <div class="char-count" id="wc">0 characters</div>
+        </div>
+      </div>
+
+      <div class="fg">
+        <label class="lbl" for="bugs">How do you approach finding bugs? <span class="req">*</span></label>
+        <div class="char-wrap">
+          <textarea id="bugs" name="entry.1912747904" placeholder="Walk us through how you think about breaking things systematically." required oninput="cnt('bugs','bc')"></textarea>
+          <div class="char-count" id="bc">0 characters</div>
+        </div>
+      </div>
+
+      <div class="fg">
+        <label class="lbl" for="ideas">Ideas or suggestions for V5.0 <span class="opt">Optional</span></label>
+        <textarea id="ideas" name="entry.984077956" placeholder="Anything you'd love to see in the update?"></textarea>
+      </div>
+    </div>
+
+    <!-- ── SECTION 5: COMMITMENT ── -->
+    <div class="fsec reveal rd4">
+      <div class="sec-head">
+        <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div>
+          <div class="sec-title">Commitment</div>
+          <div class="sec-count">Section 5 of 5</div>
+        </div>
+      </div>
+
+      <label class="commit-item" id="commitLabel">
+        <input type="checkbox" name="entry.1405295522" value="Yes" id="commitCheck" required>
+        <div class="choice-box" id="commitBox"><svg class="check-mark" viewBox="0 0 12 10"><path d="M1 5l3.5 3.5L11 1"/></svg></div>
+        <span class="commit-lbl"><strong>I commit to actively testing, reporting bugs with detail, and providing honest feedback during the beta period.</strong> I understand that inactive testers may be removed from the programme.</span>
+      </label>
+
+      <div class="submit-wrap">
+        <button type="submit" class="sub-btn" id="subBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          <span>Submit Application</span>
+        </button>
+        <div class="sub-note">Applications reviewed within 48 hours · You'll be contacted via Reddit DM</div>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fi_">
+    <div class="fb_">
+      <a href="index.html" class="logo" style="font-size:26px"><span>💰</span><span>Meme<em>Coin</em></span></a>
+      <p>The ultimate Reddit economy system, driven entirely by community participation. Built on Devvit. Protected by Project Obsidian AI.</p>
+    </div>
+    <div class="flg_">
+      <div class="fcol"><h4>Platform</h4><a href="index.html#how">How It Works</a><a href="index.html#features">Features</a><a href="index.html#flairs">Flair Tiers</a><a href="index.html#v5">V5.0 Nexus</a><a href="v5-roadmap.html">Roadmap</a></div>
+      <div class="fcol"><h4>Community</h4><a href="news.html">News</a><a href="https://reddit.com/r/memeexchangecommunism" target="_blank">r/memeexchangecommunism</a><a href="https://github.com/royalpgytpc/MemeCurrencyBot" target="_blank">GitHub</a></div>
+      <div class="fcol"><h4>Legal</h4><a href="EULA.html">EULA</a><a href="pp.html">Privacy Policy</a></div>
+    </div>
+  </div>
+  <div class="fbot">
+    <p>© 2026 Meme Currency Dev Team · r/memeexchangecommunism · Powered by Devvit · v4.0.0 · V5.0 "Project NEXUS" March 2026</p>
+    <a href="//www.dmca.com/Protection/Status.aspx?ID=3648b755-3475-49ef-bacc-b931ea9caa5f" title="DMCA Protection"><img src="https://images.dmca.com/Badges/dmca-badge-w150-5x1-11.png?ID=3648b755-3475-49ef-bacc-b931ea9caa5f" alt="DMCA" style="height:26px;opacity:.5"></a>
+  </div>
+  <script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"></script>
+</footer>
+
+<script>
+// CURSOR
+const cur=document.getElementById('cur'),ring=document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function a(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(a)})();
+document.querySelectorAll('a,button,.choice-item,.commit-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='18px';cur.style.height='18px';ring.style.width='54px';ring.style.height='54px';ring.style.borderColor='var(--p)';ring.style.opacity='.7'});
+  el.addEventListener('mouseleave',()=>{cur.style.width='10px';cur.style.height='10px';ring.style.width='36px';ring.style.height='36px';ring.style.borderColor='var(--o)';ring.style.opacity='.45'});
+});
+
+// PROGRESS
+const prog=document.getElementById('prog');
+window.addEventListener('scroll',()=>{const s=document.documentElement.scrollTop,h=document.documentElement.scrollHeight-document.documentElement.clientHeight;prog.style.width=(s/h*100)+'%';},{passive:true});
+
+// NAV
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>80),{passive:true});
+
+// REVEAL
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target)}});},{threshold:.06});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// PARTICLES
+const canvas=document.getElementById('particles'),ctx=canvas.getContext('2d');
+let W=canvas.width=innerWidth,H=canvas.height=innerHeight;
+window.addEventListener('resize',()=>{W=canvas.width=innerWidth;H=canvas.height=innerHeight});
+const pts=Array.from({length:50},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,r:Math.random()*1.2+.3,o:Math.random()*.35+.07}));
+(function draw(){
+  ctx.clearRect(0,0,W,H);
+  pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,85,0,${p.o})`;ctx.fill()});
+  pts.forEach((a,i)=>pts.slice(i+1).forEach(b=>{const d=Math.hypot(a.x-b.x,a.y-b.y);if(d<90){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle=`rgba(255,85,0,${.045*(1-d/90)})`;ctx.lineWidth=.5;ctx.stroke()}}));
+  requestAnimationFrame(draw);
+})();
+
+// CHAR COUNT
+function cnt(id,cid){const el=document.getElementById(id),n=el.value.length;document.getElementById(cid).textContent=n+' character'+(n===1?'':'s')}
+
+// CUSTOM RADIO / CHECKBOX
+document.querySelectorAll('.choice-group').forEach(group=>{
+  const type=group.dataset.type,name=group.dataset.name;
+  const items=group.querySelectorAll('.choice-item');
+  items.forEach(item=>{
+    item.addEventListener('click',()=>{
+      if(type==='radio'){
+        items.forEach(i=>i.classList.remove('checked'));
+        item.classList.add('checked');
+        // update hidden input
+        const h=document.getElementById('h_'+name.replace('entry.','').slice(-6));
+        if(h)h.value=item.dataset.val;
+        // find any hidden input by name
+        document.querySelectorAll(`input[name="${name}"]`).forEach(inp=>{if(inp.type==='hidden')inp.value=item.dataset.val});
+      } else {
+        item.classList.toggle('checked');
+        // manage hidden inputs for checkboxes
+        const existing=document.querySelectorAll(`input[type=hidden][name="${name}"]`);
+        existing.forEach(e=>e.remove());
+        group.querySelectorAll('.choice-item.checked').forEach(ci=>{
+          const inp=document.createElement('input');
+          inp.type='hidden';inp.name=name;inp.value=ci.dataset.val;
+          group.appendChild(inp);
         });
-    </script>
+      }
+    });
+  });
+});
+
+// Hidden radio inputs
+document.querySelectorAll('[data-type=radio]').forEach(g=>{
+  const name=g.dataset.name;
+  if(!document.querySelector(`input[type=hidden][name="${name}"]`)){
+    const h=document.createElement('input');h.type='hidden';h.name=name;h.value='';g.appendChild(h);
+  }
+});
+
+// Commit checkbox visual
+const commitCheck=document.getElementById('commitCheck');
+const commitBox=document.getElementById('commitBox');
+const commitLabel=document.getElementById('commitLabel');
+commitLabel.addEventListener('click',e=>{
+  e.preventDefault();
+  commitCheck.checked=!commitCheck.checked;
+  commitLabel.classList.toggle('checked',commitCheck.checked);
+  commitBox.style.background=commitCheck.checked?'var(--o)':'';
+  commitBox.style.borderColor=commitCheck.checked?'var(--o)':'';
+});
+
+// FORM SUBMIT
+window._submitted=false;
+document.getElementById('form').addEventListener('submit',function(e){
+  const btn=document.getElementById('subBtn');
+  btn.disabled=true;
+  btn.querySelector('span').textContent='Sending...';
+  window._submitted=true;
+});
+
+function showSuccess(){
+  if(!window._submitted)return;
+  document.getElementById('successMsg').classList.add('show');
+  document.getElementById('form').style.display='none';
+  window.scrollTo({top:0,behavior:'smooth'});
+  window._submitted=false;
+}
+
+// DRAFT SAVE
+function saveDraft(){
+  try{
+    const fd=new FormData(document.getElementById('form'));
+    const d={};
+    fd.forEach((v,k)=>{if(!d[k])d[k]=v;else{if(!Array.isArray(d[k]))d[k]=[d[k]];d[k].push(v)}});
+    localStorage.setItem('mc_beta_draft',JSON.stringify(d));
+  }catch(e){}
+}
+document.getElementById('form').addEventListener('input',saveDraft);
+
+// LOAD DRAFT
+try{
+  const saved=localStorage.getItem('mc_beta_draft');
+  if(saved){
+    const d=JSON.parse(saved);
+    const form=document.getElementById('form');
+    ['rUser','disc','mail','tz','age','bal','commit','why','bugs','ideas'].forEach(id=>{
+      const el=form.querySelector('#'+id);
+      if(el&&d[el.name])el.value=Array.isArray(d[el.name])?d[el.name][0]:d[el.name];
+    });
+    cnt('why','wc');cnt('bugs','bc');
+  }
+}catch(e){}
+</script>
 </body>
 </html>
