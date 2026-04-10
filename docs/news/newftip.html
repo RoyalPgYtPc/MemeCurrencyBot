@@ -3,450 +3,58 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Article Title | MemeCoin News</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      :root {
-        --primary: #ff6b00;
-        --secondary: #890bff;
-        --accent: #ffd700;
-        --dark: #0a0a0a;
-        --light: #ffffff;
-      }
-
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: var(--dark);
-        color: var(--light);
-        overflow-x: hidden;
-        line-height: 1.6;
-      }
-
-      .background {
-        position: fixed;
-        width: 100vw;
-        height: 100vh;
-        top: 0;
-        left: 0;
-        z-index: -1;
-        background: radial-gradient(
-            circle at 20% 50%,
-            rgba(255, 107, 0, 0.15) 0%,
-            transparent 50%
-          ),
-          radial-gradient(
-            circle at 80% 80%,
-            rgba(137, 11, 255, 0.15) 0%,
-            transparent 50%
-          ),
-          radial-gradient(
-            circle at 40% 20%,
-            rgba(255, 215, 0, 0.08) 0%,
-            transparent 50%
-          );
-      }
-
-      .floating-shapes {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        z-index: -1;
-        pointer-events: none;
-      }
-
-      .shape {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(60px);
-        animation: float 25s infinite ease-in-out;
-      }
-
-      .shape:nth-child(1) {
-        width: 400px;
-        height: 400px;
-        background: rgba(255, 107, 0, 0.25);
-        top: 10%;
-        left: 10%;
-      }
-
-      .shape:nth-child(2) {
-        width: 350px;
-        height: 350px;
-        background: rgba(137, 11, 255, 0.25);
-        top: 60%;
-        right: 10%;
-        animation-delay: 8s;
-      }
-
-      .shape:nth-child(3) {
-        width: 300px;
-        height: 300px;
-        background: rgba(255, 215, 0, 0.15);
-        bottom: 10%;
-        left: 50%;
-        animation-delay: 16s;
-      }
-
-      @keyframes float {
-        0%,
-        100% {
-          transform: translate(0, 0) scale(1) rotate(0deg);
-        }
-        33% {
-          transform: translate(100px, -80px) scale(1.2) rotate(120deg);
-        }
-        66% {
-          transform: translate(-80px, 60px) scale(0.8) rotate(240deg);
-        }
-      }
-
-      .news-header {
-        padding: 24px 50px;
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        background: rgba(10, 10, 10, 0.85);
-        backdrop-filter: blur(20px);
-        border-bottom: 1px solid rgba(255, 107, 0, 0.3);
-        position: sticky;
-        top: 0;
-        z-index: 100;
-      }
-
-      .back {
-        color: var(--light);
-        text-decoration: none;
-        padding: 10px 20px;
-        border-radius: 50px;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 107, 0, 0.3);
-        transition: all 0.3s ease;
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .back:hover {
-        background: var(--primary);
-        border-color: var(--primary);
-        transform: translateX(-5px);
-        box-shadow: 0 5px 20px rgba(255, 107, 0, 0.4);
-      }
-
-      .version-badge {
-        display: inline-block;
-        padding: 8px 20px;
-        background: linear-gradient(135deg, #890bff 0%, #00c9ff 100%);
-        border-radius: 50px;
-        font-weight: bold;
-        font-size: 14px;
-        box-shadow: 0 0 20px rgba(137, 11, 255, 0.3);
-      }
-
-      .article-container {
-        max-width: 900px;
-        margin: 60px auto;
-        padding: 0 50px 120px;
-        animation: fadeInUp 0.8s ease;
-      }
-
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .article-banner {
-        width: 100%;
-        height: auto;
-        max-height: 500px;
-        object-fit: cover;
-        border-radius: 25px;
-        margin-bottom: 40px;
-        border: 2px solid rgba(255, 107, 0, 0.3);
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-      }
-
-      .article-category {
-        display: inline-block;
-        padding: 8px 20px;
-        background: linear-gradient(135deg, var(--primary), var(--accent));
-        border-radius: 20px;
-        font-size: 14px;
-        font-weight: bold;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-bottom: 20px;
-      }
-
-      .article-title {
-        font-size: 3rem;
-        margin-bottom: 20px;
-        background: linear-gradient(
-          135deg,
-          #ff6b00 0%,
-          #ff0844 50%,
-          #ffd700 100%
-        );
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        line-height: 1.2;
-      }
-
-      .article-meta {
-        display: flex;
-        gap: 30px;
-        font-size: 1rem;
-        color: rgba(255, 255, 255, 0.6);
-        margin-bottom: 40px;
-        padding-bottom: 30px;
-        border-bottom: 1px solid rgba(255, 107, 0, 0.2);
-        flex-wrap: wrap;
-      }
-
-      .meta-item {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .article-content {
-        color: rgba(255, 255, 255, 0.88);
-        font-size: 1.1rem;
-        line-height: 1.8;
-      }
-
-      .article-content p {
-        margin-bottom: 25px;
-      }
-
-      .article-content h2 {
-        margin-top: 50px;
-        margin-bottom: 25px;
-        color: var(--primary);
-        font-size: 2rem;
-        padding-left: 20px;
-        border-left: 4px solid var(--primary);
-      }
-
-      .article-content h3 {
-        margin-top: 35px;
-        margin-bottom: 20px;
-        color: var(--accent);
-        font-size: 1.5rem;
-      }
-
-      .article-content ul,
-      .article-content ol {
-        margin: 25px 0 25px 40px;
-      }
-
-      .article-content li {
-        margin-bottom: 15px;
-        padding-left: 10px;
-      }
-
-      .article-content ul li::marker {
-        color: var(--primary);
-      }
-
-      .article-content blockquote {
-        margin: 30px 0;
-        padding: 25px 30px;
-        background: rgba(255, 107, 0, 0.1);
-        border-left: 4px solid var(--primary);
-        border-radius: 10px;
-        font-style: italic;
-        color: rgba(255, 255, 255, 0.9);
-      }
-
-      .article-content code {
-        background: rgba(255, 255, 255, 0.1);
-        padding: 2px 8px;
-        border-radius: 5px;
-        font-family: "Courier New", monospace;
-        color: var(--accent);
-      }
-
-      .highlight-box {
-        background: linear-gradient(
-          135deg,
-          rgba(255, 107, 0, 0.1),
-          rgba(137, 11, 255, 0.1)
-        );
-        padding: 30px;
-        border-radius: 20px;
-        border: 1px solid rgba(255, 107, 0, 0.3);
-        margin: 35px 0;
-      }
-
-      .highlight-box h3 {
-        color: var(--primary);
-        margin-top: 0;
-      }
-
-      .article-footer {
-        margin-top: 60px;
-        padding-top: 40px;
-        border-top: 1px solid rgba(255, 107, 0, 0.2);
-      }
-
-      .share-section {
-        text-align: center;
-      }
-
-      .share-section h3 {
-        color: var(--light);
-        margin-bottom: 20px;
-        font-size: 1.3rem;
-      }
-
-      .share-links {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        flex-wrap: wrap;
-      }
-
-      .share-links a {
-        padding: 12px 30px;
-        border-radius: 50px;
-        text-decoration: none;
-        font-weight: bold;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 107, 0, 0.3);
-        color: var(--light);
-        transition: all 0.3s ease;
-      }
-
-      .share-links a:hover {
-        background: var(--primary);
-        border-color: var(--primary);
-        transform: translateY(-3px);
-        box-shadow: 0 10px 30px rgba(255, 107, 0, 0.4);
-      }
-
-      .related-articles {
-        margin-top: 80px;
-      }
-
-      .related-articles h3 {
-        font-size: 2rem;
-        margin-bottom: 30px;
-        color: var(--primary);
-        text-align: center;
-      }
-
-      .related-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 25px;
-      }
-
-      .related-card {
-        background: rgba(255, 255, 255, 0.05);
-        padding: 25px;
-        border-radius: 20px;
-        border: 1px solid rgba(255, 107, 0, 0.2);
-        transition: all 0.3s ease;
-        text-decoration: none;
-        color: var(--light);
-        display: block;
-      }
-
-      .related-card:hover {
-        transform: translateY(-5px);
-        border-color: var(--primary);
-        box-shadow: 0 15px 40px rgba(255, 107, 0, 0.3);
-      }
-
-      .related-card h4 {
-        color: var(--primary);
-        margin-bottom: 10px;
-        font-size: 1.2rem;
-      }
-
-      .related-card p {
-        color: rgba(255, 255, 255, 0.7);
-        font-size: 0.95rem;
-      }
-
-      @media (max-width: 768px) {
-        .article-container {
-          padding: 0 20px 80px;
-          margin: 40px auto;
-        }
-
-        .article-title {
-          font-size: 2rem;
-        }
-
-        .news-header {
-          padding: 20px;
-        }
-
-        .article-content {
-          font-size: 1rem;
-        }
-
-        .article-content h2 {
-          font-size: 1.5rem;
-        }
-      }
-    </style>
+    <title>Introducing the /gift Feature — MemeCoin News</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="news.css">
   </head>
   <body>
-    <div class="background"></div>
-    <div class="floating-shapes">
-      <div class="shape"></div>
-      <div class="shape"></div>
-      <div class="shape"></div>
-    </div>
+    <div id="prog"></div>
+    <div class="orb o1"></div>
+    <div class="orb o2"></div>
 
-    <header class="news-header">
-      <a href="../news.html" class="back">← Back to News</a>
-      <div class="version-badge" id="countdown">V2 Launching Soon!</div>
+    <nav id="nav">
+      <a href="../index.html" class="logo"><span class="lc">💰</span><span>Meme<em>Coin</em></span></a>
+      <ul class="nl">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../news.html" class="active">News</a></li>
+      </ul>
+    </nav>
+
+    <header class="art-hero">
+      <div class="hgrid"></div>
+      <div class="art-hero-inner">
+        <a href="../news.html" class="back-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Back to News
+        </a>
+
+        <div class="breadcrumb">
+          <a href="../news.html">News Hub</a> 
+          <span class="breadcrumb-sep">/</span> 
+          <span id="countdown" class="breadcrumb-cur">V2 Status Loading...</span>
+        </div>
+        
+        <div class="art-meta-top">
+          <span class="cat-tag tag-feat">Feature Update</span>
+          <span class="art-date">November 2025</span>
+          <span class="art-read-time">2 min read</span>
+        </div>
+
+        <h1 class="art-title">
+          Introducing the<br>
+          <span>/gift Feature</span>
+        </h1>
+        
+        <p class="art-standfirst">
+          Send MemeCoins directly to post authors to show appreciation and support quality content across the community.
+        </p>
+        
+        <div class="art-divider"></div>
+      </div>
     </header>
 
-    <main class="article-container">
-      <!-- Article Banner Image -->
-      <img
-        class="article-banner"
-        src="GIFT MCs TO FELLOW MEMEBERS USING gift.png"
-        alt="Gift Feature Banner"
-      />
-
-      <!-- Category Badge -->
-      <span class="article-category">🎁 Feature Update</span>
-
-      <!-- Article Title -->
-      <h1 class="article-title">
-        Introducing the /gift Feature — Send MemeCoins to Posts
-      </h1>
-
-      <!-- Article Meta Information -->
-      <div class="article-meta">
-        <span class="meta-item">📅 November 2025</span>
-        <span class="meta-item">✍️ MemeCoin Development Team</span>
-        <span class="meta-item">⏱️ 2 min read</span>
-      </div>
-
-      <!-- Article Content -->
-      <article class="article-content">
+    <main class="art-body">
+      <div class="prose">
         <p>
           As part of the upcoming <strong>MemeCoin V3</strong> release, we’re
           introducing a new feature that lets users directly
@@ -462,7 +70,7 @@
         </p>
 
         <div class="highlight-box">
-          <h3>💡 Example</h3>
+          <div class="hb-label">💡 Usage Example</div>
           <p>
             <code>/gift 25</code> — sends 25 MemeCoins to the author of the
             post.

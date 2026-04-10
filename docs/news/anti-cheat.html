@@ -4,394 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Obsidian | MemeCoin News</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #FF6B00;
-            --secondary: #890BFF;
-            --accent: #FFD700;
-            --dark: #050505;
-            --surface: #121212;
-            --light: #ffffff;
-            --text-muted: rgba(255, 255, 255, 0.6);
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--dark);
-            color: var(--light);
-            overflow-x: hidden;
-            line-height: 1.7;
-        }
-
-        /* Animated Background */
-        .background {
-            position: fixed;
-            width: 100vw;
-            height: 100vh;
-            top: 0;
-            left: 0;
-            z-index: -2;
-            background: 
-                radial-gradient(circle at 10% 20%, rgba(255, 107, 0, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(137, 11, 255, 0.08) 0%, transparent 40%);
-        }
-
-        .grid-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 50px 50px;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .floating-shapes .shape {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            z-index: -1;
-            opacity: 0.4;
-            animation: float 20s infinite ease-in-out;
-        }
-
-        .shape-1 { width: 500px; height: 500px; background: var(--primary); top: -10%; left: -10%; }
-        .shape-2 { width: 400px; height: 400px; background: var(--secondary); bottom: -10%; right: -5%; animation-delay: -5s; }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(50px, 50px) scale(1.1); }
-        }
-
-        /* Header Navigation */
-        .news-header {
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(5, 5, 5, 0.8);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .back-btn {
-            color: var(--light);
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: 0.2s;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .back-btn:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: var(--primary);
-            transform: translateX(-3px);
-        }
-
-        .version-badge {
-            padding: 6px 16px;
-            background: linear-gradient(90deg, #890BFF, #FF6B00);
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            letter-spacing: 0.5px;
-            box-shadow: 0 0 20px rgba(137, 11, 255, 0.4);
-            white-space: nowrap;
-        }
-
-        /* Article Structure */
-        .article-container {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 0 24px 100px;
-            animation: fadeIn 0.8s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .article-hero {
-            position: relative;
-            margin-bottom: 40px;
-            border-radius: 24px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 107, 0, 0.3);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
-        }
-
-        .article-banner {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .hero-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom, transparent 40%, rgba(5,5,5,0.9));
-            display: flex;
-            align-items: flex-end;
-            padding: 30px;
-        }
-
-        .article-category {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 14px;
-            background: var(--primary);
-            color: white;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            margin-bottom: 16px;
-        }
-
-        .article-title {
-            font-size: clamp(2rem, 5vw, 3.2rem);
-            line-height: 1.1;
-            margin-bottom: 20px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff 30%, #FF6B00 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .article-meta {
-            display: flex;
-            gap: 24px;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 40px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding-bottom: 20px;
-        }
-
-        /* Typography & Content */
-        .article-content {
-            font-size: 1.15rem;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .article-content p {
-            margin-bottom: 28px;
-        }
-
-        .article-content h2 {
-            font-size: 1.8rem;
-            margin: 48px 0 20px;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .article-content h2::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: linear-gradient(90deg, rgba(255, 107, 0, 0.4), transparent);
-        }
-
-        .article-content h3 {
-            font-size: 1.4rem;
-            margin: 32px 0 16px;
-            color: var(--accent);
-        }
-
-        .highlight-box {
-            background: rgba(255, 107, 0, 0.05);
-            border: 1px solid rgba(255, 107, 0, 0.2);
-            padding: 30px;
-            border-radius: 16px;
-            margin: 40px 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .highlight-box::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 4px;
-            background: var(--primary);
-        }
-
-        .component-list {
-            list-style: none;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 30px 0;
-        }
-
-        .component-item {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 20px;
-            border-radius: 12px;
-            transition: 0.3s;
-        }
-
-        .component-item:hover {
-            border-color: var(--primary);
-            background: rgba(255, 107, 0, 0.05);
-        }
-
-        .component-item strong {
-            display: block;
-            color: var(--primary);
-            margin-bottom: 5px;
-        }
-
-        blockquote {
-            font-size: 1.4rem;
-            font-style: italic;
-            border-left: none;
-            text-align: center;
-            padding: 40px;
-            margin: 40px 0;
-            color: #eee;
-            background: radial-gradient(circle at center, rgba(137, 11, 255, 0.1), transparent);
-        }
-
-        /* Footer & Related */
-        .article-footer {
-            margin-top: 80px;
-            text-align: center;
-        }
-
-        .share-links {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .share-btn {
-            padding: 10px 24px;
-            border-radius: 50px;
-            text-decoration: none;
-            color: white;
-            font-weight: 600;
-            font-size: 0.9rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: 0.3s;
-        }
-
-        .share-btn:hover {
-            background: var(--primary);
-            border-color: var(--primary);
-            box-shadow: 0 0 15px rgba(255, 107, 0, 0.3);
-        }
-
-        .related-section {
-            margin-top: 100px;
-        }
-
-        .related-title {
-            font-size: 1.5rem;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .related-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .related-card {
-            background: var(--surface);
-            padding: 30px;
-            border-radius: 16px;
-            text-decoration: none;
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: 0.3s;
-        }
-
-        .related-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .related-card h4 {
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-
-        @media (max-width: 768px) {
-            .article-hero { border-radius: 0; margin: 0 -24px 30px; }
-            .article-banner { height: 250px; }
-            .article-title { font-size: 2.2rem; }
-            .article-meta { flex-direction: column; gap: 10px; }
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="news.css">
 </head>
 <body>
-    <div class="background"></div>
-    <div class="grid-overlay"></div>
-    <div class="floating-shapes">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-    </div>
+    <div id="prog"></div>
+    <div class="orb o1"></div>
+    <div class="orb o2"></div>
 
-    <header class="news-header">
-        <a href="#" class="back-btn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-            All News
-        </a>
-        <div class="version-badge" id="countdown">Loading status...</div>
+    <nav id="nav">
+      <a href="../index.html" class="logo"><span class="lc">💰</span><span>Meme<em>Coin</em></span></a>
+      <ul class="nl">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../news.html" class="active">News</a></li>
+      </ul>
+    </nav>
+
+    <header class="art-hero">
+        <div class="hgrid"></div>
+        <div class="art-hero-inner">
+            <a href="../news.html" class="back-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Back to News
+            </a>
+            <div class="breadcrumb">
+                <a href="../news.html">News Hub</a> 
+                <span class="breadcrumb-sep">/</span> 
+                <span class="breadcrumb-cur">Security Standards</span>
+            </div>
+            <div class="art-meta-top">
+                <span class="cat-tag tag-sec">Security Division</span>
+                <span class="art-date">October 2025</span>
+                <span class="art-read-time">4 min read</span>
+            </div>
+            <h1 class="art-title"><span>Project Obsidian: Integrity Standards</span></h1>
+            <p class="art-standfirst">
+                Built to preserve fairness and economic stability, Project Obsidian forms the core security foundation of the MemeCoin system.
+            </p>
+            <div class="art-divider"></div>
+        </div>
     </header>
 
-    <main class="article-container">
-        <!-- Hero Section -->
-        <div class="article-hero">
-            <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80&w=1200" class="article-banner" alt="Cyber Security Visual">
-            <div class="hero-overlay">
-                <div>
-                    <span class="article-category">🛡️ Security Division</span>
-                    <h1 class="article-title">Introducing Project Obsidian: The Integrity Standard</h1>
-                </div>
-            </div>
-        </div>
-
-        <!-- Meta -->
-        <div class="article-meta">
-            <span>📅 October 2025</span>
-            <span>✍️ MemeCoin Security Division</span>
-            <span>⏱️ 4 min read</span>
-        </div>
-
-        <!-- Article Body -->
-        <article class="article-content">
+    <main class="art-body">
+        <div class="prose">
             <p>
                 Today we are officially unveiling <strong>Project Obsidian</strong>, the new anti-cheat and ecosystem protection platform developed exclusively for MemeCoin. 
                 Built to preserve fairness, trust, and long-term economic stability, Project Obsidian forms the core security foundation of the MemeCoin system going forward.
@@ -404,29 +59,29 @@
             </p>
 
             <div class="highlight-box">
-                <h3>💡 Core Principle</h3>
+                <div class="hb-label">💡 Core Principle</div>
                 <p>
                     Integrity comes first — every user earns and progresses on equal terms. In an era of automated exploitation, we are committed to keeping the human element at the center of our community rewards.
                 </p>
             </div>
 
             <h2>The Four Pillars</h2>
-            <div class="component-list">
-                <div class="component-item">
-                    <strong>Obsidian Watchdog</strong>
-                    Live activity oversight and anomaly detection for rapid response.
+            <div class="art-stats">
+                <div class="as-item">
+                    <span class="as-num">Watchdog</span>
+                    <span class="as-lbl">Live Oversight</span>
                 </div>
-                <div class="component-item">
-                    <strong>Obsidian Sentinel</strong>
-                    Automated enforcement engine designed to neutralize threats instantly.
+                <div class="as-item">
+                    <span class="as-num">Sentinel</span>
+                    <span class="as-lbl">Auto Enforcement</span>
                 </div>
-                <div class="component-item">
-                    <strong>Obsidian Vault</strong>
-                    Secure, immutable audit trail and historical moderation archive.
+                <div class="as-item">
+                    <span class="as-num">Vault</span>
+                    <span class="as-lbl">Audit Trail</span>
                 </div>
-                <div class="component-item">
-                    <strong>Obsidian Core</strong>
-                    Central logic hub utilizing adaptive learning to evolve with new exploits.
+                <div class="as-item">
+                    <span class="as-num">Core</span>
+                    <span class="as-lbl">Adaptive Hub</span>
                 </div>
             </div>
 
@@ -452,72 +107,39 @@
             </p>
 
             <p>Thank you for supporting a secure and honest MemeCoin ecosystem.</p>
-        </article>
+        </div>
 
-        <!-- Social Share -->
-        <footer class="article-footer">
-            <div class="related-title">Share the Update</div>
-            <div class="share-links">
-                <a href="#" class="share-btn">Twitter</a>
-                <a href="#" class="share-btn">Reddit</a>
-                <a href="#" class="share-btn">Discord</a>
-            </div>
-        </footer>
-
-        <!-- Related Posts -->
-        <section class="related-section">
-            <div class="related-title">Continue Reading</div>
+        <section class="related">
+            <div class="related-lbl">Expansion</div>
+            <h3 class="related-title">Nexus Modules</h3>
             <div class="related-grid">
-                <a href="#" class="related-card">
-                    <h4>🚀 MemeCoin V2 Rollout</h4>
-                    <p>How V2 strengthens the economy and improves user experience.</p>
+                <a href="v2-launch.html" class="rc">
+                    <span class="rc-cat">Release</span>
+                    <h4 class="rc-title">🚀 V2.0 Release Notes</h4>
+                    <p class="rc-desc">Security improvements and new stability systems.</p>
                 </a>
-                <a href="#" class="related-card">
-                    <h4>📊 Leaderboard Reset</h4>
-                    <p>A fresh start for everyone as we implement Project Obsidian.</p>
+                <a href="leaderboardreset.html" class="rc">
+                    <span class="rc-cat">Announcement</span>
+                    <h4 class="rc-title">📊 Leaderboard Wipe</h4>
+                    <p class="rc-desc">Preparing the economy for Obsidian integration.</p>
                 </a>
             </div>
         </section>
     </main>
 
+    <footer>
+        <div class="fbot">
+            <p>&copy; 2026 MemeCoin Project. Part of the Security Division.</p>
+        </div>
+    </footer>
+
     <script>
-        // Smooth scroll and Countdown logic
-        const countdownEl = document.getElementById('countdown');
-        
-        function updateCountdown() {
-            // Target date: Nov 5, 2025
-            const eventDate = new Date("2025-11-05T00:00:00Z");
-            const now = new Date();
-            const diff = eventDate - now;
-
-            if (diff <= 0) {
-                countdownEl.textContent = "🎉 V4.5 IS LIVE";
-                countdownEl.style.background = "linear-gradient(90deg, #00C9FF, #92FE9D)";
-                return;
-            }
-
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const mins = Math.floor((diff / (1000 * 60)) % 60);
-            const secs = Math.floor((diff / 1000) % 60);
-
-            countdownEl.innerHTML = `<span style="opacity:0.7">V2 LAUNCH IN</span> ${days}D ${hours}H ${mins}M ${secs}S`;
-        }
-
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
-
-        // Header scroll effect
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('.news-header');
-            if (window.scrollY > 50) {
-                header.style.padding = "10px 5%";
-                header.style.borderBottomColor = "rgba(255, 107, 0, 0.3)";
-            } else {
-                header.style.padding = "15px 5%";
-                header.style.borderBottomColor = "rgba(255, 255, 255, 0.08)";
-            }
-        });
+      const prog=document.getElementById('prog');
+      window.addEventListener('scroll',()=>{
+        const s=document.documentElement.scrollTop,h=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+        prog.style.width=(s/h*100)+'%';
+        document.getElementById('nav').classList.toggle('scrolled',s>80);
+      },{passive:true});
     </script>
 </body>
 </html>
