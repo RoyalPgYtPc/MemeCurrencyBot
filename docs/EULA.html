@@ -4,140 +4,585 @@
     <meta charset="UTF-8">
     <title>End User License Agreement - MemeCurrencyBot</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+    :root{
+      --o:#FF5500;--og:rgba(255,85,0,.35);--v:#8B5CF6;--p:#EC4899;--g:#00FF88;
+      --bg:#040404;--s:rgba(255,255,255,.025);--bd:rgba(255,85,0,.12);
+      --t:#F0EDE8;--m:rgba(240,237,232,.42);
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t);overflow-x:hidden;line-height:1.6}
+
+    /* NOISE */
+    body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:.6}
+
+    /* ORBS */
+    .orb{position:fixed;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:-1}
+    .o1{width:600px;height:600px;background:radial-gradient(circle,rgba(255,85,0,.13) 0%,transparent 70%);top:-200px;left:-200px;animation:d1 28s ease-in-out infinite}
+    .o2{width:500px;height:500px;background:radial-gradient(circle,rgba(139,92,246,.11) 0%,transparent 70%);bottom:-200px;right:-100px;animation:d2 34s ease-in-out infinite}
+    @keyframes d1{0%,100%{transform:translate(0,0)}50%{transform:translate(80px,60px)}}
+    @keyframes d2{0%,100%{transform:translate(0,0)}50%{transform:translate(-60px,-80px)}}
+
+    /* PROGRESS */
+    #prog{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--o),var(--p),var(--v));width:0%;z-index:10000;box-shadow:0 0 12px var(--og)}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:26px 60px;display:flex;justify-content:space-between;align-items:center;transition:all .4s cubic-bezier(.4,0,.2,1)}
+    nav.scrolled{background:rgba(4,4,4,.94);backdrop-filter:blur(28px) saturate(1.6);border-bottom:1px solid var(--bd);padding:16px 60px;box-shadow:0 1px 40px rgba(0,0,0,.6)}
+    .logo{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:.06em;display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--t)}
+    .lc{display:inline-block;animation:coinflip 7s ease-in-out infinite}
+    @keyframes coinflip{0%,85%,100%{transform:rotateY(0)}90%{transform:rotateY(180deg)}}
+    .logo em{font-style:normal;background:linear-gradient(135deg,var(--o),var(--p));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .back-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--m);text-decoration:none;padding:9px 18px;border:1px solid var(--bd);border-radius:3px;transition:all .25s}
+    .back-btn:hover{color:var(--t);border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.03)}
+    .back-btn svg{width:13px;height:13px}
+
+    /* HERO */
+    .hero{padding:140px 60px 60px;position:relative;overflow:hidden; text-align: center;}
+    .hgrid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,85,0,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,85,0,.03) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse 80% 60% at 50% 50%,black 40%,transparent 100%);pointer-events:none}
+    .hero-inner{max-width:860px;margin:0 auto;position:relative;z-index:1}
+    .eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--o);border:1px solid rgba(255,85,0,.28);padding:8px 22px;border-radius:3px;margin-bottom:24px;background:rgba(255,85,0,.05);animation:fi .9s .1s both}
+    @keyframes fi{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+    .page-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,10vw,100px);line-height:.9;letter-spacing:.01em;margin-bottom:24px;animation:slideUp .9s .3s both}
+    .page-title span{display:block;background:linear-gradient(135deg,var(--o) 0%,var(--p) 55%,var(--v) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 50px rgba(255,85,0,.3))}
+    @keyframes slideUp{from{opacity:0;transform:translateY(40px) skewY(2deg)}to{opacity:1;transform:translateY(0) skewY(0)}}
+    .eff-date{font-family:'Space Mono',monospace;font-size:11px;color:var(--m);letter-spacing:.14em;text-transform:uppercase;animation:fi .9s .5s both}
+
+    /* TOGGLE SWITCH */
+    .view-toggle {
+        display: inline-flex;
+        background: rgba(255,255,255,0.03);
+        padding: 6px;
+        border-radius: 50px;
+        border: 1px solid var(--bd);
+        margin-top: 36px;
+        position: relative;
+        animation: fi 0.9s 0.6s both;
+    }
+    .toggle-btn {
+        background: transparent;
+        border: none;
+        color: var(--m);
+        font-family: 'Space Mono', monospace;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        padding: 12px 28px;
+        border-radius: 40px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        position: relative;
+        z-index: 2;
+    }
+    .toggle-btn:hover { color: var(--t); }
+    .toggle-btn.active { color: #fff; }
+    
+    .toggle-slider {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        height: calc(100% - 12px);
+        width: 50%;
+        background: linear-gradient(135deg, var(--o), var(--p));
+        border-radius: 40px;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1;
+        box-shadow: 0 0 20px var(--og);
+    }
+
+    .hero-divider{height:1px;background:linear-gradient(90deg,transparent,var(--o),transparent);margin-top:40px;animation:fi .8s .7s both; opacity: 0.5;}
+
+    /* CONTENT AREAS */
+    .content{max-width:960px;margin:0 auto;padding:40px 60px 120px;animation:fi 1s .8s both; position: relative;}
+    
+    .view-section {
+        display: none;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .view-section.active {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* FORMAL PROSE */
+    .prose { max-width: 860px; margin: 0 auto; }
+    .prose p{font-size:16px;color:rgba(240,237,232,.8);line-height:1.8;margin-bottom:22px}
+    .prose h2{
+      font-family:'Bebas Neue',sans-serif;
+      font-size:clamp(28px,4vw,42px);
+      letter-spacing:.03em;
+      color:var(--t);
+      margin:52px 0 18px;
+      padding-top:52px;
+      border-top:1px solid rgba(255,255,255,.06);
+      position:relative;
+    }
+    .prose h2::before{content:'';position:absolute;top:-1px;left:0;width:36px;height:1px;background:var(--o)}
+    .prose ul{list-style:none;display:flex;flex-direction:column;gap:10px;margin:18px 0 24px;padding:0}
+    .prose ul li{padding-left:20px;position:relative;font-size:15px;color:rgba(240,237,232,.75);line-height:1.65}
+    .prose ul li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:50%;background:var(--o)}
+    .prose a{color:var(--o);text-decoration:none;transition:color .2s}
+    .prose a:hover{color:var(--p)}
+    .prose strong{color:var(--t);font-weight:600}
+
+    /* SIMPLE/INTERACTIVE CARDS */
+    .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 24px;
+        padding-top: 20px;
+    }
+    .card {
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 16px;
+        padding: 32px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        backdrop-filter: blur(10px);
+    }
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; height: 2px;
+        background: linear-gradient(90deg, var(--o), transparent);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        background: rgba(255,85,0,0.03);
+        border-color: rgba(255,85,0,0.3);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(255,85,0,0.1);
+    }
+    .card:hover::before { opacity: 1; }
+    
+    .card-icon {
+        margin-bottom: 20px;
+        background: rgba(255,255,255,0.02);
+        width: 64px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.06);
+        position: relative;
+    }
+    .card-icon svg {
+        width: 32px;
+        height: 32px;
+        stroke: var(--o);
+        stroke-width: 1.5;
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        transition: all 0.4s cubic-bezier(.4,0,.2,1);
+    }
+    .card:hover .card-icon svg {
+        stroke-width: 2;
+        filter: drop-shadow(0 0 8px rgba(255,85,0,0.6));
+    }
+    .card.obsidian .card-icon svg { stroke: var(--v); }
+    .card.obsidian:hover .card-icon svg { filter: drop-shadow(0 0 8px rgba(139,92,246,0.6)); }
+
+    /* SVG Animations */
+    @keyframes sFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+    @keyframes sPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+    @keyframes sSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    @keyframes sTip { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(6deg); } 75% { transform: rotate(-6deg); } }
+    @keyframes sFlip { 0%, 100% { transform: rotateY(0deg); } 50% { transform: rotateY(180deg); } }
+    @keyframes sShake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-3px) rotate(-3deg); } 40%, 80% { transform: translateX(3px) rotate(3deg); } }
+    @keyframes sSlide { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
+    @keyframes sBlink { 0%, 100% { fill: rgba(255,85,0,0); } 50% { fill: rgba(255,85,0,0.6); } }
+    @keyframes obsGlow { 0%, 100% { fill: rgba(139,92,246,0); transform: scale(1); } 50% { fill: rgba(139,92,246,0.4); transform: scale(1.2); } }
+
+    .svg-shield { animation: sFloat 3s ease-in-out infinite; }
+    .svg-crown { animation: sFloat 4s ease-in-out infinite; transform-origin: center bottom; }
+    .card:hover .svg-crown { animation: sPulse 1.5s ease-in-out infinite; }
+    .svg-game { animation: sFloat 3.5s ease-in-out infinite; }
+    .svg-game .btn { animation: sBlink 2s infinite; }
+    .svg-game .btn2 { animation: sBlink 2s infinite 1s; }
+    .svg-stop { animation: sFloat 4s ease-in-out infinite; }
+    .card:hover .svg-stop { animation: sShake 0.6s ease-in-out infinite; stroke: #ff3333; filter: drop-shadow(0 0 8px rgba(255,51,51,0.6)); }
+    .svg-coin { animation: sFlip 5s ease-in-out infinite; }
+    .card:hover .svg-coin { animation: sFlip 1.5s ease-in-out infinite; }
+    .svg-obs { animation: sFloat 3s ease-in-out infinite; }
+    .svg-obs .eye { animation: obsGlow 2s ease-in-out infinite; transform-origin: center; }
+    .svg-door { animation: sFloat 3.5s ease-in-out infinite; }
+    .svg-door .arr { animation: sSlide 1.5s ease-in-out infinite; }
+    .svg-gear { animation: sSpin 12s linear infinite; transform-origin: center; }
+    .card:hover .svg-gear { animation: sSpin 3s linear infinite; }
+    .svg-doc { animation: sTip 4s ease-in-out infinite; transform-origin: center bottom; }
+    .card:hover .svg-doc { animation: sTip 1s ease-in-out infinite; }
+
+    .card.obsidian .card-icon {
+        background: rgba(139,92,246,0.1);
+        border-color: var(--v);
+        box-shadow: 0 0 15px rgba(139,92,246,0.3);
+    }
+
+    .card-num {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        color: var(--o);
+        margin-bottom: 8px;
+        letter-spacing: 0.1em;
+    }
+    .card-title {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 28px;
+        letter-spacing: 0.04em;
+        color: var(--t);
+        margin-bottom: 12px;
+    }
+    .card-text {
+        font-size: 15px;
+        color: rgba(240,237,232,0.7);
+        line-height: 1.6;
+        flex-grow: 1;
+    }
+
+    /* FOOTER */
+    .doc-footer{padding-top:40px;margin-top:80px;border-top:1px solid rgba(255,255,255,.06);font-family:'Space Mono',monospace;font-size:11px;color:var(--m);letter-spacing:.08em; text-align: center;}
+
+    @media(max-width:768px){
+      nav,nav.scrolled{padding:16px 22px}
+      .hero{padding:110px 22px 40px}
+      .content{padding:20px 22px 80px}
+      .view-toggle { width: 100%; display: flex; }
+      .toggle-btn { flex: 1; justify-content: center; font-size: 11px; padding: 12px 10px; }
+    }
+    </style>
 </head>
-
 <body>
+<div id="prog"></div>
+<div class="orb o1"></div>
+<div class="orb o2"></div>
 
-    <!-- Background Effects -->
-    <div class="background"></div>
-    <div class="floating-shapes">
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
+<nav id="nav">
+  <a href="#" class="logo"><span class="lc">💰</span><span>Meme<em>Coin</em></span></a>
+  <a href="#" class="back-btn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back to Home
+  </a>
+</nav>
+
+<header class="hero">
+  <div class="hgrid"></div>
+  <div class="hero-inner">
+    <div class="eyebrow">Legal Document</div>
+    <h1 class="page-title">End User<br><span>License Agreement</span></h1>
+    <div class="eff-date">Effective Date: 2026</div>
+    
+    <!-- View Toggle -->
+    <div class="view-toggle" id="viewToggle">
+        <div class="toggle-slider" id="toggleSlider"></div>
+        <button class="toggle-btn active" data-view="simple">
+            <span>👶</span> Plain English
+        </button>
+        <button class="toggle-btn" data-view="formal">
+            <span>👔</span> Lawyer Speak
+        </button>
     </div>
 
-    <!-- Header -->
-    <div class="news-header">
-        <a href="index.html" class="back">← Back to Home</a>
-    </div>
+    <div class="hero-divider"></div>
+  </div>
+</header>
 
-    <!-- EULA Content -->
-    <div class="article-container">
-        <h1 class="article-title">End User License Agreement (EULA)</h1>
-        <div class="article-meta">
-            Effective Date: 2026
-        </div>
+<main class="content">
 
-        <div class="article-content">
+  <!-- SIMPLE/INTERACTIVE VIEW -->
+  <div id="simple-view" class="view-section active">
+      <div class="cards-grid">
+          
+          <div class="card">
+              <div class="card-icon">
+                  <svg class="svg-shield" viewBox="0 0 24 24">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                      <path d="M9 12l2 2 4-4"/>
+                  </svg>
+              </div>
+              <div class="card-num">SECTION 01</div>
+              <h3 class="card-title">The Handshake</h3>
+              <p class="card-text">By using the MemeCurrencyBot, you're agreeing to play by our rules. If you don't like the rules, you can't use the bot.</p>
+          </div>
 
-            <p>
-                This End User License Agreement ("Agreement") governs your access to and use of
-                MemeCurrencyBot, the associated website, Project Obsidian Anti-Cheat,
-                and all related systems (collectively, the "Software").
-            </p>
+          <div class="card">
+              <div class="card-icon">
+                  <svg class="svg-crown" viewBox="0 0 24 24">
+                      <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/>
+                  </svg>
+              </div>
+              <div class="card-num">SECTION 02</div>
+              <h3 class="card-title">Who Owns What</h3>
+              <p class="card-text">We (the subreddit) own the bot entirely. You are just renting the fun for free!</p>
+          </div>
 
-            <h2>1. Acceptance of Terms</h2>
-            <p>
-                By accessing or using the Software, you agree to be bound by this Agreement.
-                If you do not agree, you must not use the Software.
-            </p>
+          <div class="card">
+              <div class="card-icon">
+                  <svg class="svg-game" viewBox="0 0 24 24">
+                      <rect x="2" y="6" width="20" height="12" rx="2"/>
+                      <path d="M6 12h4m-2-2v4"/>
+                      <circle class="btn" cx="15" cy="11" r="1"/>
+                      <circle class="btn2" cx="17" cy="13" r="1"/>
+                  </svg>
+              </div>
+              <div class="card-num">SECTION 03</div>
+              <h3 class="card-title">Your Play Pass</h3>
+              <p class="card-text">You're allowed to use the bot for personal fun within our specific subreddit. No commercial business allowed.</p>
+          </div>
 
-            <h2>2. Ownership</h2>
-            <p>
-                The Software is proprietary and is the exclusive property of
-                r/memeexchangecommunism. All rights, title, and interest remain
-                with the owner at all times.
-            </p>
+          <div class="card">
+              <div class="card-icon">
+                  <svg class="svg-stop" viewBox="0 0 24 24">
+                      <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/>
+                      <line x1="12" y1="8" x2="12" y2="12"/>
+                      <line x1="12" y1="16" x2="12.01" y2="16"/>
+                  </svg>
+              </div>
+              <div class="card-num">SECTION 04</div>
+              <h3 class="card-title">The "Don'ts"</h3>
+              <p class="card-text">Don't steal our code, don't try to hack the bot, and don't try to host your own unauthorized copy of it.</p>
+          </div>
 
-            <h2>3. License Grant</h2>
-            <p>
-                A limited, revocable, non-transferable, non-exclusive license is granted
-                solely for personal use within the intended subreddit ecosystem.
-                No ownership rights are transferred.
-            </p>
+          <div class="card">
+              <div class="card-icon">
+                  <svg class="svg-coin" viewBox="0 0 24 24">
+                      <circle cx="12" cy="12" r="10"/>
+                      <path d="M12 8v8m-2-6h4m-4 4h4"/>
+                  </svg>
+              </div>
+              <div class="card-num">SECTION 05</div>
+              <h3 class="card-title">Fake Money</h3>
+              <p class="card-text">Meme coins are 100% fake internet points. You can't cash them out, buy a pizza with them, or trade them for Bitcoin.</p>
+          </div>
 
-            <h2>4. Restrictions</h2>
-            <ul>
-                <li>No copying, modification, or redistribution.</li>
-                <li>No reverse engineering, decompiling, or disassembly.</li>
-                <li>No commercial use without written authorization.</li>
-                <li>No unauthorized hosting, deployment, or mirroring.</li>
-            </ul>
+          <div class="card obsidian">
+              <div class="card-icon">
+                  <svg class="svg-obs" viewBox="0 0 24 24">
+                      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                      <circle class="eye" cx="12" cy="12" r="3"/>
+                  </svg>
+              </div>
+              <div class="card-num">SECTION 06</div>
+              <h3 class="card-title">Obsidian Anti-Cheat</h3>
+              <p class="card-text">Our robot guard is always watching the economy. If you cheat, use scripts, or exploit bugs, you <strong>will</strong> get the ban hammer and lose your coins.</p>
+          </div>
 
-            <h2>5. Virtual Currency Notice</h2>
-            <p>
-                Any in-platform currency or points (including MCIC or similar)
-                are virtual, hold no real-world monetary value, and cannot be
-                exchanged for legal tender, cryptocurrency, or tangible assets.
-            </p>
+          <div class="card">
+              <div class="card-icon">
+                  <svg class="svg-door" viewBox="0 0 24 24">
+                      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                      <polyline class="arr" points="16 17 21 12 16 7"/>
+                      <line class="arr" x1="21" y1="12" x2="9" y2="12"/>
+                  </svg>
+              </div>
+              <div class="card-num">SECTION 07</div>
+              <h3 class="card-title">Getting Kicked</h3>
+              <p class="card-text">If you break any of these rules, we reserve the right to revoke your access and kick you out immediately without warning.</p>
+          </div>
 
-            <h2>6. Project Obsidian Anti-Cheat</h2>
-            <p>
-                The Software includes <strong>Project Obsidian Anti-Cheat</strong>,
-                a proprietary integrity and anti-abuse system developed exclusively
-                for r/memeexchangecommunism. Its purpose is to safeguard the internal
-                currency system and maintain fairness across the ecosystem.
-            </p>
-            <p>
-                Project Obsidian may monitor user activity, currency transfers,
-                engagement patterns, and system interactions to detect manipulation,
-                exploitation, automation abuse, or behaviour inconsistent with
-                community rules.
-            </p>
-            <p>
-                Upon detection of suspicious or rule-violating behaviour, the system
-                may automatically or manually enforce corrective measures, including
-                but not limited to balance adjustments, warnings, temporary restrictions,
-                or permanent bans.
-            </p>
-            <p>
-                By using the Software, you consent to automated monitoring and
-                enforcement actions executed by Project Obsidian within the scope
-                of community governance.
-            </p>
+          <div class="card">
+              <div class="card-icon">
+                  <svg class="svg-gear" viewBox="0 0 24 24">
+                      <circle cx="12" cy="12" r="3"/>
+                      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                  </svg>
+              </div>
+              <div class="card-num">SECTION 08</div>
+              <h3 class="card-title">"As Is" Condition</h3>
+              <p class="card-text">Sometimes bots break. We provide this bot "as is," meaning we don't legally promise 100% uptime or zero bugs.</p>
+          </div>
 
-            <h2>7. Termination</h2>
-            <p>
-                Access may be suspended or terminated at any time, without notice,
-                for violation of this Agreement or at the sole discretion of the owner.
-            </p>
+          <div class="card">
+              <div class="card-icon">
+                  <svg class="svg-doc" viewBox="0 0 24 24">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                      <polyline points="14 2 14 8 20 8"/>
+                      <line x1="16" y1="13" x2="8" y2="13"/>
+                      <line x1="16" y1="17" x2="8" y2="17"/>
+                      <polyline points="10 9 9 9 8 9"/>
+                  </svg>
+              </div>
+              <div class="card-num">SECTION 09</div>
+              <h3 class="card-title">No Lawsuits</h3>
+              <p class="card-text">If a glitch happens and you lose your fake meme coins, you cannot sue us or hold us legally responsible for your loss.</p>
+          </div>
 
-            <h2>8. Disclaimer of Warranty</h2>
-            <p>
-                The Software is provided "as is" without warranties of any kind,
-                express or implied, including but not limited to fitness for a
-                particular purpose or non-infringement.
-            </p>
+      </div>
+  </div>
 
-            <h2>9. Limitation of Liability</h2>
-            <p>
-                Under no circumstances shall the owner be liable for any indirect,
-                incidental, consequential, or special damages arising from the use
-                of the Software.
-            </p>
+  <!-- FORMAL/LAWYER VIEW -->
+  <div id="formal-view" class="view-section">
+      <div class="prose">
+        <p>
+          This End User License Agreement ("Agreement") governs your access to and use of
+          MemeCurrencyBot, the associated website, Project Obsidian Anti-Cheat,
+          and all related systems (collectively, the "Software").
+        </p>
 
-            <h2>10. Governing Law</h2>
-            <p>
-                This Agreement shall be governed by and interpreted in accordance
-                with applicable laws.
-            </p>
+        <h2>1. Acceptance of Terms</h2>
+        <p>
+          By accessing or using the Software, you agree to be bound by this Agreement.
+          If you do not agree, you must not use the Software.
+        </p>
 
-            <h2>11. Contact</h2>
-            <p>
-                For licensing inquiries or questions regarding this Agreement,
-                contact:
-                <a href="mailto:rep.memeexchangecommunism@gmail.com">
-                    rep.memeexchangecommunism@gmail.com
-                </a>
-            </p>
+        <h2>2. Ownership</h2>
+        <p>
+          The Software is proprietary and is the exclusive property of
+          r/memeexchangecommunism. All rights, title, and interest remain
+          with the owner at all times.
+        </p>
 
-        </div>
+        <h2>3. License Grant</h2>
+        <p>
+          A limited, revocable, non-transferable, non-exclusive license is granted
+          solely for personal use within the intended subreddit ecosystem.
+          No ownership rights are transferred.
+        </p>
 
-        <div class="article-footer">
-            © 2026 r/memeexchangecommunism. All rights reserved.
-        </div>
-    </div>
+        <h2>4. Restrictions</h2>
+        <ul>
+          <li>No copying, modification, or redistribution.</li>
+          <li>No reverse engineering, decompiling, or disassembly.</li>
+          <li>No commercial use without written authorization.</li>
+          <li>No unauthorized hosting, deployment, or mirroring.</li>
+        </ul>
 
+        <h2>5. Virtual Currency Notice</h2>
+        <p>
+          Any in-platform currency or points (including MCIC or similar)
+          are virtual, hold no real-world monetary value, and cannot be
+          exchanged for legal tender, cryptocurrency, or tangible assets.
+        </p>
+
+        <h2>6. Project Obsidian Anti-Cheat</h2>
+        <p>
+          The Software includes <strong>Project Obsidian Anti-Cheat</strong>,
+          a proprietary integrity and anti-abuse system developed exclusively
+          for r/memeexchangecommunism. Its purpose is to safeguard the internal
+          currency system and maintain fairness across the ecosystem.
+        </p>
+        <p>
+          Project Obsidian may monitor user activity, currency transfers,
+          engagement patterns, and system interactions to detect manipulation,
+          exploitation, automation abuse, or behaviour inconsistent with
+          community rules.
+        </p>
+        <p>
+          Upon detection of suspicious or rule-violating behaviour, the system
+          may automatically or manually enforce corrective measures, including
+          but not limited to balance adjustments, warnings, temporary restrictions,
+          or permanent bans.
+        </p>
+        <p>
+          By using the Software, you consent to automated monitoring and
+          enforcement actions executed by Project Obsidian within the scope
+          of community governance.
+        </p>
+
+        <h2>7. Termination</h2>
+        <p>
+          Access may be suspended or terminated at any time, without notice,
+          for violation of this Agreement or at the sole discretion of the owner.
+        </p>
+
+        <h2>8. Disclaimer of Warranty</h2>
+        <p>
+          The Software is provided "as is" without warranties of any kind,
+          express or implied, including but not limited to fitness for a
+          particular purpose or non-infringement.
+        </p>
+
+        <h2>9. Limitation of Liability</h2>
+        <p>
+          Under no circumstances shall the owner be liable for any indirect,
+          incidental, consequential, or special damages arising from the use
+          of the Software.
+        </p>
+
+        <h2>10. Governing Law</h2>
+        <p>
+          This Agreement shall be governed by and interpreted in accordance
+          with applicable laws.
+        </p>
+
+        <h2>11. Contact</h2>
+        <p>
+          For licensing inquiries or questions regarding this Agreement,
+          contact: <a href="mailto:rep.memeexchangecommunism@gmail.com">rep.memeexchangecommunism@gmail.com</a>
+        </p>
+      </div>
+  </div>
+
+  <div class="doc-footer">© 2026 r/memeexchangecommunism. All rights reserved.</div>
+
+</main>
+
+<script>
+// Scroll Progress Bar & Nav styling
+const prog = document.getElementById('prog');
+const nav = document.getElementById('nav');
+
+window.addEventListener('scroll', () => {
+    const s = document.documentElement.scrollTop;
+    const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    prog.style.width = (s / h * 100) + '%';
+    nav.classList.toggle('scrolled', s > 80);
+}, {passive: true});
+
+// View Toggle Logic
+const toggleBtns = document.querySelectorAll('.toggle-btn');
+const simpleView = document.getElementById('simple-view');
+const formalView = document.getElementById('formal-view');
+const toggleSlider = document.getElementById('toggleSlider');
+
+toggleBtns.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+        // Update active classes on buttons
+        toggleBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Move slider visually
+        if(index === 0) {
+            toggleSlider.style.transform = 'translateX(0)';
+        } else {
+            toggleSlider.style.transform = 'translateX(100%)';
+        }
+
+        // Switch Views
+        const targetView = btn.getAttribute('data-view');
+        if (targetView === 'simple') {
+            formalView.classList.remove('active');
+            setTimeout(() => {
+                formalView.style.display = 'none';
+                simpleView.style.display = 'block';
+                setTimeout(() => simpleView.classList.add('active'), 50);
+            }, 300); // Wait for fade out
+        } else {
+            simpleView.classList.remove('active');
+            setTimeout(() => {
+                simpleView.style.display = 'none';
+                formalView.style.display = 'block';
+                setTimeout(() => formalView.classList.add('active'), 50);
+            }, 300); // Wait for fade out
+        }
+    });
+});
+</script>
 </body>
 </html>

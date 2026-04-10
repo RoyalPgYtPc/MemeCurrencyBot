@@ -2,80 +2,109 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Security Check</title>
+<title>AutoMod Pranked You</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;0,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  body {
-    margin: 0;
-    height: 100vh;
-    background: #0a0a0d;
-    color: #f2f2f2;
-    font-family: system-ui, sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .wrap {
-    text-align: center;
-    max-width: 420px;
-    padding: 40px;
-  }
-  h1 {
-    font-size: 34px;
-    margin-bottom: 12px;
-  }
-  p {
-    opacity: 0.85;
-    line-height: 1.6;
-  }
-  .btns {
-    margin-top: 28px;
-    display: flex;
-    gap: 14px;
-    justify-content: center;
-  }
-  a {
-    padding: 12px 18px;
-    border-radius: 999px;
-    text-decoration: none;
-    font-weight: 600;
-  }
-  .home {
-    background: #ff4500;
-    color: white;
-  }
-  .sub {
-    border: 1px solid #444;
-    color: #ddd;
-  }
-  small {
-    display: block;
-    margin-top: 20px;
-    opacity: 0.5;
-  }
+:root{
+  --o:#FF5500;--og:rgba(255,85,0,.35);--v:#8B5CF6;--p:#EC4899;--g:#00FF88;
+  --bg:#040404;--bd:rgba(255,85,0,.12);--t:#F0EDE8;--m:rgba(240,237,232,.42);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t);min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.6}
+
+.orb{position:fixed;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:0}
+.o1{width:600px;height:600px;background:radial-gradient(circle,rgba(255,85,0,.12) 0%,transparent 70%);top:-200px;left:-200px;animation:d1 28s ease-in-out infinite}
+.o2{width:500px;height:500px;background:radial-gradient(circle,rgba(139,92,246,.1) 0%,transparent 70%);bottom:-200px;right:-100px;animation:d2 34s ease-in-out infinite}
+@keyframes d1{0%,100%{transform:translate(0,0)}50%{transform:translate(80px,60px)}}
+@keyframes d2{0%,100%{transform:translate(0,0)}50%{transform:translate(-60px,-80px)}}
+
+/* GRID BACKGROUND */
+.grid-bg{position:fixed;inset:0;background-image:linear-gradient(rgba(255,85,0,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,85,0,.04) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 40%,transparent 100%);pointer-events:none;z-index:0}
+
+.wrap{
+  position:relative;
+  z-index:1;
+  text-align:center;
+  max-width:500px;
+  padding:60px 48px;
+  background:rgba(255,255,255,.018);
+  border:1px solid var(--bd);
+  border-radius:18px;
+  animation:popIn .7s cubic-bezier(.4,0,.2,1) both;
+}
+.wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--o),var(--p),var(--v));border-radius:18px 18px 0 0}
+
+@keyframes popIn{from{opacity:0;transform:translateY(28px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+.badge{display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--o);border:1px solid rgba(255,85,0,.28);padding:6px 16px;border-radius:3px;margin-bottom:28px;background:rgba(255,85,0,.05)}
+.edot{width:6px;height:6px;background:var(--o);border-radius:50%;animation:pdot 1.6s ease-in-out infinite;display:inline-block}
+@keyframes pdot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.65)}}
+
+h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,10vw,80px);line-height:.92;letter-spacing:.02em;margin-bottom:20px;background:linear-gradient(135deg,var(--o),var(--p),var(--v));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 50px rgba(255,85,0,.35))}
+
+p{font-size:16px;color:var(--m);line-height:1.7;margin-bottom:8px}
+p strong{color:var(--t)}
+
+.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,85,0,.2),transparent);margin:28px 0}
+
+.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+a.btn{padding:12px 28px;border-radius:5px;text-decoration:none;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;transition:all .28s cubic-bezier(.4,0,.2,1);display:inline-flex;align-items:center;gap:8px}
+.home{background:var(--o);color:#fff}
+.home:hover{background:#ff6622;transform:translateY(-2px);box-shadow:0 8px 28px var(--og)}
+.sub{background:transparent;color:var(--t);border:1px solid rgba(255,255,255,.12)}
+.sub:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.25);transform:translateY(-2px)}
+
+.countdown{margin-top:28px;font-family:'Space Mono',monospace;font-size:10px;color:var(--m);letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:8px}
+.cbar{flex:1;max-width:120px;height:2px;background:rgba(255,255,255,.06);border-radius:1px;overflow:hidden}
+.cfill{height:100%;background:linear-gradient(90deg,var(--o),var(--p));border-radius:1px;transition:width .1s linear}
+
+@media(max-width:480px){.wrap{padding:40px 28px;margin:20px}}
 </style>
 </head>
 <body>
 
+<div class="orb o1"></div>
+<div class="orb o2"></div>
+<div class="grid-bg"></div>
+
 <div class="wrap">
-  <h1>AutoMod pranked you.</h1>
-  <p>
-    Nothing was removed.<br>
-    You werent hacked.<br>
-  </p>
+  <div class="badge"><span class="edot"></span>AutoMod Alert</div>
+
+  <h1>Ha. Got<br>You.</h1>
+
+  <p><strong>Nothing was removed.</strong></p>
+  <p>You weren't hacked.<br>AutoMod just pranked you.</p>
+
+  <div class="divider"></div>
 
   <div class="btns">
-    <a class="home" href="index.html">🏠 Home</a>
-    <a class="sub" href="https://www.reddit.com/r/memeexchangecommunism/">⬅️ Subreddit</a>
+    <a class="btn home" href="index.html">🏠 Home</a>
+    <a class="btn sub" href="https://www.reddit.com/r/memeexchangecommunism/">⬅️ Subreddit</a>
   </div>
 
-  <small>Redirecting you somewhere safe…</small>
+  <div class="countdown">
+    <span>Redirecting in <span id="ct">6</span>s</span>
+    <div class="cbar"><div class="cfill" id="cfill" style="width:100%"></div></div>
+  </div>
 </div>
 
 <script>
-  setTimeout(() => {
-    window.location.href = "https://www.reddit.com/r/memeexchangecommunism/";
-  }, 6000);
+  let t = 6;
+  const ct = document.getElementById('ct');
+  const cfill = document.getElementById('cfill');
+  const interval = setInterval(() => {
+    t--;
+    ct.textContent = t;
+    cfill.style.width = (t / 6 * 100) + '%';
+    if (t <= 0) {
+      clearInterval(interval);
+      window.location.href = 'https://www.reddit.com/r/memeexchangecommunism/';
+    }
+  }, 1000);
 </script>
-
 </body>
 </html>

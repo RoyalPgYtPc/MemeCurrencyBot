@@ -4,176 +4,340 @@
     <meta charset="UTF-8">
     <title>Privacy Policy - MemeCurrencyBot</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+    :root{
+      --o:#FF5500;--og:rgba(255,85,0,.35);--v:#8B5CF6;--p:#EC4899;--g:#00FF88;
+      --bg:#040404;--s:rgba(255,255,255,.025);--bd:rgba(255,85,0,.12);
+      --t:#F0EDE8;--m:rgba(240,237,232,.42);
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t);overflow-x:hidden;line-height:1.6}
+
+    /* NOISE & ORBS */
+    body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:.6}
+    .orb{position:fixed;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:-1}
+    .o1{width:600px;height:600px;background:radial-gradient(circle,rgba(139,92,246,.13) 0%,transparent 70%);top:-200px;right:-200px;animation:d1 30s ease-in-out infinite}
+    .o2{width:500px;height:500px;background:radial-gradient(circle,rgba(255,85,0,.1) 0%,transparent 70%);bottom:-200px;left:-100px;animation:d2 34s ease-in-out infinite}
+    @keyframes d1{0%,100%{transform:translate(0,0)}50%{transform:translate(-80px,60px)}}
+    @keyframes d2{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,-80px)}}
+
+    #prog{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--v),var(--p),var(--o));width:0%;z-index:10000;box-shadow:0 0 12px rgba(139,92,246,.5)}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:26px 60px;display:flex;justify-content:space-between;align-items:center;transition:all .4s cubic-bezier(.4,0,.2,1)}
+    nav.scrolled{background:rgba(4,4,4,.94);backdrop-filter:blur(28px) saturate(1.6);border-bottom:1px solid var(--bd);padding:16px 60px;box-shadow:0 1px 40px rgba(0,0,0,.6)}
+    .logo{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:.06em;display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--t)}
+    .lc{display:inline-block;animation:coinflip 7s ease-in-out infinite}
+    @keyframes coinflip{0%,85%,100%{transform:rotateY(0)}90%{transform:rotateY(180deg)}}
+    .logo em{font-style:normal;background:linear-gradient(135deg,var(--o),var(--p));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .back-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--m);text-decoration:none;padding:9px 18px;border:1px solid var(--bd);border-radius:3px;transition:all .25s}
+    .back-btn:hover{color:var(--t);border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.03)}
+    .back-btn svg{width:13px;height:13px}
+
+    /* HERO */
+    .hero{padding:140px 60px 60px;position:relative;overflow:hidden; text-align: center;}
+    .hgrid{position:absolute;inset:0;background-image:linear-gradient(rgba(139,92,246,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,.03) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse 80% 60% at 50% 50%,black 40%,transparent 100%);pointer-events:none}
+    .hero-inner{max-width:860px;margin:0 auto;position:relative;z-index:1}
+    .eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--v);border:1px solid rgba(139,92,246,.28);padding:8px 22px;border-radius:3px;margin-bottom:24px;background:rgba(139,92,246,.05);animation:fi .9s .1s both}
+    @keyframes fi{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+    .page-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,10vw,100px);line-height:.9;letter-spacing:.01em;margin-bottom:24px;animation:slideUp .9s .3s both}
+    .page-title span{display:block;background:linear-gradient(135deg,var(--v) 0%,var(--p) 55%,var(--o) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 50px rgba(139,92,246,.3))}
+    @keyframes slideUp{from{opacity:0;transform:translateY(40px) skewY(2deg)}to{opacity:1;transform:translateY(0) skewY(0)}}
+    .eff-date{font-family:'Space Mono',monospace;font-size:11px;color:var(--m);letter-spacing:.14em;text-transform:uppercase;animation:fi .9s .5s both}
+
+    /* TOGGLE SWITCH */
+    .view-toggle {
+        display: inline-flex;
+        background: rgba(255,255,255,0.03);
+        padding: 6px;
+        border-radius: 50px;
+        border: 1px solid var(--bd);
+        margin-top: 36px;
+        position: relative;
+        animation: fi 0.9s 0.6s both;
+    }
+    .toggle-btn {
+        background: transparent;
+        border: none;
+        color: var(--m);
+        font-family: 'Space Mono', monospace;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        padding: 12px 28px;
+        border-radius: 40px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        position: relative;
+        z-index: 2;
+    }
+    .toggle-btn.active { color: #fff; }
+    .toggle-slider {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        height: calc(100% - 12px);
+        width: 50%;
+        background: linear-gradient(135deg, var(--v), var(--p));
+        border-radius: 40px;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1;
+        box-shadow: 0 0 20px rgba(139,92,246,0.4);
+    }
+
+    /* CONTENT AREAS */
+    .content{max-width:960px;margin:0 auto;padding:40px 60px 120px;animation:fi 1s .8s both; position: relative;}
+    .view-section { display: none; opacity: 0; transform: translateY(10px); transition: all 0.4s ease; }
+    .view-section.active { display: block; opacity: 1; transform: translateY(0); }
+
+    /* SIMPLE CARDS */
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+    .card {
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 16px;
+        padding: 32px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    .card:hover { transform: translateY(-5px); background: rgba(139,92,246,0.03); border-color: rgba(139,92,246,0.3); }
+    .card-icon {
+        width: 56px; height: 56px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center;
+        background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid rgba(255,255,255,0.06);
+    }
+    .card-icon svg { width: 28px; height: 28px; stroke: var(--v); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    
+    /* SVG Animations */
+    @keyframes sFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    @keyframes sPulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.15); opacity: 0.7; } }
+    @keyframes sScan { 0% { transform: translateY(-10px); } 100% { transform: translateY(10px); } }
+    @keyframes sWobble { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(5deg); } 75% { transform: rotate(-5deg); } }
+    
+    .svg-float { animation: sFloat 3s ease-in-out infinite; }
+    .svg-pulse { animation: sPulse 2s ease-in-out infinite; }
+    .svg-scan-line { animation: sScan 1.5s ease-in-out infinite alternate; }
+    .card:hover .svg-wobble { animation: sWobble 0.5s ease-in-out infinite; }
+
+    .card-num { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--v); margin-bottom: 8px; }
+    .card-title { font-family: 'Bebas Neue', sans-serif; font-size: 26px; color: var(--t); margin-bottom: 12px; }
+    .card-text { font-size: 15px; color: rgba(240,237,232,0.7); }
+
+    /* PROSE */
+    .prose { max-width: 800px; margin: 0 auto; }
+    .prose p { margin-bottom: 20px; color: rgba(240,237,232,0.8); }
+    .prose h2 { font-family: 'Bebas Neue', sans-serif; font-size: 32px; margin: 48px 0 16px; padding-top: 48px; border-top: 1px solid rgba(255,255,255,0.06); position: relative; }
+    .prose h2::before { content: ''; position: absolute; top: -1px; left: 0; width: 40px; height: 1px; background: var(--v); }
+    .prose ul { list-style: none; margin: 20px 0; }
+    .prose ul li { padding-left: 20px; position: relative; margin-bottom: 8px; }
+    .prose ul li::before { content: ''; position: absolute; left: 0; top: 10px; width: 6px; height: 6px; border-radius: 50%; background: var(--v); }
+    .prose a { color: var(--v); text-decoration: none; }
+
+    .doc-footer{padding-top:40px;margin-top:80px;border-top:1px solid rgba(255,255,255,.06);font-family:'Space Mono',monospace;font-size:11px;color:var(--m); text-align: center;}
+
+    @media(max-width:768px){
+      nav,nav.scrolled{padding:16px 22px}
+      .hero{padding:110px 22px 40px}
+      .content{padding:20px 22px 80px}
+      .view-toggle { width: 100%; display: flex; }
+      .toggle-btn { flex: 1; justify-content: center; font-size: 11px; }
+    }
+    </style>
 </head>
-
 <body>
+<div id="prog"></div>
+<div class="orb o1"></div>
+<div class="orb o2"></div>
 
-    <div class="background"></div>
-    <div class="floating-shapes">
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
+<nav id="nav">
+  <a href="#" class="logo"><span class="lc">💰</span><span>Meme<em>Coin</em></span></a>
+  <a href="#" class="back-btn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back to Home
+  </a>
+</nav>
+
+<header class="hero">
+  <div class="hgrid"></div>
+  <div class="hero-inner">
+    <div class="eyebrow">Privacy Standards</div>
+    <h1 class="page-title">Privacy<br><span>Policy</span></h1>
+    <div class="eff-date">Effective Date: 2026</div>
+    
+    <div class="view-toggle" id="viewToggle">
+        <div class="toggle-slider" id="toggleSlider"></div>
+        <button class="toggle-btn active" data-view="simple">
+            <span>🛡️</span> Plain English
+        </button>
+        <button class="toggle-btn" data-view="formal">
+            <span>⚖️</span> Lawyer Speak
+        </button>
     </div>
+  </div>
+</header>
 
-    <div class="news-header">
-        <a href="index.html" class="back">← Back to Home</a>
-    </div>
+<main class="content">
 
-    <div class="article-container">
-        <h1 class="article-title">Privacy Policy</h1>
-        <div class="article-meta">
-            Effective Date: 2026
-        </div>
+  <!-- SIMPLE VIEW -->
+  <div id="simple-view" class="view-section active">
+      <div class="cards-grid">
+          
+          <div class="card">
+              <div class="card-icon">
+                  <svg class="svg-float" viewBox="0 0 24 24">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                      <circle cx="12" cy="7" r="4"/>
+                  </svg>
+              </div>
+              <div class="card-num">DATA POINT 01</div>
+              <h3 class="card-title">Who Are You?</h3>
+              <p class="card-text">We only know your Reddit username and what you post in the sub. We don't ask for your real name, email, or physical address.</p>
+          </div>
 
-        <div class="article-content">
+          <div class="card">
+              <div class="card-icon">
+                  <svg class="svg-pulse" viewBox="0 0 24 24">
+                      <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                  </svg>
+              </div>
+              <div class="card-num">DATA POINT 02</div>
+              <h3 class="card-title">Tracking Fun</h3>
+              <p class="card-text">We keep a log of your "Meme Coin" balance and how many times you tip others. It's strictly for the leaderboard and game integrity.</p>
+          </div>
 
-            <p>
-                This Privacy Policy describes how MemeCurrencyBot, Project Obsidian Anti-Cheat,
-                and related systems (collectively, the "Service") process information within
-                the r/memeexchangecommunism ecosystem.
-            </p>
+          <div class="card">
+              <div class="card-icon">
+                  <svg viewBox="0 0 24 24">
+                      <circle cx="12" cy="12" r="10"/>
+                      <path class="svg-scan-line" d="M2 12h20" stroke-width="2"/>
+                      <path d="M12 12l3-3m-3 3l-3-3m3 3v6"/>
+                  </svg>
+              </div>
+              <div class="card-num">DATA POINT 03</div>
+              <h3 class="card-title">Obsidian Eye</h3>
+              <p class="card-text">Our anti-cheat (Project Obsidian) scans transaction patterns to make sure nobody is using bots or cheating the economy.</p>
+          </div>
 
-            <h2>1. Data Controller</h2>
-            <p>
-                For the purposes of the UK GDPR, EU General Data Protection Regulation (GDPR),
-                and applicable data protection legislation, the operator of the Service acts
-                as the data controller for data processed within this ecosystem.
-            </p>
+          <div class="card">
+              <div class="card-icon">
+                  <svg class="svg-wobble" viewBox="0 0 24 24">
+                      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                      <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                  </svg>
+              </div>
+              <div class="card-num">DATA POINT 04</div>
+              <h3 class="card-title">No Ads</h3>
+              <p class="card-text">We hate spam. We will never sell your data to advertisers or third parties. Your Reddit habits stay within our ecosystem.</p>
+          </div>
 
-            <h2>2. Categories of Data Processed</h2>
-            <ul>
-                <li>Reddit usernames and publicly available profile information</li>
-                <li>Post, comment, and engagement metrics</li>
-                <li>Internal currency balances and transaction records</li>
-                <li>Security, integrity, and enforcement logs</li>
-                <li>Behavioural and transactional metadata necessary for fraud prevention</li>
-            </ul>
+          <div class="card">
+              <div class="card-icon">
+                  <svg class="svg-float" viewBox="0 0 24 24">
+                      <path d="M3 6h18m-2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                  </svg>
+              </div>
+              <div class="card-num) ">DATA POINT 05</div>
+              <h3 class="card-title">Deleting Data</h3>
+              <p class="card-text">If you want to leave the game forever, you can request to have your bot-specific data wiped from our database.</p>
+          </div>
 
-            <h2>3. Lawful Basis for Processing (UK & EU GDPR)</h2>
-            <p>Processing is carried out under one or more of the following lawful bases:</p>
-            <ul>
-                <li>Legitimate Interests (Article 6(1)(f)) – operating, securing, and protecting the community economy</li>
-                <li>Performance of a service requested by users</li>
-                <li>Compliance with legal obligations where applicable</li>
-                <li>User consent where legally required</li>
-            </ul>
+          <div class="card">
+              <div class="card-icon">
+                  <svg class="svg-pulse" viewBox="0 0 24 24">
+                      <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                      <line x1="8" y1="21" x2="16" y2="21"/>
+                      <line x1="12" y1="17" x2="12" y2="21"/>
+                  </svg>
+              </div>
+              <div class="card-num">DATA POINT 06</div>
+              <h3 class="card-title">Reddit Rules</h3>
+              <p class="card-text">Since we live on Reddit, their privacy policy also applies to you. We're just a layer on top of their platform.</p>
+          </div>
 
-            <p>
-                The legitimate interests pursued include fraud detection, abuse prevention,
-                system integrity, enforcement of community rules, and protection of participants.
-                These interests are balanced against user rights and freedoms.
-            </p>
+      </div>
+  </div>
 
-            <h2>4. Anti-Abuse Monitoring (Project Obsidian)</h2>
-            <p>
-                Project Obsidian Anti-Cheat performs automated and manual analysis of
-                system interactions, transaction patterns, engagement behaviour, and
-                related metadata to detect abuse, manipulation, automation misuse,
-                or rule violations.
-            </p>
+  <!-- FORMAL VIEW -->
+  <div id="formal-view" class="view-section">
+      <div class="prose">
+        <p>This Privacy Policy describes how MemeCurrencyBot and Project Obsidian Anti-Cheat (the "Service") process information within the r/memeexchangecommunism ecosystem.</p>
+        
+        <h2>1. Data Controller</h2>
+        <p>For the purposes of the UK/EU GDPR, the operator of the Service acts as the data controller for ecosystem data.</p>
+        
+        <h2>2. Categories of Data</h2>
+        <ul>
+          <li>Reddit usernames and public profile metadata.</li>
+          <li>Post, comment, and engagement metrics.</li>
+          <li>Internal currency (MCIC) balances and transaction history.</li>
+          <li>Behavioural metadata used for fraud/abuse prevention.</li>
+        </ul>
 
-            <p>
-                Such monitoring is strictly necessary to maintain system security,
-                prevent fraud, protect users, and preserve fairness within the
-                internal economy.
-            </p>
+        <h2>3. Lawful Basis</h2>
+        <p>Processing is carried out under <strong>Legitimate Interests (Article 6(1)(f))</strong> to secure the community economy and prevent fraud via Project Obsidian.</p>
 
-            <p>
-                Relevant information may be stored for auditing, investigation,
-                evidentiary purposes, and human review. Automated decisions may
-                result in balance adjustments, warnings, temporary restrictions,
-                or permanent bans where justified.
-            </p>
+        <h2>4. Anti-Abuse (Project Obsidian)</h2>
+        <p>Project Obsidian performs automated analysis of system interactions to detect manipulation. This monitoring is necessary for system security and fairness. Automated decisions (e.g., bans) can be appealed via human review.</p>
 
-            <p>
-                Users may request review of significant automated decisions.
-            </p>
+        <h2>5. Your Rights</h2>
+        <p>Residents of the UK, EU, and California (CCPA) have rights including Access, Erasure, and the Right to Object. We do not "sell" or "share" personal information for behavioral advertising.</p>
 
-            <h2>5. Data Retention</h2>
-            <p>
-                Data is retained only for as long as reasonably necessary to:
-            </p>
-            <ul>
-                <li>Maintain operational integrity</li>
-                <li>Investigate and resolve disputes</li>
-                <li>Enforce rules and security measures</li>
-                <li>Comply with applicable legal obligations</li>
-            </ul>
-            <p>
-                Retention periods may vary depending on the nature and sensitivity
-                of the data and legal requirements.
-            </p>
+        <h2>6. Contact</h2>
+        <p>Inquiries can be directed to: <a href="mailto:rep.memeexchangecommunism@gmail.com">rep.memeexchangecommunism@gmail.com</a></p>
+      </div>
+  </div>
 
-            <h2>6. International Transfers</h2>
-            <p>
-                Data may be processed in jurisdictions outside the UK or European
-                Economic Area. Where required, appropriate safeguards are implemented,
-                including contractual protections or recognised adequacy mechanisms.
-            </p>
+  <div class="doc-footer">© 2026 r/memeexchangecommunism. All rights reserved.</div>
 
-            <h2>7. Your Rights (UK & EU Residents)</h2>
-            <ul>
-                <li>Right of access</li>
-                <li>Right to rectification</li>
-                <li>Right to erasure</li>
-                <li>Right to restriction of processing</li>
-                <li>Right to data portability</li>
-                <li>Right to object to processing</li>
-                <li>Right to lodge a complaint with a supervisory authority</li>
-            </ul>
+</main>
 
-            <h2>8. California Privacy Rights (CCPA / CPRA)</h2>
-            <p>
-                California residents may have the right to request:
-            </p>
-            <ul>
-                <li>Disclosure of categories and specific pieces of personal information collected</li>
-                <li>Deletion of personal information</li>
-                <li>Correction of inaccurate information</li>
-                <li>Limitation of use of sensitive personal information (where applicable)</li>
-                <li>Opt-out of sale or sharing of personal information</li>
-            </ul>
+<script>
+// Progress & Nav
+window.addEventListener('scroll', () => {
+    const s = document.documentElement.scrollTop;
+    const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    document.getElementById('prog').style.width = (s / h * 100) + '%';
+    document.getElementById('nav').classList.toggle('scrolled', s > 80);
+}, {passive: true});
 
-            <p>
-                The Service does not sell or share personal information for monetary
-                or cross-context behavioural advertising purposes.
-            </p>
+// Toggle logic
+const toggleBtns = document.querySelectorAll('.toggle-btn');
+const simpleView = document.getElementById('simple-view');
+const formalView = document.getElementById('formal-view');
+const toggleSlider = document.getElementById('toggleSlider');
 
-            <h2>9. Data Security</h2>
-            <p>
-                Appropriate technical and organisational measures are implemented
-                to safeguard data against unauthorised access, alteration, disclosure,
-                or destruction. However, no system can guarantee absolute security.
-            </p>
+toggleBtns.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+        toggleBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        toggleSlider.style.transform = `translateX(${index * 100}%)`;
 
-            <h2>10. Third-Party Platforms</h2>
-            <p>
-                The Service operates in conjunction with Reddit. Data accessed
-                via Reddit remains subject to Reddit’s own privacy policies
-                and terms of service.
-            </p>
-
-            <h2>11. Changes to This Policy</h2>
-            <p>
-                This Privacy Policy may be updated periodically. Continued use
-                of the Service constitutes acceptance of the revised terms.
-            </p>
-
-            <h2>12. Contact</h2>
-            <p>
-                For data protection requests or inquiries:
-                <a href="mailto:rep.memeexchangecommunism@gmail.com">
-                    rep.memeexchangecommunism@gmail.com
-                </a>
-            </p>
-
-        </div>
-
-        <div class="article-footer">
-            © 2026 r/memeexchangecommunism. All rights reserved.
-        </div>
-    </div>
-
+        const isSimple = btn.getAttribute('data-view') === 'simple';
+        
+        if (isSimple) {
+            formalView.classList.remove('active');
+            setTimeout(() => {
+                formalView.style.display = 'none';
+                simpleView.style.display = 'block';
+                setTimeout(() => simpleView.classList.add('active'), 50);
+            }, 300);
+        } else {
+            simpleView.classList.remove('active');
+            setTimeout(() => {
+                simpleView.style.display = 'none';
+                formalView.style.display = 'block';
+                setTimeout(() => formalView.classList.add('active'), 50);
+            }, 300);
+        }
+    });
+});
+</script>
 </body>
 </html>

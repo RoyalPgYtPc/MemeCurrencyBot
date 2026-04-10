@@ -1,493 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Leaderboard Wipe | MemeCoin News</title>
-    <style>
-      /* Modern Reset & Variable Definitions */
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leaderboard Wipe for V2 — MemeCoin News</title>
+<meta name="description" content="Clearing the V1 leaderboard ensures everyone starts the next chapter on a fair slate.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="news.css">
+</head>
+<body>
 
-      :root {
-        --primary: #ff6b00;
-        --primary-glow: rgba(255, 107, 0, 0.4);
-        --secondary: #890bff;
-        --accent: #ffd700;
-        --dark-bg: #050505;
-        --glass: rgba(255, 255, 255, 0.03);
-        --glass-border: rgba(255, 255, 255, 0.1);
-        --text-main: #f0f0f0;
-        --text-muted: rgba(240, 240, 240, 0.6);
-      }
+<div id="prog"></div>
+<div class="orb o1"></div>
+<div class="orb o2"></div>
 
-      body {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        background: var(--dark-bg);
-        color: var(--text-main);
-        overflow-x: hidden;
-        line-height: 1.7;
-        -webkit-font-smoothing: antialiased;
-      }
+<nav id="nav">
+  <a href="../index.html" class="logo"><span class="lc">💰</span><span>Meme<em>Coin</em></span></a>
+  <ul class="nl">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../news.html" class="active">News</a></li>
+  </ul>
+</nav>
 
-      /* Animated Background Elements */
-      .bg-container {
-        position: fixed;
-        width: 100vw;
-        height: 100vh;
-        top: 0;
-        left: 0;
-        z-index: -1;
-        overflow: hidden;
-        background: radial-gradient(circle at 50% 50%, #111 0%, #050505 100%);
-      }
+<header class="art-hero">
+  <div class="hgrid"></div>
+  <div class="art-hero-inner">
+    <a href="../news.html" class="back-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to News
+    </a>
 
-      .blob {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(80px);
-        opacity: 0.15;
-        animation: move 20s infinite alternate ease-in-out;
-      }
-
-      .blob-1 { width: 500px; height: 500px; background: var(--primary); top: -10%; left: -10%; }
-      .blob-2 { width: 400px; height: 400px; background: var(--secondary); bottom: -10%; right: -10%; animation-delay: -5s; }
-      .blob-3 { width: 300px; height: 300px; background: var(--accent); top: 40%; left: 60%; animation-delay: -10s; }
-
-      @keyframes move {
-        from { transform: translate(0, 0) scale(1); }
-        to { transform: translate(100px, 50px) scale(1.1); }
-      }
-
-      /* Header Styling */
-      .navbar {
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        background: rgba(5, 5, 5, 0.8);
-        backdrop-filter: blur(12px);
-        border-bottom: 1px solid var(--glass-border);
-        padding: 1rem 5%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .btn-back {
-        color: var(--text-main);
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-weight: 500;
-        padding: 8px 16px;
-        border-radius: 12px;
-        background: var(--glass);
-        border: 1px solid var(--glass-border);
-        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-
-      .btn-back:hover {
-        background: rgba(255, 255, 255, 0.1);
-        border-color: var(--primary);
-        transform: translateX(-4px);
-      }
-
-      .status-badge {
-        font-family: 'Courier New', monospace;
-        font-weight: 700;
-        font-size: 0.85rem;
-        padding: 6px 14px;
-        border-radius: 20px;
-        background: linear-gradient(90deg, var(--secondary), #4f46e5);
-        box-shadow: 0 0 15px rgba(137, 11, 255, 0.4);
-        letter-spacing: 1px;
-      }
-
-      /* Article Main Container */
-      .main-content {
-        max-width: 850px;
-        margin: 40px auto 100px;
-        padding: 0 24px;
-        animation: fadeIn 1s ease-out;
-      }
-
-      @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-
-      .hero-image-container {
-        position: relative;
-        border-radius: 32px;
-        overflow: hidden;
-        margin-bottom: 48px;
-        border: 1px solid var(--glass-border);
-        box-shadow: 0 30px 60px rgba(0,0,0,0.6);
-      }
-
-      .hero-image {
-        width: 100%;
-        height: 450px;
-        object-fit: cover;
-        display: block;
-        transition: transform 0.5s ease;
-      }
-
-      .hero-image-container:hover .hero-image {
-        transform: scale(1.02);
-      }
-
-      .category-tag {
-        display: inline-block;
-        color: var(--accent);
-        text-transform: uppercase;
-        font-size: 0.75rem;
-        font-weight: 800;
-        letter-spacing: 2px;
-        margin-bottom: 12px;
-        border-bottom: 2px solid var(--accent);
-      }
-
-      .title {
-        font-size: clamp(2.5rem, 6vw, 4rem);
-        font-weight: 900;
-        line-height: 1.1;
-        margin-bottom: 24px;
-        background: linear-gradient(to right, #fff 20%, var(--primary) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-
-      .meta-data {
-        display: flex;
-        gap: 24px;
-        color: var(--text-muted);
-        font-size: 0.9rem;
-        margin-bottom: 40px;
-        padding-bottom: 24px;
-        border-bottom: 1px solid var(--glass-border);
-      }
-
-      .meta-item { display: flex; align-items: center; gap: 6px; }
-
-      /* Typography & Body Content */
-      .article-body {
-        font-size: 1.15rem;
-        color: rgba(255, 255, 255, 0.9);
-      }
-
-      .article-body p { margin-bottom: 28px; }
-
-      .article-body h2 {
-        font-size: 2rem;
-        color: #fff;
-        margin: 56px 0 24px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-
-      .article-body h2::before {
-        content: '';
-        display: block;
-        width: 4px;
-        height: 32px;
-        background: var(--primary);
-        border-radius: 4px;
-      }
-
-      .article-body h3 {
-        font-size: 1.4rem;
-        color: var(--primary);
-        margin: 32px 0 16px;
-      }
-
-      .info-card {
-        background: var(--glass);
-        border: 1px solid var(--glass-border);
-        border-left: 4px solid var(--primary);
-        padding: 32px;
-        border-radius: 16px;
-        margin: 40px 0;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .info-card::after {
-        content: '💡';
-        position: absolute;
-        right: -10px;
-        bottom: -10px;
-        font-size: 5rem;
-        opacity: 0.05;
-      }
-
-      .info-card h4 {
-        color: var(--primary);
-        margin-bottom: 12px;
-        font-size: 1.2rem;
-      }
-
-      ul, ol {
-        margin: 24px 0 24px 20px;
-        list-style-position: outside;
-      }
-
-      li { margin-bottom: 12px; padding-left: 10px; }
-
-      blockquote {
-        font-size: 1.5rem;
-        font-style: italic;
-        padding: 40px;
-        margin: 48px 0;
-        text-align: center;
-        color: var(--text-main);
-        background: linear-gradient(45deg, transparent, rgba(255, 107, 0, 0.05), transparent);
-        position: relative;
-      }
-
-      blockquote::before {
-        content: '"';
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 4rem;
-        color: var(--primary);
-        opacity: 0.3;
-        font-family: serif;
-      }
-
-      /* Footer & Sharing */
-      .footer-actions {
-        margin-top: 80px;
-        padding: 48px;
-        background: var(--glass);
-        border-radius: 24px;
-        text-align: center;
-        border: 1px solid var(--glass-border);
-      }
-
-      .share-buttons {
-        display: flex;
-        justify-content: center;
-        gap: 16px;
-        margin-top: 24px;
-      }
-
-      .share-btn {
-        padding: 12px 24px;
-        border-radius: 12px;
-        text-decoration: none;
-        color: #fff;
-        font-weight: 600;
-        font-size: 0.9rem;
-        background: var(--glass);
-        border: 1px solid var(--glass-border);
-        transition: 0.3s;
-      }
-
-      .share-btn:hover {
-        background: var(--primary);
-        transform: translateY(-2px);
-        box-shadow: 0 10px 20px var(--primary-glow);
-      }
-
-      /* Related Grid */
-      .related-section { margin-top: 100px; }
-      .related-section h3 { font-size: 1.8rem; margin-bottom: 32px; }
-
-      .related-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 20px;
-      }
-
-      .related-card {
-        padding: 24px;
-        background: var(--glass);
-        border-radius: 20px;
-        border: 1px solid var(--glass-border);
-        text-decoration: none;
-        color: inherit;
-        transition: 0.3s ease;
-      }
-
-      .related-card:hover {
-        border-color: var(--primary);
-        background: rgba(255, 255, 255, 0.06);
-        transform: scale(1.02);
-      }
-
-      .related-card h5 { color: var(--primary); margin-bottom: 8px; font-size: 1.1rem; }
-      .related-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; }
-
-      /* Responsive Adjustments */
-      @media (max-width: 768px) {
-        .hero-image { height: 300px; }
-        .navbar { padding: 1rem 20px; }
-        .btn-back span { display: none; }
-        .btn-back::after { content: 'Back'; }
-        .main-content { margin-top: 24px; }
-        .title { font-size: 2.2rem; }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="bg-container">
-      <div class="blob blob-1"></div>
-      <div class="blob blob-2"></div>
-      <div class="blob blob-3"></div>
-    </div>
-
-    <nav class="navbar">
-      <a href="#" class="btn-back">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-        <span>Back to News</span>
-      </a>
-      <div class="status-badge" id="countdown">LOADING V2...</div>
+    <nav class="breadcrumb" aria-label="breadcrumb">
+      <a href="../news.html">News Hub</a>
+      <span class="breadcrumb-sep">/</span>
+      <span id="countdown" class="breadcrumb-cur">Loading V2 Status...</span>
     </nav>
 
-    <main class="main-content">
-      <div class="hero-image-container">
-        <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80&w=1200" alt="Cyberpunk Grid" class="hero-image" onerror="this.src='https://via.placeholder.com/1200x450/111/ff6b00?text=Leaderboard+Reset+V2'">
+    <div class="art-meta-top">
+      <span class="cat-tag tag-ann">Official Announcement</span>
+      <span class="art-date">October 30, 2025</span>
+      <span class="art-read-time">2 min read</span>
+    </div>
+
+    <h1 class="art-title">
+      Leaderboard Wipe:<br>
+      <span>Preparing for V2</span>
+    </h1>
+
+    <p class="art-standfirst">
+      The V1 leaderboard is being cleared to give every member a fair start in the new economy. Balances, flairs, and earned rewards remain untouched.
+    </p>
+
+    <div class="art-stats">
+      <div class="as-item">
+        <span class="as-num">Oct 30</span>
+        <span class="as-lbl">Wipe Date</span>
       </div>
-
-      <span class="category-tag">Official Announcement</span>
-      <h1 class="title">Leaderboard Wipe: Preparing for V2 Launch</h1>
-
-      <div class="meta-data">
-        <div class="meta-item">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-          October 30, 2025
-        </div>
-        <div class="meta-item">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-          MemeCoin Core Team
-        </div>
-        <div class="meta-item">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-          2 min read
-        </div>
+      <div class="as-item">
+        <span class="as-num">Safe</span>
+        <span class="as-lbl">Balances</span>
       </div>
-
-      <article class="article-body">
-        <p>
-          The era of MemeCoin Dashboard V1 is drawing to a close. To facilitate the transition to our highly anticipated <strong>V2.0 Ecosystem</strong>, we are conducting a full reset of the global leaderboard. This isn't just a technical necessity—it's a commitment to our growing community to provide a fair and competitive landscape from day one.
-        </p>
-
-        <h2>Why This Reset Matters</h2>
-        <p>
-          Throughout the V1 testing phase, the leaderboard captured data from various stages of development. This included prototype earning models, early-bird participation, and specific developer stress tests.
-        </p>
-        <p>
-          By clearing these records, we ensure that the rewards and prestige of the V2 economy are earned under the new, balanced mechanics. This includes our refined daily bonus systems, optimized transfer protocols, and the upcoming Multiplier Events.
-        </p>
-
-        <div class="info-card">
-          <h4>💡 What stays, what goes?</h4>
-          <p>
-            Don't panic—your wallet is safe. <strong>User balances, exclusive flairs, and total MemeCoin earnings remain completely untouched.</strong> Only the <em>rankings</em> and <em>V1-specific performance metrics</em> will be cleared to make room for V2 statistics.
-          </p>
-        </div>
-
-        <h3>Impacted Metrics</h3>
-        <ul>
-          <li>Global & Regional Leaderboard placements</li>
-          <li>Legacy Rank History (V1 Era)</li>
-          <li>Early testing performance badges (unless marked as 'Legacy')</li>
-        </ul>
-
-        <blockquote>
-          "A fresh start is the ultimate fairness. V2 isn't just an update; it's a new standard for the MemeCoin economy."
-        </blockquote>
-
-        <h2>The Roadmap to V2</h2>
-        <p>
-          Once the clock hits zero, the V2 dashboard will go live globally. Here is what happens next:
-        </p>
-
-        <ol>
-          <li><strong>Calibration:</strong> The system will calculate initial eligibility based on V1 loyalty.</li>
-          <li><strong>Normalization:</strong> All active users will start at the 'Novice' rank Tier.</li>
-          <li><strong>Ascension:</strong> New earning activities will immediately begin populating the fresh V2 leaderboard.</li>
-        </ol>
-
-        <h2>Technical Execution</h2>
-        <p>
-          The wipe will happen automatically during the maintenance window scheduled 2 hours before the V2 launch. No manual action is required from users. Simply log in once the V2 banner appears to claim your starting position in the new economy.
-        </p>
-      </article>
-
-      <div class="footer-actions">
-        <h3>Found this helpful?</h3>
-        <p>Help spread the word to other MemeCoin holders.</p>
-        <div class="share-buttons">
-          <a href="#" class="share-btn">Twitter / X</a>
-          <a href="#" class="share-btn">Reddit</a>
-          <a href="#" class="share-btn">Discord</a>
-        </div>
+      <div class="as-item">
+        <span class="as-num">V2</span>
+        <span class="as-lbl">Fresh Start</span>
       </div>
+      <div class="as-item">
+        <span class="as-num">Fair</span>
+        <span class="as-lbl">For All</span>
+      </div>
+    </div>
 
-      <section class="related-section">
-        <h3>Recommended Reads</h3>
-        <div class="related-grid">
-          <a href="#" class="related-card">
-            <h5>V2 Release Notes</h5>
-            <p>Every new feature, bug fix, and mechanic explained in detail.</p>
-          </a>
-          <a href="#" class="related-card">
-            <h5>The Multiplier Guide</h5>
-            <p>How to maximize your earnings using the new V2 logic.</p>
-          </a>
-          <a href="#" class="related-card">
-            <h5>Legacy Flairs</h5>
-            <p>Check if you qualified for the V1 'Early Adopter' exclusive flairs.</p>
-          </a>
-        </div>
-      </section>
-    </main>
+    <div class="art-divider"></div>
+  </div>
+</header>
 
-    <script>
-      // Countdown Logic
-      const countdownEl = document.getElementById("countdown");
-      
-      function updateCountdown() {
-        // Target Date: November 5th, 2025
-        const targetDate = new Date("2025-11-05T00:00:00Z").getTime();
-        const now = new Date().getTime();
-        const distance = targetDate - now;
+<main class="art-body">
+  <div class="prose">
 
-        if (distance < 0) {
-          countdownEl.textContent = "";
-          countdownEl.style.background = "linear-gradient(90deg, #10b981, #059669)";
-          return;
-        }
+    <p>
+      The era of MemeCoin Dashboard V1 is drawing to a close. To facilitate the transition to our highly anticipated <strong>V2.0 Ecosystem</strong>, we are conducting a full reset of the global leaderboard. This isn't just a technical necessity — it's a commitment to our growing community to provide a fair and competitive landscape from day one.
+    </p>
 
-        const d = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const s = Math.floor((distance % (1000 * 60)) / 1000);
+    <h2>Why This Reset Matters</h2>
+    <p>
+      Throughout the V1 testing phase, the leaderboard captured data from various stages of development, including prototype earning models, early-bird participation, and developer stress tests.
+    </p>
+    <p>
+      By clearing these records, we ensure that the rewards and prestige of the V2 economy are earned under the new, balanced mechanics — including our refined daily bonus systems, optimized transfer protocols, and the upcoming Multiplier Events.
+    </p>
 
-        countdownEl.textContent = `V2 IN: ${d}D ${h}H ${m}M ${s}S`;
-      }
+    <div class="highlight-box">
+      <div class="hb-label">💡 What stays, what goes?</div>
+      <p>
+        Don't panic — your wallet is safe. <strong>User balances, exclusive flairs, and total MemeCoin earnings remain completely untouched.</strong> Only the <em>rankings</em> and <em>V1-specific performance metrics</em> will be cleared to make room for V2 statistics.
+      </p>
+    </div>
 
-      setInterval(updateCountdown, 1000);
-      updateCountdown();
+    <h2>Impacted Metrics</h2>
+    <ul>
+      <li>Global and regional leaderboard placements</li>
+      <li>Legacy rank history from the V1 era</li>
+      <li>Early testing performance badges (unless marked as 'Legacy')</li>
+    </ul>
 
-      // Smooth scroll for nav links (if any)
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-          e.preventDefault();
-          document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-          });
-        });
-      });
-    </script>
-  </body>
+    <blockquote>
+      <p>A fresh start is the ultimate fairness. V2 isn't just an update — it's a new standard for the MemeCoin economy.</p>
+    </blockquote>
+
+    <h2>The Roadmap to V2</h2>
+    <p>Once the clock hits zero, the V2 dashboard will go live globally. Here is what happens next:</p>
+
+    <ol>
+      <li><strong>Calibration:</strong> The system will calculate initial eligibility based on V1 loyalty.</li>
+      <li><strong>Normalisation:</strong> All active users will start at the baseline rank tier.</li>
+      <li><strong>Ascension:</strong> New earning activities will immediately begin populating the fresh V2 leaderboard.</li>
+    </ol>
+
+    <h2>Technical Execution</h2>
+    <p>
+      The wipe will happen automatically during the maintenance window scheduled two hours before the V2 launch. No manual action is required from users. Simply log in once the V2 banner appears to claim your starting position in the new economy.
+    </p>
+
+  </div>
+
+  <div class="art-footer">
+    <div class="art-footer-row">
+      <div class="art-tags">
+        <span class="art-tag">V2.0</span>
+        <span class="art-tag">Leaderboard</span>
+        <span class="art-tag">Announcement</span>
+      </div>
+      <div class="share-row">
+        <span class="share-lbl">Share</span>
+        <a href="https://www.reddit.com/r/memeexchangecommunism" target="_blank" class="share-btn" title="Share on Reddit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        </a>
+        <a href="#" onclick="navigator.clipboard.writeText(location.href);return false;" class="share-btn" title="Copy link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </a>
+      </div>
+    </div>
+    <a href="../news.html" class="back-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Back to All News
+    </a>
+  </div>
+
+  <section class="related">
+    <div class="related-lbl">Continue Reading</div>
+    <h2 class="related-title">RELATED<br>ARTICLES</h2>
+    <div class="related-grid">
+      <a href="v1-launch.html" class="rc">
+        <span class="rc-cat">Launch</span>
+        <div class="rc-title">MemeCoin V1 Launch</div>
+        <div class="rc-desc">The foundation of the MemeCoin economy is live.</div>
+        <div class="rc-date">Oct 2025</div>
+      </a>
+      <a href="v2-launch.html" class="rc">
+        <span class="rc-cat">Major Update</span>
+        <div class="rc-title">Dashboard V2.0 Release</div>
+        <div class="rc-desc">Daily bonuses, transfers, analytics, and more.</div>
+        <div class="rc-date">Nov 2025</div>
+      </a>
+      <a href="anti-cheat.html" class="rc">
+        <span class="rc-cat">Security</span>
+        <div class="rc-title">Project Obsidian Anti-Cheat</div>
+        <div class="rc-desc">The security backbone of the MemeCoin economy.</div>
+        <div class="rc-date">Nov 2025</div>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="fbot">
+    <p>© 2026 Meme Currency Dev Team · r/memeexchangecommunism</p>
+  </div>
+</footer>
+
+<script>
+// PROGRESS
+const prog=document.getElementById('prog');
+window.addEventListener('scroll',()=>{
+  const s=document.documentElement.scrollTop,h=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+  prog.style.width=(s/h*100)+'%';
+  document.getElementById('nav').classList.toggle('scrolled',s>80);
+},{passive:true});
+
+// REVEAL
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target)}});},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// COUNTDOWN
+const countdownEl=document.getElementById('countdown');
+function updateCountdown(){
+  const target=new Date('2025-11-05T00:00:00Z').getTime();
+  const now=new Date().getTime();
+  const diff=target-now;
+  if(diff<=0){countdownEl.textContent='🎉 V2 Released!';return;}
+  const d=Math.floor(diff/(1000*60*60*24));
+  const h=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+  const m=Math.floor((diff%(1000*60*60))/(1000*60));
+  const s=Math.floor((diff%(1000*60))/1000);
+  countdownEl.textContent=`V2 in ${d}d ${h}h ${m}m ${s}s`;
+}
+setInterval(updateCountdown,1000);
+updateCountdown();
+
+// RELATED CARD TILT
+document.querySelectorAll('.rc').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+    card.style.transform=`perspective(700px) rotateX(${-y*4}deg) rotateY(${x*4}deg) translateY(-4px)`;
+  });
+  card.addEventListener('mouseleave',()=>{card.style.transform=''});
+});
+</script>
+</body>
 </html>
